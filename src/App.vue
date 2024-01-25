@@ -1,15 +1,53 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container-fluid">
+    <div v-if="authToken" class="row mt-2">
+      <div class="col-md-2 col-12">
+        <Logo></Logo>
+        <hr>
+        <NavComponent></NavComponent>
+      </div>
+      <div class="col-md-10 col-12">
+        <HeaderComponent></HeaderComponent>
+        <hr>
+        <router-view style="min-height: 640px ;background-color: #e8e8e8cb;">
+        </router-view>
+      </div>
+    </div>
+    <div v-else>
+
+      <!-- <LoginPage /> -->
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import LoginPage from '@/pages/loginPage.vue';
+import Logo from '@/components/logoComponent.vue';
+import HeaderComponent from '@/components/headerComponent.vue';
+import NavComponent from '@/components/navComponent.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Logo,
+    HeaderComponent,
+    NavComponent,
+    // LoginPage
+  },
+
+  data() {
+    return {
+      authToken: true,
+    };
+  },
+
+  created() {
+    // if (!this.$cookies.get('jwt')) {
+    //   this.authToken = false;
+    // } else {
+    //   this.authToken = true;
+    // }
   }
 }
 </script>
@@ -19,8 +57,13 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.router-link-active>li,
+.router-link-exact-active>.nav-item {
+  background-color: #d6d5d5;
+  border-radius: 5px;
+  color: black;
 }
 </style>

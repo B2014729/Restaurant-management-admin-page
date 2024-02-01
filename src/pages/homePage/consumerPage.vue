@@ -91,7 +91,6 @@
             </div>
             <div class="col-md-3 col-12 bg-white rounded-4 shadow">
                 <div class="pt-2"><span class="fw-bold">Đánh giá của khách hàng</span></div>
-
                 <div>
                     <evaluateCardComponrnt></evaluateCardComponrnt>
                     <evaluateCardComponrnt></evaluateCardComponrnt>

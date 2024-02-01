@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="mt-2">
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col" class="text-center">Mã HĐ</th>

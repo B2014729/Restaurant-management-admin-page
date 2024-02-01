@@ -56,7 +56,7 @@
                             <label for="status">*Trạng thái:</label>
                         </div>
                         <div class="d-flex form-floating my-2">
-                            <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles" ref="image">
+                            <input class="form-control" id="avatar" type="file" @change="previewFiles" ref="image">
                             <label for="avatar" style="margin: -5px;">Thêm avatar:</label>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         <label for="address" class="ms-3">*Nơi cư trú:</label>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;">Thêm sản phẩm</button>
+                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;">Thêm nhân viên</button>
                     </div>
                 </div>
             </form>

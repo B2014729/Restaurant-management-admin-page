@@ -48,12 +48,11 @@
                             <div class="card-body">
                                 <div class="media d-flex justify-content-between">
                                     <div class="align-self-center">
-
-                                        <i class="fa-solid fa-jug-detergent fs-1 text-warning"></i>
+                                        <i class="fa-solid fa-warehouse fs-1 text-warning"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3 class="text-warning">34,756,000</h3>
-                                        <span>Công nợ (VNĐ)</span>
+                                        <h3 class="text-warning">34,756</h3>
+                                        <span>QL Kho</span>
                                     </div>
                                 </div>
                             </div>

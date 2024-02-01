@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 50px;" class="w-100 d-flex align-items-end justify-content-center">
+    <div style="height: 50px;" class=" w-100 d-flex align-items-end justify-content-center">
         <span class="text-success">BEACH RES</span>
     </div>
 </template>

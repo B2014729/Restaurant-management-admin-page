@@ -23,17 +23,17 @@
                                 <li class="text-black px-2 py-1">Thông tin lương</li>
                             </router-link>
                             <router-link style="text-decoration: none;" :to="{ name: 'calendrier-page' }">
-                                <li class="text-black px-2 py-1">Xếp lịch làm việc</li>
+                                <li class="text-black px-2 py-1">Lịch làm việc</li>
                             </router-link>
                         </ul>
                     </div>
                 </li>
             </a>
 
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'supplier-page' }">
                 <li class="nav-item"><i class="fa-solid fa-user-gear"></i> NHÀ CUNG CẤP</li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'payment-page' }">
                 <li class="nav-item"><i class="fa-brands fa-paypal"></i> QUẢN LÝ PHIẾU CHI</li>
             </router-link>
             <a class="router-link" style="color: black;">
@@ -45,34 +45,34 @@
                         </button>
 
                         <ul class="dropdown-menu">
-                            <!-- <router-link style="text-decoration: none;" :to="{ name: 'product-list' }"> -->
-                            <li class="text-black px-2 py-1">Danh sách món</li>
-                            <!-- </router-link> -->
-                            <!-- <router-link style="text-decoration: none;" :to="{ name: 'product-new' }"> -->
-                            <li class="text-black px-2 py-1">Danh mục menu</li>
-                            <!-- </router-link> -->
+                            <router-link style="text-decoration: none;" :to="{ name: 'list-dish-page' }">
+                                <li class="text-black px-2 py-1">Danh sách món</li>
+                            </router-link>
+                            <router-link style="text-decoration: none;" :to="{ name: 'menu-page' }">
+                                <li class="text-black px-2 py-1">Danh mục menu</li>
+                            </router-link>
                         </ul>
                     </div>
                 </li>
             </a>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
                 <li class="nav-item"><i class="fa-solid fa-circle-info"></i> THÔNG TIN NHÀ HÀNG</li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
                 <li class="nav-item"><i class="fa-regular fa-star-half-stroke"></i> QUẢN LÝ ĐÁNH GIÁ</li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
                 <li class="nav-item"><i class="ps-2 fa-brands fa-app-store-ios"></i>
                     ỨNG DỤNG
                 </li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
                 <li class="nav-item"><i class="ps-2 fa-brands fa-square-facebook"></i>
                     FACEBOOK
                 </li>
             </router-link>
 
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'home-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
                 <li class="nav-item"><i class="ps-2 fa-solid fa-gear"></i> CÀI ĐẶT</li>
             </router-link>
         </ul>

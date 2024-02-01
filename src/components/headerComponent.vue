@@ -1,5 +1,5 @@
 <template>
-    <header class="d-flex align-items-end justify-content-between">
+    <header class=" d-flex align-items-end justify-content-between">
         <h5 class="text-secondary fw-bold">Dashboard</h5>
         <div class="mb-2 d-flex">
             <div class="d-flex align-items-center">
@@ -49,6 +49,7 @@ export default {
 <style scoped>
 header {
     height: 50px;
+
 }
 
 input {

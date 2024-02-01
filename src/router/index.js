@@ -64,6 +64,52 @@ const routes = [
         props: true
     },
 
+    //Supplier manager page--------------------------------------------
+    {
+        path: '/nha-cung-cap',
+        name: 'supplier-page',
+        component: () => import('@/pages/supplierManager/listSupplierPage.vue'),
+    },
+    {
+        path: '/nha-cung-cap/:id',
+        name: 'update-supplier-page',
+        component: () => import('@/pages/supplierManager/editSupplierPage.vue'),
+    },
+
+    //Payment manager page--------------------------------------------
+    {
+        path: '/phieu-chi',
+        name: 'payment-page',
+        component: () => import('@/pages/paymentManager/listPaymentPage.vue'),
+    },
+    {
+        path: '/lap-phieu-chi',
+        name: 'create-payment-page',
+        component: () => import('@/pages/paymentManager/createPaymentPage.vue'),
+    },
+
+    //Menu manager page--------------------------------------------
+    {
+        path: '/danh-sach-mon',
+        name: 'list-dish-page',
+        component: () => import('@/pages/menuManager/listDishPage.vue'),
+    },
+    {
+        path: '/them-mon',
+        name: 'create-dish-page',
+        component: () => import('@/pages/menuManager/createDishPage.vue'),
+    },
+    {
+        path: '/cap-nhat-mon/:id',
+        name: 'update-dish-page',
+        component: () => import('@/pages/menuManager/editDishPage.vue'),
+        props: true
+    },
+    {
+        path: '/menu',
+        name: 'menu-page',
+        component: () => import('@/pages/menuManager/menuPage.vue'),
+    },
     //{
     //     path: '/thong-tin-don-hang/:idOrder',
     //     name: 'order-detail',

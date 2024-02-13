@@ -66,4 +66,9 @@ export default {
   border-radius: 5px;
   color: black;
 }
+
+label::after {
+  background-color: rgba(91, 91, 91, 0) !important;
+  border-radius: 0 !important;
+}
 </style>

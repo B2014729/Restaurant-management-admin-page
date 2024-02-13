@@ -1,6 +1,8 @@
 <template>
     <div class="p-3">
         <h4 class="text-secondary fw-bold">Thêm mới nhân viên__:</h4>
+        <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
+
         <div class="d-flex justify-content-center">
             <form class="w-75" @submit.prevent="{ }">
                 <div class="row">
@@ -16,13 +18,13 @@
                         <div class="form-floating mb-2">
                             <select class="form-select" id="gender" aria-label="Default select example"
                                 v-model="data.gender">
-                                <option value="0">Nam</option>
-                                <option value="1">Nữ</option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
                             </select>
                             <label for="gender">*Giới tính:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="number" class="form-control" id="cccd" v-model="data.cccd">
+                            <input type="number" class="form-control" id="cccd" v-model="data.idnumber">
                             <label for="cccd">*Thẻ căn cước:</label>
                         </div>
                         <div class="form-floating mb-2">
@@ -33,25 +35,35 @@
                     <div class="col-md-6 col-12">
                         <div class="form-floating mb-2">
                             <select class="form-select" id="position" aria-label="Default select example"
-                                v-model="data.position">
-                                <option value="0">Phục vụ</option>
-                                <option value="1">Quản lí</option>
-                                <option value="0">Phục vụ</option>
-                                <option value="1">Quản lí</option>
-                                <option value="0">Phục vụ</option>
-                                <option value="1">Quản lí</option>
+                                v-model="data.idposition">
+                                <option value="1">Thu ngân</option>
+                                <option value="2">Phục vụ</option>
+                                <option value="3">Quản lí</option>
+                                <option value="4">Bảo vệ</option>
+                                <option value="5">Bếp trưởng</option>
+                                <option value="6">Bếp phụ</option>
                             </select>
                             <label for="position">*Chức vụ:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="date" class="form-control" id="startdate" v-model="data.startdate">
+                            <select class="form-select" id="salary" aria-label="Default select example"
+                                v-model="data.idsalary">
+                                <option value="1">18,000/h</option>
+                                <option value="2">26,000/h</option>
+                                <option value="3">30,000/h</option>
+                                <option value="4">45,000/h</option>
+                            </select>
+                            <label for="salary">*Hệ số lương:</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input type="date" class="form-control" id="startdate" v-model="data.datestart">
                             <label for="startdate">*Ngày vào làm:</label>
                         </div>
                         <div class="form-floating mb-2">
                             <select class="form-select" id="status" aria-label="Default select example"
                                 v-model="data.status">
-                                <option value="0">Đang làm việc</option>
-                                <option value="1">Đã nghĩ việc</option>
+                                <option value="1">Đang làm việc</option>
+                                <option value="0">Đã nghĩ việc</option>
                             </select>
                             <label for="status">*Trạng thái:</label>
                         </div>
@@ -65,8 +77,12 @@
                             style="height: 100px;"></textarea>
                         <label for="address" class="ms-3">*Nơi cư trú:</label>
                     </div>
+                    <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân viên!
+                    </span>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;">Thêm nhân viên</button>
+                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
+                            @click="toggleShowAlert">Thêm nhân viên</button>
                     </div>
                 </div>
             </form>
@@ -75,12 +91,80 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import alertMessage from '@/components/alertMessage/alertMessage.vue';
+import staffService from '@/services/staff.service';
 export default {
+
+    components: {
+        alertMessage
+    },
+
+    setup() {
+        let showAlert = ref(false);
+        let errorNotifycation = ref(false);
+        let status = ref('');
+        let messageAlert = ref('');
+
+        return {
+            showAlert, status, messageAlert, errorNotifycation
+        };
+    },
 
     data() {
         return {
             data: {},
         };
+    },
+
+    methods: {
+        async toggleShowAlert() {
+            if (!this.data.fullname || !this.data.dateofbirth || !this.data.datestart
+                || !this.data.phone || !this.data.idnumber || !this.data.address
+                || !this.data.idsalary || !this.data.idposition || !this.data.gender
+                || !this.data.status) {
+
+                this.errorNotifycation = true;
+                this.messageAlert = 'Thêm nhân viên mới không thành công!';
+                this.status = 'warning';
+                this.showAlert = true;
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
+            }
+            else {
+                this.errorNotifycation = false;
+                try {
+                    await staffService.Create(this.data).then((result) => {
+                        if (result.statusCode == 200) {
+                            this.messageAlert = 'Thêm nhân viên mới thành công!';
+                            this.status = 'success';
+                            this.showAlert = true;
+                            setTimeout(() => {
+                                this.showAlert = false;
+                            }, 2500);
+                        } else {
+                            this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
+                            this.status = 'danger';
+                            this.showAlert = true;
+                            setTimeout(() => {
+                                this.showAlert = false;
+                            }, 2500);
+                        }
+                    })
+                } catch (error) {
+                    console.log(error);
+                    this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
+                    this.status = 'danger';
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                }
+            }
+        },
     }
 }
 </script>
+
+<style scoped></style>

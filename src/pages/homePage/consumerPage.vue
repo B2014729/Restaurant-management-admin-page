@@ -92,11 +92,18 @@
             <div class="col-md-3 col-12 bg-white rounded-4 shadow">
                 <div class="pt-2"><span class="fw-bold">Đánh giá của khách hàng</span></div>
                 <div>
-                    <evaluateCardComponrnt></evaluateCardComponrnt>
-                    <evaluateCardComponrnt></evaluateCardComponrnt>
-                    <evaluateCardComponrnt></evaluateCardComponrnt>
-                    <evaluateCardComponrnt></evaluateCardComponrnt>
-                    <evaluateCardComponrnt></evaluateCardComponrnt>
+                    <evaluateCardComponent
+                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
+                    </evaluateCardComponent>
+                    <evaluateCardComponent
+                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
+                    </evaluateCardComponent>
+                    <evaluateCardComponent
+                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
+                    </evaluateCardComponent>
+                    <evaluateCardComponent
+                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
+                    </evaluateCardComponent>
                     ...
                 </div>
             </div>
@@ -105,11 +112,11 @@
 </template>
 <script>
 import { ref } from 'vue';
-import evaluateCardComponrnt from '@/components/evaluateCardComponrnt.vue';
+import evaluateCardComponent from '@/components/evaluateCardComponrnt.vue';
 import bookingCustomerModal from '@/components/modalsComponent/bookingCustomerModal.vue';
 export default {
     components: {
-        evaluateCardComponrnt,
+        evaluateCardComponent,
         bookingCustomerModal
     },
 

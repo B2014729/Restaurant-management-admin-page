@@ -8,29 +8,33 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món nướng</h5>
                         <ul>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li style="list-style: none;" class=" d-flex text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     Tôm nướng muối ớt
                                 </span>
                                 120,000
+                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
                             </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     Sườn bò nướng lá
                                 </span>
                                 320,000
+                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
                             </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     Tôm nướng muối ớt
                                 </span>
                                 120,000
+                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
                             </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     Sườn bò nướng lá
                                 </span>
                                 320,000
+                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
                             </li>
                             <li style="list-style: none;" class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
@@ -306,5 +310,10 @@
     position: absolute;
     top: -60px;
     left: -70px;
+}
+
+.btn-remove {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
 }
 </style>

@@ -5,230 +5,37 @@
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Nhân viên</th>
-                    <th scope="col" class="text-center">Thứ 2 </th>
-                    <th scope="col" class="text-center">Thứ 3</th>
-                    <th scope="col" class="text-center">Thứ 4</th>
-                    <th scope="col" class="text-center">Thứ 5</th>
-                    <th scope="col" class="text-center">Thứ 6</th>
-                    <th scope="col" class="text-center">Thứ 7</th>
-                    <th scope="col" class="text-center">Chủ nhật</th>
-                    <th scope="col" class="text-center"> Ghi chú</th>
+                    <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center" style="width:125px">
+                        {{ item }}
+                    </th>
+                    <th scope="col" class="text-center">Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Quản lí</th>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fw-bold ">1/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center align-middle">Dương Hãi Băng</th>
+                <tr v-for="(item, index) in workWeek" :key="index">
+                    <th scope="row" class="text-center align-middle">{{ item.tennhanvien }}</th>
                     <td class="text-center">
-                        <workingWeekCard :id="1"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay1"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="1"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay2"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="2"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay3"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="5"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay4"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="1"></workingWeekCard>
-
+                        <workingWeekCard :id="item.ngay5"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="4"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay6"></workingWeekCard>
                     </td>
                     <td class="text-center">
-                        <workingWeekCard :id="3"></workingWeekCard>
+                        <workingWeekCard :id="item.ngay7"></workingWeekCard>
                     </td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Phục vụ</th>
-                    <td class="text-center fw-bold">6/ca</td>
-                    <td class="text-center fw-bold">6/ca</td>
-                    <td class="text-center fw-bold">6/ca</td>
-                    <td class="text-center fw-bold">6/ca</td>
-                    <td class="text-center fw-bold">8/ca</td>
-                    <td class="text-center fw-bold">8/ca</td>
-                    <td class="text-center fw-bold">8/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Thu ngân</th>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Bếp trưởng</th>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Phụ bếp</th>
-                    <td class="text-center fw-bold">3/ca</td>
-                    <td class="text-center fw-bold">3/ca</td>
-                    <td class="text-center fw-bold">3/ca</td>
-                    <td class="text-center fw-bold">3/ca</td>
-                    <td class="text-center fw-bold">4/ca</td>
-                    <td class="text-center fw-bold">5/ca</td>
-                    <td class="text-center fw-bold">5/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center fw-bold  bg-success text-white">Bảo vệ</th>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fw-bold">1/ca</td>
-                    <td class="text-center fs-5 fw-bold"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center">Dương Hãi Băng</th>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center fs-5 fw-bold"></td>
+                    <td class="text-center">{{ item.chucvu }}</td>
                 </tr>
             </tbody>
         </table>
@@ -240,7 +47,17 @@ export default {
 
     components: {
         workingWeekCard,
-    }
+    },
+
+    props: {
+        workWeek: {
+            type: Array,
+        },
+        idweek: {
+            type: Array,
+        }
+    },
+
 }
 </script>
 <style scoped></style>

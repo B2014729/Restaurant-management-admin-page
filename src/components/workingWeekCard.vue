@@ -18,7 +18,6 @@ export default {
     },
 
     setup(props) {
-        console.log(props.id);
         let isMorning = ref(false);
         let isAfternoon = ref(false);
         let isEvening = ref(false);

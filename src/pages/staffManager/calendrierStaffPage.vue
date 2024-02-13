@@ -3,32 +3,44 @@
         <div class="d-flex justify-content-between">
             <div class="d-flex">
                 <h4 class="text-secondary fw-bold">Lịch làm việc__:</h4>
-                <h5 class="fw-bold text-success ms-3 mt-1">1/12/2023 - 1/1/2024</h5>
+                <div class="ms-4 d-flex">
+                    <select class="form-select" aria-label="Default select example" v-model="phase">
+                        <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
+                            {{ item.ngaybatdau }} - {{ item.ngayketthuc }}
+                        </option>
+                    </select>
+                    <button class="btn" @click="onPhases"><i class="fa-solid fa-check text-success"></i></button>
+                </div>
             </div>
             <button class="btn btn-outline-success h-100">Xếp lịch</button>
         </div>
-        <div class="d-flex">
+        <div class="d-flex justify-content-end">
             <ul class="d-flex">
-                <li style="list-style: none;" class="me-4 text-success"><i class="fa-solid fa-circle  text-success"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-success"><i
+                        class="fa-solid fa-circle  text-success"></i>
                     Ca sáng (1)
                 </li>
-                <li style="list-style: none;" class="me-4 text-warning"><i class="fa-solid fa-circle  text-warning"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-warning"><i
+                        class="fa-solid fa-circle  text-warning"></i>
                     Ca chiều (2)
                 </li>
-                <li style="list-style: none;" class="me-4 text-dark"><i class="fa-solid fa-circle  text-dark"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-dark"><i
+                        class="fa-solid fa-circle  text-dark"></i>
                     Ca tối (3)
                 </li>
-                <li style="list-style: none;" class="me-4 text-danger"><i class="fa-solid fa-circle  text-danger"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-danger"><i
+                        class="fa-solid fa-circle  text-danger"></i>
                     Ca full (4)
                 </li>
-                <li style="list-style: none;" class="me-4 text-primary"><i class="fa-solid fa-circle text-primary"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-primary"><i
+                        class="fa-solid fa-circle text-primary"></i>
                     Ca sáng + chiều (5)
                 </li>
-                <li style="list-style: none;" class="me-4 text-secondary"><i class="fa-solid fa-circle  text-secondary"></i>
+                <li style="list-style: none; font-size: 13px;" class="me-4 text-secondary"><i
+                        class="fa-solid fa-circle  text-secondary"></i>
                     Ca chiều + tối (6)
                 </li>
             </ul>
-
         </div>
         <div>
             <div class="mt-3">
@@ -38,7 +50,8 @@
                 </button>
                 <div class="collapse" id="collapse1Example">
                     <div class="card card-body">
-                        <workingWeekComponent></workingWeekComponent>
+                        <workingWeekComponent :work-week="calendried.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
+                        </workingWeekComponent>
                     </div>
                 </div>
             </div>
@@ -49,7 +62,8 @@
                 </button>
                 <div class="collapse" id="collapse2Example">
                     <div class="card card-body">
-                        <workingWeekComponent></workingWeekComponent>
+                        <workingWeekComponent :work-week="calendried.tuan2" :idweek="[8, 9, 10, 11, 12, 13, 14]">
+                        </workingWeekComponent>
                     </div>
                 </div>
             </div>
@@ -60,7 +74,8 @@
                 </button>
                 <div class="collapse" id="collapse3Example">
                     <div class="card card-body">
-                        <workingWeekComponent></workingWeekComponent>
+                        <workingWeekComponent :work-week="calendried.tuan3" :idweek="[15, 16, 17, 18, 19, 20, 21]">
+                        </workingWeekComponent>
                     </div>
                 </div>
             </div>
@@ -72,8 +87,21 @@
                     </button>
                     <div class="collapse" id="collapse4Example">
                         <div class="card card-body">
-                            <workingWeekComponent></workingWeekComponent>
+                            <workingWeekComponent :work-week="calendried.tuan4" :idweek="[22, 23, 24, 25, 26, 27, 28]">
+                            </workingWeekComponent>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse5Example" aria-expanded="false" aria-controls="collapse5Example">
+                    Lịch làm việc tuần 5 <i class="fa-solid fa-chevron-down ms-2" style="font-size: 12px;"></i>
+                </button>
+                <div class="collapse" id="collapse5Example">
+                    <div class="card card-body">
+                        <workingWeekComponent :work-week="calendried.tuan5" :idweek="[29, 30, 31, '', '', '', '']">
+                        </workingWeekComponent>
                     </div>
                 </div>
             </div>
@@ -88,15 +116,49 @@
 </template>
 
 <script>
+import moment from 'moment';
 import workingWeekComponent from '@/components/workingWeekComponent.vue';
+
+import calendrierService from '@/services/calendrier.service';
 export default {
     components: {
         workingWeekComponent,
     },
 
+    data() {
+        return {
+            phase: '1',
+            calendried: [],
+            phaseList: [],
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+        this.phaseList = await calendrierService.GetPhase();
+        if (this.phaseList.length != 0) {
+            this.phaseList.forEach((element) => {
+                element.ngaybatdau = moment(element.ngaybatdau).format("DD/MM/YYYY");
+                element.ngayketthuc = moment(element.ngayketthuc).format("DD/MM/YYYY");
+            });
+        }
+    },
+
     methods: {
         scrollToTop() {
             window.scrollTo(0, 0);
+        },
+
+        async fetchData() {
+            try {
+                this.calendried = await calendrierService.FindOneByPhase(this.phase);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async onPhases() {
+            await this.fetchData()
         }
     }
 }

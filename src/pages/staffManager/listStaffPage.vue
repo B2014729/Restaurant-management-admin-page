@@ -9,12 +9,8 @@
         </div>
         <div class="row mt-1">
             <div class="col-md-10 col-12">
-                <div class="d-flex">
-                    <button type="button" class="btn btn-outline-secondary me-1"><i
-                            class="fa-solid fa-magnifying-glass"></i></button>
-                    <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username"
-                        aria-describedby="button-addon2">
-                </div>
+                <searchComponent @submit="search($event)" v-model="searchText">
+                </searchComponent>
             </div>
             <div class="col-md-2 d-flex justify-content-end">
                 <router-link :to="{ name: 'create-staff-page' }">
@@ -37,23 +33,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
+                    <tr v-for="(item, index) in searchStaff" :key="index">
+                        <th scope="row" class="text-center fw-bold"> {{ item.idnhanvien }}</th>
+                        <td class="text-center"> {{ item.hoten }}</td>
+                        <td class="text-center"> {{ item.ngaysinh }}</td>
+                        <td class="text-center"> {{ item.gioitinhchu }}</td>
+                        <td class="text-center  address"> {{ item.diachi }}</td>
+                        <td class="text-center"> {{ item.tenchucvu }}</td>
                         <td class="text-center">
                             <span class="status">Đang làm việc</span>
                         </td>
                         <td class="text-center" style="padding-top: 0px;">
                             <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
+                                <button class="btn" @click="toggleModal(item.idnhanvien)">
+                                    <i class="fa-solid fa-circle-info text-secondary"></i>
                                 </button>
-                                <router-link :to="{ name: 'update-staff-page', params: { id: 1 } }">
+                                <router-link :to="{ name: 'update-staff-page', params: { id: item.idnhanvien } }">
                                     <button class="btn">
                                         <i class="fa-solid fa-file-pen text-warning"></i>
                                     </button>
@@ -61,200 +56,40 @@
                             </div>
                         </td>
                     </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-danger fw-bold">DS nhân viên đã nghĩ việc:</p>
+        <div class="mt-2">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
                     <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Bếp trưởng</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
+                        <th scope="col" class="text-center">Mã NV</th>
+                        <th scope="col" class="text-center">Họ tên</th>
+                        <th scope="col" class="text-center">Ngày sinh</th>
+                        <th scope="col" class="text-center">Giới tính</th>
+                        <th scope="col" class="text-center" style="width: 270px;">Địa chỉ</th>
+                        <th scope="col" class="text-center">Chức vụ</th>
+                        <th scope="col" class="text-center">Trạng thái</th>
+                        <th scope="col" class="text-center">Hành động</th>
                     </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Quản lí</td>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in staffListOff" :key="index">
+                        <th scope="row" class="text-center fw-bold">{{ item.idnhanvien }}</th>
+                        <td class="text-center">{{ item.hoten }}</td>
+                        <td class="text-center">{{ item.ngaysinh }}</td>
+                        <td class="text-center">{{ item.gioitinhchu }}</td>
+                        <td class="text-center  address">{{ item.diachi }}</td>
+                        <td class="text-center">{{ item.tenchucvu }}</td>
                         <td class="text-center">
-                            <span class="status">Đang làm việc</span>
+                            <span class="status-off">Nghĩ việc</span>
                         </td>
                         <td class="text-center" style="padding-top: 0px;">
                             <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center fw-bold">12</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">08/08/2002</td>
-                        <td class="text-center">Nam</td>
-                        <td class="text-center  address">124/11A đường 3/2, phường Xuân Khánh, quận Ninh Kiều, Tp. Cần
-                            Thơ</td>
-                        <td class="text-center">Phục vụ</td>
-                        <td class="text-center">
-                            <span class="status">Đang làm việc</span>
-                        </td>
-                        <td class="text-center" style="padding-top: 0px;">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn">
-                                    <i class="fa-solid fa-circle-info text-secondary" @click="toggleModal(22)"></i>
-                                </button>
-                                <button class="btn">
-                                    <i class="fa-solid fa-file-pen text-warning"></i>
+                                <button class="btn" @click="toggleModal(item.idnhanvien)">
+                                    <i class="fa-solid fa-circle-info text-secondary"></i>
                                 </button>
                             </div>
                         </td>
@@ -268,11 +103,15 @@
 <script>
 import { ref } from 'vue';
 import detailStaffModal from '@/components/modalsComponent/detailStaffModal.vue';
+import searchComponent from '@/components/searchComponent.vue';
+import staffService from '@/services/staff.service.js';
 
 export default {
     components: {
         detailStaffModal,
+        searchComponent
     },
+
     setup() {
         let modalActive = ref(false);
         let idStaff = ref(0);
@@ -281,8 +120,54 @@ export default {
             modalActive.value = !modalActive.value;
             idStaff.value = id;
         }
+
         return { modalActive, idStaff, toggleModal, };
     },
+
+    data() {
+        return {
+            staffList: [],
+            staffListOff: [],
+            staffListOn: [],
+            searchText: '',
+        };
+    },
+
+    computed: {
+        staffListString() {
+            return this.staffListOn.map((staff) => {
+                const { hoten, idnhanvien } = staff;
+                return [hoten, idnhanvien].join("");
+            });
+        },
+
+        searchStaff() {
+            if (!this.searchText) {
+                return this.staffListOn
+            }
+            return this.staffListOn.filter((_staff, index) => {
+                return this.staffListString[index].includes(this.searchText);
+            });
+        }
+    },
+
+    async created() {
+        this.staffList = await staffService.FindAll();
+
+        this.staffList.forEach((element) => {
+            if (element.trangthai === 1) {
+                this.staffListOn.push(element);
+            } else {
+                this.staffListOff.push(element);
+            }
+        });
+    },
+
+    methods: {
+        search(e) {
+            console.log(e);
+        }
+    }
 }
 
 </script>
@@ -290,6 +175,12 @@ export default {
 .status {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);
+    border-radius: 15px;
+}
+
+.status-off {
+    padding: 3px 8px;
+    background-color: rgba(160, 29, 0, 0.671);
     border-radius: 15px;
 }
 

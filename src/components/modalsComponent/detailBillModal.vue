@@ -4,21 +4,21 @@
             <div class="p-3 d-flex flex-column">
                 <div class=" d-flex justify-content-between">
                     <div>
-                        <h5 class="fw-bold">Thông tin chi tiết {{ idBill }}</h5>
+                        <h5 class="fw-bold">Thông tin chi tiết hóa đơn {{ idBill }}</h5>
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-4 col-12">
-                        <span><span class="fw-bold">Mã hóa đơn: </span> 2335664</span>
-                        <p><span class="fw-bold">Nhân viên: </span> Dương Hãi Băng</p>
+                        <span><span class="fw-bold">Mã hóa đơn: </span> {{ bill.idhoadon }}</span>
+                        <p><span class="fw-bold">Nhân viên: </span> {{ bill.tennhanvien }}</p>
                     </div>
                     <div class="col-md-4 col-12">
-                        <p><span class="fw-bold">Bàn: </span> 23</p>
+                        <p><span class="fw-bold">Bàn: </span> {{ bill.idban }}</p>
                     </div>
                     <div class="col-md-4 col-12">
-                        <span><span class="fw-bold">Ngày giờ: </span> 18:50 22/1/2024 </span>
+                        <span><span class="fw-bold">Ngày giờ: </span> {{ formatDateTime(bill.ngaygioxuat) }} </span>
                         <p><span class="fw-bold">Trạng thái: </span> <span class="status">Đã thanh toán</span></p>
                     </div>
                 </div>
@@ -39,35 +39,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
+                                <tr v-for="(item, index) in bill.chitietdatmon" :key="index">
+                                    <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.mon.tenmon }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ formatNumber(item.mon.gia) }}</td>
                                     <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.soluong }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{
+                                        formatNumber(item.soluong * item.mon.gia) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="d-flex justify-content-end mt-2">
-                        <p class="fw-bold">Thanh toán: 1,230,000 vnđ</p>
+                        <p class="fw-bold">Thanh toán: {{ formatNumber(bill.thanhtoan) }} vnđ</p>
                     </div>
                 </div>
 
@@ -81,6 +66,7 @@
     </div>
 </template>
 <script>
+import billService from '@/services/bill.service';
 export default {
     props: {
         idBill: {
@@ -93,8 +79,41 @@ export default {
         const closeModal = () => {
             context.emit("close");
         }
-        return { closeModal };
+
+        function formatDateTime(date) {
+            let newDate = new Date(date);
+            let hours = newDate.getHours() >= 10 ? newDate.getHours() : `0${newDate.getHours()}`;
+            let minutes = newDate.getMinutes() >= 10 ? newDate.getMinutes() : `0${newDate.getMinutes()}`;
+            let seconds = newDate.getSeconds() >= 10 ? newDate.getSeconds() : `0${newDate.getSeconds()}`;
+            let dateIn = newDate.getDate() >= 10 ? newDate.getDate() : `0${newDate.getDate()}`;
+            let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
+            let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
+
+            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+        }
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+
+        return { closeModal, formatNumber, formatDateTime };
     },
+
+    data() {
+        return {
+            bill: {},
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    methods: {
+        async fetchData() {
+            this.bill = await billService.FindOneById(this.idBill);
+        }
+    }
 }
 </script>
 <style  scoped lang="css">

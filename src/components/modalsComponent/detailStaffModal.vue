@@ -13,21 +13,25 @@
                     <div class="col-md-4 col-12">
                         <img src="https://image.phunuonline.com.vn/fckeditor/upload/2022/20220815/images/4176_3-2.jpg"
                             alt="" class="w-100 rounded-5 pt-2">
-                        <h6 class="text-center fw-bold mt-2">MS: 23</h6>
-                        <h5 class="text-center fw-bold mt-2"> Dương Hãi Băng</h5>
-                        <span class="status-success text-center">Đang làm việc</span>
+                        <h6 class="text-center fw-bold mt-2">MS: {{ staff.idnhanvien }}</h6>
+                        <h5 class="text-center fw-bold mt-2"> {{ staff.hoten }}</h5>
+                        <span class="text-center" :class="{
+                            'status-on': (statusMessage == 'Đang làm việc'),
+                            'status-off': (statusMessage == 'Đã nghĩ việc')
+                        }">{{ statusMessage }}
+                        </span>
                     </div>
                     <div class="col-md-8 col-12">
                         <ul class="pt-3">
-                            <li><span class="fw-bold">Họ và tên:</span> DươngHãi Băng</li>
-                            <li><span class="fw-bold">Ngày sinh:</span> 06/07/2002</li>
-                            <li><span class="fw-bold">Giới tính:</span> Nam</li>
-                            <li><span class="fw-bold">Thẻ căn cước:</span>700980825354</li>
-                            <li><span class="fw-bold">Nơi cư trú:</span> 124/11A đường 3/2,
-                                phường Xuân Khánh, quận Ninh Kiều, Tp. Cần Thơ</li>
-                            <li><span class="fw-bold">Số điện thoại:</span> 0985734334</li>
-                            <li><span class="fw-bold">Ngày bắt đầu:</span>23/12/2023</li>
-                            <li><span class="fw-bold">Chức vụ:</span> Phục vụ</li>
+                            <li><span class="fw-bold">Họ và tên:</span> {{ staff.hoten }}</li>
+                            <li><span class="fw-bold">Ngày sinh:</span> {{ staff.ngaysinh }}</li>
+                            <li><span class="fw-bold">Giới tính:</span> {{ staff.gioitinhchu }}</li>
+                            <li><span class="fw-bold">Thẻ căn cước:</span> {{ staff.cccd }}</li>
+                            <li><span class="fw-bold">Nơi cư trú:</span> {{ staff.diachi }}</li>
+                            <li><span class="fw-bold">Số điện thoại:</span> {{ staff.sodienthoai }}</li>
+                            <li><span class="fw-bold">Ngày bắt đầu:</span> {{ staff.ngaythamgia }}</li>
+                            <li><span class="fw-bold">Chức vụ:</span> {{ staff.tenchucvu }}</li>
+                            <li><span class="fw-bold">Hệ số lương:</span> {{ staff.idluong }}</li>
                             <li>
                                 <span class="fw-bold">Hình thức trả lương:</span> tháng
                                 <router-link :to="{ name: 'salary-page' }" style="text-decoration: none;">
@@ -48,6 +52,9 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
+
+import staffService from '@/services/staff.service';
 export default {
     props: {
         id: {
@@ -60,8 +67,28 @@ export default {
         const closeModal = () => {
             context.emit("close");
         }
-        return { closeModal };
+
+        return { closeModal, };
     },
+
+    data() {
+        return {
+            staff: {},
+            statusMessage: '',
+        };
+    },
+
+    async created() {
+        this.staff = await staffService.FindOneById(this.id);
+        this.staff.ngaysinh = moment(this.staff.ngaysinh).format("DD/MM/YYYY");
+        this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("DD/MM/YYYY");
+
+        if (this.staff.trangthai === 1) {
+            this.statusMessage = "Đang làm việc";
+        } else {
+            this.statusMessage = "Đã nghĩ việc";
+        }
+    }
 }
 </script>
 <style  scoped lang="css">
@@ -102,11 +129,19 @@ export default {
     margin-right: 10px;
 }
 
-.status-success {
+.status-on {
     display: inline-block;
     width: 100%;
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);
+    border-radius: 15px;
+}
+
+.status-off {
+    display: inline-block;
+    width: 100%;
+    padding: 3px 8px;
+    background-color: rgba(128, 6, 0, 0.575);
     border-radius: 15px;
 }
 

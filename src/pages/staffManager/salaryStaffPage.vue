@@ -1,6 +1,7 @@
 <template>
     <div class="p-3">
-        <detailSalaryModal class="modal-detail-bill" v-if="modalActive" :idStaff="idStaff" @close="toggleModal(0)">
+        <detailSalaryModal class="modal-detail-bill" v-if="modalActive" :phase="phase" :idStaff="idStaff"
+            @close="toggleModal(0)">
         </detailSalaryModal>
         <div class="d-flex justify-content-between">
             <h4 class="text-secondary fw-bold">Thông tin lương__:</h4>
@@ -9,19 +10,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-12 d-flex ">
+            <div class="col-md-6 col-12 d-flex h-100 mt-2">
                 <button type="button" class="btn btn-outline-secondary me-1"><i
                         class="fa-solid fa-magnifying-glass"></i></button>
                 <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username"
                     aria-describedby="button-addon2">
             </div>
             <div class="col-md-5 col-12 mt-2">
-                <span class="me-2">từ: </span>
-                <input type="date" style="border: none;">
-                <span class="mx-2">đến: </span>
-                <input type="date" style="border: none;">
-
-                <button class="btn"><i class="fa-solid fa-check text-success"></i></button>
+                <div class="d-flex " style="width: 270px">
+                    <select class="form-select" aria-label="Default select example" v-model="phase">
+                        <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
+                            {{ item.ngaybatdau }} - {{ item.ngayketthuc }}
+                        </option>
+                    </select>
+                    <button class="btn" @click="onChangePhase"><i class="fa-solid fa-check text-success"></i></button>
+                </div>
             </div>
             <div class="col-md-1 col-12 pt-2 d-flex justify-content-end">
                 <button class="btn"><i class="fa-solid fa-sort"></i></button>
@@ -44,198 +47,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
+                    <tr v-for="(item, index) in listSalary" :key="index">
+                        <td class="text-center">{{ index + 1 }}</td>
+                        <th scope="row" class="text-center">{{ item.nhanvien.idnhanvien }}</th>
+                        <td class="text-center">{{ item.nhanvien.hoten }}</td>
+                        <td class="text-center">{{ item.luong }}</td>
                         <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
+                        <td class="text-center">{{ item.tonggio }}</td>
+                        <td class="text-center">{{ formatNumber(item.thuong) }}</td>
+                        <td class="text-center">{{ formatNumber(item.phat) }}</td>
+                        <td class="text-center fw-bold">{{ formatNumber(item.tonggio * item.luong - item.phat + item.thuong)
+                        }}</td>
                         <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">105,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(2)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <th scope="row" class="text-center">2</th>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center">36,000</td>
-                        <td class="text-center">tháng</td>
-                        <td class="text-center">164</td>
-                        <td class="text-center">250,000</td>
-                        <td class="text-center">115,000</td>
-                        <td class="text-center fw-bold">6,039,000</td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
+                            <button type="button" class="btn" @click="toggleModal(item.nhanvien.idnhanvien)">
                                 <i class="fa-solid fa-circle-plus text-success"></i></button>
                         </th>
                     </tr>
@@ -245,13 +69,17 @@
     </div>
 </template>
 <script>
-
 import { ref } from 'vue';
+import moment from 'moment';
 import detailSalaryModal from '@/components/modalsComponent/detailSalaryModal.vue';
+
+import staffService from '@/services/staff.service';
+import calendrierService from '@/services/calendrier.service';
 export default {
     components: {
         detailSalaryModal
     },
+
     setup() {
         let modalActive = ref(false);
         let idStaff = ref(0);
@@ -260,8 +88,43 @@ export default {
             modalActive.value = !modalActive.value;
             idStaff.value = id;
         }
-        return { modalActive, idStaff, toggleModal, };
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+        return { modalActive, idStaff, toggleModal, formatNumber, };
     },
+
+    data() {
+        return {
+            listSalary: [],
+            phaseList: [],
+            phase: '0',
+        }
+    },
+
+    async created() {
+        this.phaseList = await calendrierService.GetPhase();
+        this.phase = this.phaseList[this.phaseList.length - 1].idgiaidoan;
+
+        await this.fetchData();
+        if (this.phaseList.length != 0) {
+            this.phaseList.forEach((element) => {
+                element.ngaybatdau = moment(element.ngaybatdau).format("DD/MM/YYYY");
+                element.ngayketthuc = moment(element.ngayketthuc).format("DD/MM/YYYY");
+            });
+        }
+    },
+
+    methods: {
+        async fetchData() {
+            this.listSalary = await staffService.Salary(this.phase);
+        },
+
+        async onChangePhase() {
+            await this.fetchData();
+        }
+    }
 }
 
 </script>

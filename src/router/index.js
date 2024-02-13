@@ -2,6 +2,19 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
 
+    //Personal manager page--------------------------------------------
+    {
+        path: '/ca-nhan',
+        name: 'personal-page',
+        component: () => import('@/pages/personalPage/personalInfoPage.vue'),
+    },
+
+    {
+        path: '/thong-bao',
+        name: 'notifycation-page',
+        component: () => import('@/pages/personalPage/notifycationPage.vue'),
+    },
+
     //Route home page--------------------------------------------
     {
         path: '/',
@@ -71,9 +84,15 @@ const routes = [
         component: () => import('@/pages/supplierManager/listSupplierPage.vue'),
     },
     {
+        path: '/them-nha-cung-cap',
+        name: 'create-supplier-page',
+        component: () => import('@/pages/supplierManager/createSupplierPage.vue'),
+    },
+    {
         path: '/nha-cung-cap/:id',
         name: 'update-supplier-page',
         component: () => import('@/pages/supplierManager/editSupplierPage.vue'),
+        props: true,
     },
 
     //Payment manager page--------------------------------------------
@@ -109,6 +128,13 @@ const routes = [
         path: '/menu',
         name: 'menu-page',
         component: () => import('@/pages/menuManager/menuPage.vue'),
+    },
+
+    //Evalues manager page--------------------------------------------
+    {
+        path: '/danh-gia',
+        name: 'evalues-page',
+        component: () => import('@/pages/evaluesManagerPage.vue'),
     },
     //{
     //     path: '/thong-tin-don-hang/:idOrder',

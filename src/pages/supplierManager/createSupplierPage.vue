@@ -1,10 +1,6 @@
 <template>
     <div class="p-3">
-        <confirmModal v-if="notifycationActive" message="Lưu thông tin nhà cung cấp ?" @close="closeNotifycation"
-            @onActive="submit">
-        </confirmModal>
-
-        <h4 class="text-secondary fw-bold">Cập nhật thông tin nhà cung cấp__:</h4>
+        <h4 class="text-secondary fw-bold">Thêm mới nhà cung cấp__:</h4>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
@@ -13,22 +9,22 @@
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="fullname" v-model="supplier.tennhacungcap">
+                            <input type="text" class="form-control" id="fullname" v-model="data.name">
                             <label for="fullname">*Tên nhà cung cấp:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="phone" v-model="supplier.sodienthoai">
+                            <input type="text" class="form-control" id="phone" v-model="data.phone">
                             <label for="phone">*Số điện thoại:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="bank" v-model="supplier.sotaikhoan">
+                            <input type="text" class="form-control" id="bank" v-model="data.bank">
                             <label for="bank">*Số tài khoản:</label>
                         </div>
                         <div class="form-floating mb-2">
                             <select class="form-select" id="bankName" aria-label="Default select example"
-                                v-model="supplier.nganhang">
+                                v-model="data.bankName">
                                 <option value="MB Bank">MB Bank</option>
-                                <option value="Viettinbank">VietTinbank</option>
+                                <option value="Vie  ttinbank">VietTinbank</option>
                                 <option value="Agribank">Agribank</option>
                                 <option value="BIDV">BIDV</option>
                                 <option value="Saccombank">Saccombank</option>
@@ -38,7 +34,7 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-floating mb-2">
-                            <textarea type="text" class="form-control" id="address" v-model="supplier.diachi"
+                            <textarea type="text" class="form-control" id="address" v-model="data.address"
                                 style="height: 190px;">
                             </textarea>
                             <label for="address">*Địa chỉ:</label>
@@ -49,7 +45,7 @@
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
-                            @click="closeNotifycation">Cập nhật</button>
+                            @click="toggleShowAlert">Thêm NCC</button>
                     </div>
                 </div>
             </form>
@@ -60,12 +56,10 @@
 <script>
 import { ref } from 'vue';
 
-import confirmModal from '@/components/modalsComponent/confirmModal.vue';
 import alertMessage from '@/components/alertMessage/alertMessage.vue';
 import supplierService from '@/services/supplier.service';
 export default {
     components: {
-        confirmModal,
         alertMessage,
     },
 
@@ -76,70 +70,49 @@ export default {
     },
 
     setup() {
-        let notifycationActive = ref(false);
         let showAlert = ref(false);
         let status = ref('');
         let messageAlert = ref('');
         let errorNotifycation = ref(false);
 
-        const closeNotifycation = () => {
-            notifycationActive.value = !notifycationActive.value;
-            if (notifycationActive.value === false) {
-                showAlert.value = true;
-                status.value = 'danger';
-                messageAlert.value = 'Đã hủy thông tin cập nhật!';
-                setTimeout(() => {
-                    showAlert.value = false;
-                }, 2500);
-
-            }
-        }
-
-        return { notifycationActive, closeNotifycation, showAlert, status, messageAlert, errorNotifycation };
+        return { showAlert, status, messageAlert, errorNotifycation };
     },
 
     data() {
         return {
-            supplier: {},
+            data: {},
         };
     },
 
-    async created() {
-        this.supplier = await supplierService.FindOneById(this.id);
-    },
 
     methods: {
-        async submit() {
-            this.notifycationActive = false // Cloes Modal
+        async toggleShowAlert() {
+            if (!this.data.name || !this.data.address || !this.data.phone
+                || !this.data.bank || !this.data.bankName) {
 
-            //Check info staff is full 
-            if (!this.supplier.tennhacungcap || !this.supplier.diachi || !this.supplier.sodienthoai
-                || !this.supplier.sotaikhoan || !this.supplier.nganhang) {
                 this.errorNotifycation = true;
+                this.messageAlert = 'Thêm nhà cung cấp không thành công!';
+                this.status = 'warning';
+                this.showAlert = true;
                 setTimeout(() => {
                     this.showAlert = false;
                 }, 2500);
-                this.status = 'warning';
-                this.messageAlert = 'Cập nhật thông tin nhân viên không thành công!';
-                this.showAlert = true; // On alert message
-
-            } else {
+            }
+            else {
+                this.errorNotifycation = false;
                 try {
-                    let dataUpdate = {
-                        name: this.supplier.tennhacungcap,
-                        phone: this.supplier.sodienthoai,
-                        address: this.supplier.diachi,
-                        bank: this.supplier.sotaikhoan,
-                        bankName: this.supplier.nganhang,
-                    };
-
-                    await supplierService.Update(this.id, dataUpdate).then((result) => {
-                        if (result.statusCode === 200) {
-                            this.errorNotifycation = false;
-
+                    await supplierService.Create(this.data).then((result) => {
+                        if (result.statusCode == 200) {
+                            this.messageAlert = 'Thêm nhà cung cấp mới thành công!';
                             this.status = 'success';
-                            this.messageAlert = 'Đã cập nhật thông tin nhà cung cấp!';
-                            this.showAlert = true; // On alert message
+                            this.showAlert = true;
+                            setTimeout(() => {
+                                this.showAlert = false;
+                            }, 2500);
+                        } else {
+                            this.messageAlert = 'Lỗi trong khi thêm nhà cung cấp!';
+                            this.status = 'danger';
+                            this.showAlert = true;
                             setTimeout(() => {
                                 this.showAlert = false;
                             }, 2500);
@@ -147,9 +120,9 @@ export default {
                     })
                 } catch (error) {
                     console.log(error);
+                    this.messageAlert = 'Lỗi trong khi thêm nhà cung cấp!';
                     this.status = 'danger';
-                    this.messageAlert = 'Lỗi trong khi cập nhật thông tin nhà cung cấp!';
-                    this.showAlert = true; // On alert message
+                    this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;
                     }, 2500);

@@ -185,11 +185,17 @@
                         </table>
                         <div>
                             <ul>
-                                <li style="list-style: none;"><span class="fw-bold">* Tổng số giờ: </span> 164</li>
-                                <li style="list-style: none;"><span class="fw-bold">* Tiền thưởng: </span> 250,000 vnđ</li>
-                                <li style="list-style: none;"><span class="fw-bold">* Phạt: </span> 115,000 vnđ.</li>
+                                <li style="list-style: none;"><span class="fw-bold">* Tổng số giờ: </span>
+                                    {{ calendrier.tonggio }}</li>
+                                <li style="list-style: none;"><span class="fw-bold">* Tiền thưởng: </span> {{
+                                    formatNumber(calendrier.thuong) }} vnđ</li>
+                                <li style="list-style: none;"><span class="fw-bold">* Phạt: </span> {{
+                                    formatNumber(calendrier.phat) }}
+                                    vnđ.</li>
                                 <li style="list-style: none;">
-                                    <p class="fw-bold text-success">* Tổng lương: 6,039,000 vnđ</p>
+                                    <p class="fw-bold text-success">* Tổng lương: {{
+                                        formatNumber(calendrier.tonggio * calendrier.luong + calendrier.thuong -
+                                            calendrier.phat) }} vnđ</p>
                                 </li>
                             </ul>
                         </div>
@@ -207,6 +213,8 @@
 </template>
 <script>
 import workingWeekCard from "@/components/workingWeekCard.vue";
+
+import staffService from '@/services/staff.service';
 export default {
     components: {
         workingWeekCard,
@@ -216,6 +224,11 @@ export default {
         idStaff: {
             required: true,
             type: Number,
+        },
+
+        phase: {
+            required: true,
+            type: Number,
         }
     },
 
@@ -223,8 +236,29 @@ export default {
         const closeModal = () => {
             context.emit("close");
         }
-        return { closeModal };
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+        return { closeModal, formatNumber, };
     },
+
+    data() {
+        return {
+            calendrier: {},
+        }
+    },
+
+    async created() {
+        await this.fetchData();
+        console.log(this.calendrier);
+    },
+
+    methods: {
+        async fetchData() {
+            this.calendrier = await staffService.SalaryDetail(this.idStaff, this.phase);
+        }
+    }
 }
 </script>
 <style  scoped lang="css">

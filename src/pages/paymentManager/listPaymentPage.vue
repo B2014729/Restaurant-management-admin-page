@@ -35,7 +35,7 @@
                     <tr>
                         <th scope="col" class="text-center">Mã phiếu chi</th>
                         <th scope="col" class="text-center">Thời gian</th>
-                        <th scope="col" class="text-center">ID Nhân viên</th>
+                        <th scope="col" class="text-center">Nhân viên</th>
                         <th scope="col" class="text-center">Nhà cung cấp</th>
                         <th scope="col" class="text-center">Thanh toán (vnđ)</th>
                         <th scope="col" class="text-center">Trạng thái (vnđ)</th>
@@ -49,111 +49,43 @@
                         <td class="text-center"></td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
-                        <td class="text-center fs-5 fw-bold">142,240,000</td>
+                        <td class="text-center fs-5 fw-bold">{{ formatNumber(sumAmount) }}</td>
                         <td class="text-center" style="padding-top: 13px;">
                         </td>
                         <th scope="row" class="text-center">
 
                         </th>
                     </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
+                    <tr v-for="(item, index) in listPayment" :key="index">
+                        <th scope="row" class="text-center">{{ item.idphieuchi }}</th>
+                        <td class="text-center">{{ item.ngaygio }}</td>
+                        <td class="text-center">{{ item.nhanvien.hoten }}</td>
+                        <td class="text-center"> {{ item.nhacungcap.tennhacungcap }}</td>
+                        <td class="text-center fw-bold">{{ formatNumber(item.thanhtoan) }}</td>
                         <td class="text-center" style="padding-top: 13px;">
                             <span class="status">Đã thanh toán</span>
                         </td>
                         <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
+                            <button type="button" class="btn" @click="toggleModal(item.idphieuchi)">
                                 <i class="fa-solid fa-circle-plus text-success"></i></button>
                         </th>
                     </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
-                        <td class="text-center" style="padding-top: 13px;">
-                            <span class="status">Đã thanh toán</span>
-                        </td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
-                        <td class="text-center" style="padding-top: 13px;">
-                            <span class="status">Đã thanh toán</span>
-                        </td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
-                        <td class="text-center" style="padding-top: 13px;">
-                            <span class="status">Đã thanh toán</span>
-                        </td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
-                        <td class="text-center" style="padding-top: 13px;">
-                            <span class="status">Đã thanh toán</span>
-                        </td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td class="text-center">18/1/2024</td>
-                        <td class="text-center">Dương Hãi Băng</td>
-                        <td class="text-center"> Vựa hải sản Lộc Cần Thơ</td>
-                        <td class="text-center  fw-bold">240,000</td>
-                        <td class="text-center" style="padding-top: 13px;">
-                            <span class="status">Đã thanh toán</span>
-                        </td>
-                        <th scope="row" class="text-center">
-                            <button type="button" class="btn" @click="toggleModal(23)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
-                        </th>
-                    </tr>
-
                 </tbody>
             </table>
         </div>
     </div>
 </template>
 <script>
-
 import { ref } from 'vue';
+import moment from 'moment';
+
 import detailPaymentModal from '@/components/modalsComponent/detailPaymentModal.vue';
+import paymentService from '@/services/payment.service';
 export default {
     components: {
         detailPaymentModal
     },
+
     setup() {
         let modalActive = ref(false);
         let idPayment = ref(0);
@@ -162,8 +94,36 @@ export default {
             modalActive.value = !modalActive.value;
             idPayment.value = id;
         }
-        return { modalActive, idPayment, toggleModal, };
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+
+        return { modalActive, idPayment, toggleModal, formatNumber, };
     },
+
+    data() {
+        return {
+            listPayment: [],
+            sumAmount: 0,
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    methods: {
+        async fetchData() {
+            this.listPayment = await paymentService.FindAll();
+            if (this.listPayment.length > 0) {
+                this.listPayment.forEach((element) => {
+                    this.sumAmount += element.thanhtoan;
+                    element.ngaygio = moment(element.ngaygio).format("DD/MM/YYYY");
+                });
+            }
+        }
+    }
 }
 
 </script>

@@ -55,24 +55,24 @@
                     </div>
                 </li>
             </a>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'information-manager' }">
                 <li class="nav-item"><i class="fa-solid fa-circle-info"></i> THÔNG TIN NHÀ HÀNG</li>
             </router-link>
             <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'evalues-page' }">
                 <li class="nav-item"><i class="fa-regular fa-star-half-stroke"></i> QUẢN LÝ ĐÁNH GIÁ</li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'application' }">
                 <li class="nav-item"><i class="ps-2 fa-brands fa-app-store-ios"></i>
                     ỨNG DỤNG
                 </li>
             </router-link>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
+            <a class="router-link" style="text-decoration: none;" href="https://www.facebook.com/haibang.duong.963">
                 <li class="nav-item"><i class="ps-2 fa-brands fa-square-facebook"></i>
                     FACEBOOK
                 </li>
-            </router-link>
+            </a>
 
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'create-dish-page' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'setting' }">
                 <li class="nav-item"><i class="ps-2 fa-solid fa-gear"></i> CÀI ĐẶT</li>
             </router-link>
         </ul>

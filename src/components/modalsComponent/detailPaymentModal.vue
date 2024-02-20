@@ -12,9 +12,10 @@
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <ul>
-                            <li class="py-1"><span class="fw-bold title">Mã phiếu chi</span>: 23232</li>
-                            <li class="py-1"><span class=" fw-bold title">Ngày lập</span>: 03/01/2024</li>
-                            <li class="py-1"><span class="fw-bold title">Nhân viên</span>: Dương Hãi Băng</li>
+                            <li class="py-1"><span class="fw-bold title">Mã phiếu chi</span>: {{ paymentInfo.idphieuchi }}
+                            </li>
+                            <li class="py-1"><span class=" fw-bold title">Ngày lập</span>: {{ paymentInfo.ngaygio }}</li>
+                            <li class="py-1"><span class="fw-bold title">Nhân viên</span>: {{ staffInfo.hoten }}</li>
                             <li class="py-1"><span class="fw-bold title">Trạng thái</span>:
                                 <span class="status">Đã thanh toán</span>
                             </li>
@@ -24,20 +25,22 @@
                     <div class="col-md-7 col-12">
                         <span class="fw-bold">Thông tin nhà cung cấp:</span>
                         <ul>
-                            <li class="py-1"><span class="fw-bold title">Mã NCC</span>: 232</li>
-                            <li class="py-1"><span class=" fw-bold title">Tên đơn vị</span>: Vựa hải sản Lộc Cần Thơ
+                            <li class="py-1"><span class="fw-bold title">Mã NCC</span>: {{ supplierInfo.idnhacungcap }}</li>
+                            <li class="py-1"><span class=" fw-bold title">Tên đơn vị</span>:
+                                {{ supplierInfo.tennhacungcap }}
                             </li>
-                            <li class="py-1"><span class="fw-bold title">Địa chỉ</span>: 397, Đường 30/4, Phường Hưng Lợi,
-                                Quận Ninh Kiều, Thành phố Cần Thơ, Việt Nam</li>
-                            <li class="py-1"><span class="fw-bold title">Số điện thoại</span>: 0595344899</li>
-                            <li class="py-1"><span class="fw-bold title">Số tài khoản</span>: 7007568569656</li>
+                            <li class="py-1"><span class="fw-bold title">Địa chỉ</span>: {{ supplierInfo.diachi }}</li>
+                            <li class="py-1"><span class="fw-bold title">Số điện thoại</span>:
+                                {{ supplierInfo.sodienthoai }}</li>
+                            <li class="py-1"><span class="fw-bold title">Số tài khoản</span>:
+                                {{ supplierInfo.sotaikhoan }}
+                            </li>
                         </ul>
                     </div>
                 </div>
 
                 <div>
                     <span class="fw-bold">Danh sách sản phẩm:</span>
-
                     <div style="min-height:280px; overflow: hidden;">
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -52,56 +55,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">thùng</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">thùng</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">thùng</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">thùng</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">Gỏi xoài tôm khô</td>
-                                    <td class="text-center" style="padding-top: 13px;">90,000</td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
-                                    <td class="text-center" style="padding-top: 13px;">3</td>
-                                    <td class="text-center" style="padding-top: 13px;">thùng</td>
-                                    <td class="text-center" style="padding-top: 13px;">270,000</td>
+                                <tr v-for="(item, index) in detailPayment" :key="index">
+                                    <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.hanghoa.tenhanghoa }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.dongia }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.giam }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.soluong }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.hanghoa.donvitinh }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">
+                                        {{ formatNumber(item.soluong * item.dongia - item.giam) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="d-flex justify-content-end mt-2">
-                        <p class="fw-bold">Thanh toán: 1,230,000 vnđ</p>
+                        <p class="fw-bold">Thanh toán: {{ formatNumber(paymentInfo.thanhtoan) }} vnđ</p>
                     </div>
                 </div>
 
@@ -115,6 +83,9 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
+import paymentService from '@/services/payment.service';
+
 export default {
     props: {
         idPayment: {
@@ -127,8 +98,47 @@ export default {
         const closeModal = () => {
             context.emit("close");
         }
-        return { closeModal };
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+
+        return { closeModal, formatNumber };
     },
+    data() {
+        return {
+            paymentInfo: {},
+            staffInfo: {},
+            supplierInfo: {},
+            detailPayment: [],
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+        console.log(this.payment);
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                let payment = await paymentService.FindOneById(this.idPayment);
+                payment.ngaygio = moment(payment.ngaygio).format("DD/MM/YYYY");
+                this.paymentInfo = {
+                    idphieuchi: payment.idphieuchi,
+                    ngaygio: payment.ngaygio,
+                    thanhtoan: payment.thanhtoan,
+                };
+
+                this.staffInfo = payment.nhanvien;
+                this.supplierInfo = payment.nhacungcap;
+                this.detailPayment = payment.thongtinchitiet;
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+    }
 }
 </script>
 <style  scoped lang="css">

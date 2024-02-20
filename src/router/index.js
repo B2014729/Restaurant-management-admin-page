@@ -76,6 +76,11 @@ const routes = [
         component: () => import('@/pages/staffManager/editStaffPage.vue'),
         props: true
     },
+    {
+        path: '/xep-lich-lam-viec',
+        name: 'arrange-work-staff-page',
+        component: () => import('@/pages/staffManager/arrangeWorkStaffPage.vue'),
+    },
 
     //Supplier manager page--------------------------------------------
     {
@@ -129,12 +134,32 @@ const routes = [
         name: 'menu-page',
         component: () => import('@/pages/menuManager/menuPage.vue'),
     },
+    {
+        path: '/chinh-sua-menu',
+        name: 'update-menu-page',
+        component: () => import('@/pages/menuManager/updateMenuPage.vue'),
+    },
 
     //Evalues manager page--------------------------------------------
     {
         path: '/danh-gia',
         name: 'evalues-page',
         component: () => import('@/pages/evaluesManagerPage.vue'),
+    },
+
+    //Other route
+    {
+        path: '/ung-dung',
+        name: 'application',
+    },
+
+    {
+        path: '/quan-li-thong-tin',
+        name: 'information-manager',
+    },
+    {
+        path: '/cai-dat',
+        name: 'setting',
     },
     //{
     //     path: '/thong-tin-don-hang/:idOrder',

@@ -11,10 +11,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-12 d-flex h-100 mt-2">
-                <button type="button" class="btn btn-outline-secondary me-1"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
-                <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username"
-                    aria-describedby="button-addon2">
+                <searchComponent class="w-100" @submit="search($event)" v-model="searchText">
+                </searchComponent>
             </div>
             <div class="col-md-5 col-12 mt-2">
                 <div class="d-flex " style="width: 270px">
@@ -47,11 +45,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in listSalary" :key="index">
+                    <tr v-for="(item, index) in searchStaff" :key="index">
                         <td class="text-center">{{ index + 1 }}</td>
                         <th scope="row" class="text-center">{{ item.nhanvien.idnhanvien }}</th>
                         <td class="text-center">{{ item.nhanvien.hoten }}</td>
-                        <td class="text-center">{{ item.luong }}</td>
+                        <td class="text-center">{{ formatNumber(item.luong) }}</td>
                         <td class="text-center">tháng</td>
                         <td class="text-center">{{ item.tonggio }}</td>
                         <td class="text-center">{{ formatNumber(item.thuong) }}</td>
@@ -75,9 +73,11 @@ import detailSalaryModal from '@/components/modalsComponent/detailSalaryModal.vu
 
 import staffService from '@/services/staff.service';
 import calendrierService from '@/services/calendrier.service';
+import searchComponent from '@/components/searchComponent.vue';
 export default {
     components: {
-        detailSalaryModal
+        detailSalaryModal,
+        searchComponent,
     },
 
     setup() {
@@ -100,6 +100,25 @@ export default {
             listSalary: [],
             phaseList: [],
             phase: '0',
+            searchText: '',
+        };
+    },
+
+    computed: {
+        staffListString() {
+            return this.listSalary.map((staff) => {
+                const { hoten, idnhanvien } = staff.nhanvien;
+                return [hoten, idnhanvien].join("");
+            });
+        },
+
+        searchStaff() {
+            if (!this.searchText) {
+                return this.listSalary
+            }
+            return this.listSalary.filter((_staff, index) => {
+                return this.staffListString[index].includes(this.searchText);
+            });
         }
     },
 
@@ -118,7 +137,12 @@ export default {
 
     methods: {
         async fetchData() {
-            this.listSalary = await staffService.Salary(this.phase);
+            try {
+                this.listSalary = await staffService.Salary(this.phase);
+            } catch (error) {
+                console.log(error);
+            }
+
         },
 
         async onChangePhase() {

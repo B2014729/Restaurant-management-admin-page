@@ -1,11 +1,13 @@
 <template>
-    <div class="card-day" :class="{
-        morning: isMorning, afternoon: isAfternoon,
-        evening: isEvening, full: isFull,
-        morningAndAfter: isMorningAndAfter,
-        afterAndEvening: isAfterAndEvening,
-    }">
-        <span>{{ startTime }} - {{ endTime }}</span>
+    <div class="d-flex justify-content-center align-item-center">
+        <div class="card-day px-2" :class="{
+            morning: isMorning, afternoon: isAfternoon,
+            evening: isEvening, full: isFull,
+            morningAndAfter: isMorningAndAfter,
+            afterAndEvening: isAfterAndEvening,
+        }">
+            <span style="font-size: 14px;">{{ startTime }} - {{ endTime }}</span>
+        </div>
     </div>
 </template>
 <script>
@@ -14,7 +16,7 @@ export default {
     props: {
         id: {
             type: Number
-        }
+        },
     },
 
     setup(props) {
@@ -24,8 +26,10 @@ export default {
         let isFull = ref(false);
         let isMorningAndAfter = ref(false);
         let isAfterAndEvening = ref(false);
-        let startTime = ref('l');
-        let endTime = ref('l');
+        let startTime = ref('_');
+        let endTime = ref('_');
+        // let buttonAdd = ref(false);
+        // let buttonRemove = ref(true);
 
         switch (props.id) {
             case 1:
@@ -59,9 +63,15 @@ export default {
                 endTime.value = '00:00';
                 break;
             default:
+                // buttonRemove.value = false;
+                // buttonAdd.value = true;
                 break;
         }
-        return { isMorning, isEvening, isAfternoon, isFull, startTime, endTime, isMorningAndAfter, isAfterAndEvening };
+        return {
+            isMorning, isEvening, isAfternoon,
+            isFull, startTime, endTime, isMorningAndAfter,
+            isAfterAndEvening,
+        };
     }
 }
 </script>
@@ -94,5 +104,9 @@ export default {
 
 .afterAndEvening {
     background-color: rgba(128, 128, 128, 0.859);
+}
+
+button {
+    border: none;
 }
 </style>

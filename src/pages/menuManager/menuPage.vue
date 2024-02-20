@@ -1,6 +1,11 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Menu__:</h4>
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="text-secondary fw-bold">Giao diện menu__:</h4>
+            <router-link :to="{ name: 'update-menu-page' }">
+                <button class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></button>
+            </router-link>
+        </div>
         <div class="container-menu">
             <h4 class="fw-bold text-center pt-4 title">MENU</h4>
             <div class="row">
@@ -8,81 +13,12 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món nướng</h5>
                         <ul>
-                            <li style="list-style: none;" class=" d-flex text-warning fw-bold">
+                            <li v-for="(   item, index   ) in    monNuong   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
+                                    {{ item.tenmon }}
                                 </span>
-                                120,000
-                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
-                            </li>
-                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
-                            </li>
-                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
-                            </li>
-                            <li style="list-style: none;" class="  d-flex text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                                <button class="btn-remove"><i class="fa-solid fa-minus text-secondary"></i></button>
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
+                                {{ formatNumber(item.gia) }}
                             </li>
                         </ul>
                     </div>
@@ -98,77 +34,12 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món lẩu</h5>
                         <ul>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in    monLau   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
+                                    {{ item.tenmon }}
                                 </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
+                                {{ formatNumber(item.gia) }}
                             </li>
                         </ul>
                     </div>
@@ -177,53 +48,12 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món gỏi & khai vị</h5>
                         <ul>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in    monGoiVaKhaivi   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
+                                    {{ item.tenmon }}
                                 </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tôm nướng muối ớt
-                                </span>
-                                120,000
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Sườn bò nướng lá
-                                </span>
-                                320,000
+                                {{ formatNumber(item.gia) }}
                             </li>
                         </ul>
                     </div>
@@ -236,35 +66,12 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Thức uống & thêm</h5>
                         <ul>
-                            <li style="list-style: none;" class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in    monThemVaNuoc   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Nước ngọt
+                                    {{ item.tenmon }}
                                 </span>
-                                20,000/lon
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Saigon
-                                </span>
-                                12,000/lon
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Tiger
-                                </span>
-                                12,000/lon
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Khăn lạnh
-                                </span>
-                                5,000/cái
-                            </li>
-                            <li style="list-style: none;" class="text-warning fw-bold">
-                                <span style="display: inline-block; width: 260px;" class="text-white">
-                                    Mì gói
-                                </span>
-                                5,000/gói
+                                {{ formatNumber(item.gia) }}/{{ item.donvitinh }}
                             </li>
                         </ul>
                     </div>
@@ -275,7 +82,57 @@
 </template>
 
 <script>
+import dishService from '@/services/dish.service';
+export default {
 
+    setup() {
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number));
+        }
+        return {
+            formatNumber
+        }
+    },
+
+    data() {
+        return {
+            listDishMenu: [],
+            monNuong: [],
+            monThemVaNuoc: [],
+            monLau: [],
+            monGoiVaKhaivi: [],
+        };
+    },
+
+    async created() {
+        try {
+            await this.fetchData();
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+
+    methods: {
+        async fetchData() {
+            this.listDishMenu = await dishService.GetMenu();
+            this.listDishMenu.forEach((element) => {
+                if (element.tenloai == 'Nước ngọt' || element.tenloai == 'Thêm' || element.tenloai == 'Bia') {
+                    this.monThemVaNuoc.push(...element.mon);
+                }
+                if (element.tenloai == 'Nướng') {
+                    this.monNuong.push(...element.mon);
+                }
+                if (element.tenloai == 'Lẩu') {
+                    this.monLau.push(...element.mon);
+                }
+                if (element.tenloai == 'Gỏi' || element.tenloai == 'Khai vị') {
+                    this.monGoiVaKhaivi.push(...element.mon);
+                }
+            });
+        }
+    }
+}
 </script>
 <style scoped>
 .container-menu {

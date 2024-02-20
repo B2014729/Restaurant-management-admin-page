@@ -2,9 +2,10 @@
     <div class="p-3">
         <confirmModal v-if="confirmModalActive" :message="message" @close="toggleModal(0)" @onActive="onDelete">
         </confirmModal>
-
+        <addDishOnMenuModal v-if="addModalActive" @close="closeModalAdd" @onActive="onAddDish($event)">
+        </addDishOnMenuModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách món ăn __:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách món ăn trong menu__:</h4>
         </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
@@ -14,9 +15,7 @@
                 </searchComponent>
             </div>
             <div class="col-md-2 d-flex justify-content-end">
-                <router-link :to="{ name: 'create-dish-page' }">
-                    <button class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm món</button>
-                </router-link>
+                <button class="btn btn-success" @click="closeModalAdd"><i class="fa-solid fa-plus"></i> Thêm món</button>
             </div>
         </div>
         <div class="mt-2">
@@ -50,11 +49,6 @@
                         <td class="text-center pt-4">{{ item.donvitinh }}</td>
                         <td class="text-center pt-4" style="padding-top: 0px;">
                             <div class="d-flex justify-content-center">
-                                <router-link :to="{ name: 'update-dish-page', params: { id: item.idmon } }">
-                                    <button class="btn">
-                                        <i class="fa-solid fa-file-pen text-warning"></i>
-                                    </button>
-                                </router-link>
                                 <button class="btn" @click="toggleModal(item.idmon)"><i
                                         class="fa-solid fa-circle-xmark text-danger"></i>
                                 </button>
@@ -78,6 +72,7 @@ import { ref } from 'vue';
 import dishService from '@/services/dish.service';
 import searchComponent from '@/components/searchComponent.vue';
 import confirmModal from '@/components/modalsComponent/confirmModal.vue';
+import addDishOnMenuModal from '@/components/modalsComponent/addDishOnMenuModal.vue';
 import alertMessage from '@/components/alertMessage/alertMessage.vue';
 
 export default {
@@ -85,6 +80,7 @@ export default {
         searchComponent,
         confirmModal,
         alertMessage,
+        addDishOnMenuModal
     },
 
     setup() {
@@ -93,14 +89,19 @@ export default {
         let messageAlert = ref('');
 
         let confirmModalActive = ref(false);
+        let addModalActive = ref(false);
         let message = ref('');
         let idDish = ref(0);
 
 
         const toggleModal = (id) => {
             idDish.value = id;
-            message.value = `Xóa thông tin món ăn ${id} khỏi hệ thống?`;
+            message.value = `Xóa thông tin món ăn ${id} khỏi menu?`;
             confirmModalActive.value = !confirmModalActive.value;
+        }
+
+        const closeModalAdd = () => {
+            addModalActive.value = !addModalActive.value;
         }
 
         const formatNumber = (number) => {
@@ -111,6 +112,7 @@ export default {
             showAlert, messageAlert, status,
             idDish, confirmModalActive,
             toggleModal, message, formatNumber,
+            addModalActive, closeModalAdd,
         };
     },
 
@@ -146,7 +148,12 @@ export default {
     },
 
     async created() {
-        await this.fetchData();
+        try {
+            await this.fetchData();
+        } catch (error) {
+            console.log(error);
+        }
+
     },
 
     methods: {
@@ -155,7 +162,7 @@ export default {
         },
 
         async fetchData() {
-            this.listDish = await dishService.FindAll();
+            this.listDish = await dishService.GetMenu();
         },
 
         search(data) {
@@ -165,9 +172,9 @@ export default {
         async onDelete() {
             this.confirmModalActive = false;
             try {
-                await dishService.Delete(this.idDish).then((result) => {
+                await dishService.DeleteOutMenu(this.idDish).then((result) => {
                     if (result.statusCode == 200) {
-                        this.messageAlert = 'Đã xóa món ăn khỏi hệ thống!';
+                        this.messageAlert = 'Đã xóa món ăn khỏi menu!';
                         this.status = 'success';
                         this.showAlert = true;
                         setTimeout(() => {
@@ -185,6 +192,62 @@ export default {
                     this.showAlert = false;
                 }, 2500);
                 console.log(e);
+            }
+        },
+
+        async onAddDish(idDish) {
+            this.addModalActive = false;
+
+            let issetDishInMenu = false;
+            for (let index = 0; index < this.listDish.length; index++) {
+                const element = this.listDish[index];
+                console.log(element);
+                let idDishList = [];
+                element.mon.forEach((item) => {
+                    idDishList.push(item.idmon);
+                })
+                issetDishInMenu = idDishList.includes(Number(idDish));
+                if (issetDishInMenu) {
+                    break;
+                }
+            }
+
+            if (issetDishInMenu) {
+                this.messageAlert = 'Món ăn đã tồn tại!';
+                this.status = 'warning';
+                this.showAlert = true;
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
+            } else {
+                try {
+                    await dishService.AddDishOnMenu(idDish).then((result) => {
+                        if (result.statusCode == 200) {
+                            this.messageAlert = 'Đã thêm món ăn vào menu!';
+                            this.status = 'success';
+                            this.showAlert = true;
+                            setTimeout(() => {
+                                this.showAlert = false;
+                            }, 2500);
+                            this.fetchData();
+                        } else {
+                            this.messageAlert = 'Lỗi khi thêm món ăn!';
+                            this.status = 'danger';
+                            this.showAlert = true;
+                            setTimeout(() => {
+                                this.showAlert = false;
+                            }, 2500);
+                        }
+                    });
+                } catch (error) {
+                    console.log(error);
+                    this.messageAlert = 'Lỗi khi thêm món ăn!';
+                    this.status = 'danger';
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                }
             }
         }
     },

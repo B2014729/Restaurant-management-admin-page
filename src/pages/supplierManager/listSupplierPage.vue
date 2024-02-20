@@ -131,7 +131,6 @@ export default {
 
         async onDelete() {
             this.confirmModalActive = false;
-
             try {
                 await supplierService.Delete(this.idSupplier).then((result) => {
                     if (result.statusCode == 200) {
@@ -146,7 +145,7 @@ export default {
                 });
             }
             catch (e) {
-                this.messageAlert = 'Không thể xóa nhà cung cấp thành công!';
+                this.messageAlert = 'Không thể xóa nhà cung cấp!';
                 this.status = 'danger';
                 this.showAlert = true;
                 setTimeout(() => {
@@ -154,6 +153,10 @@ export default {
                 }, 2500);
                 console.log(e);
             }
+        },
+
+        search(data) {
+            console.log(data);
         }
     }
 }

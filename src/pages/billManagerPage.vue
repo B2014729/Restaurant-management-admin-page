@@ -171,7 +171,10 @@ export default {
                 console.log(error);
                 this.billList = [];
             }
+        },
 
+        search(data) {
+            console.log(data);
         }
     }
 }

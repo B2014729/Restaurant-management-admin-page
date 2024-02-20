@@ -53,8 +53,13 @@ export default {
         workWeek: {
             type: Array,
         },
+
         idweek: {
             type: Array,
+        },
+
+        arrange: {
+            type: Boolean,
         }
     },
 

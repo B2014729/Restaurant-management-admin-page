@@ -12,7 +12,9 @@
                     <button class="btn" @click="onPhases"><i class="fa-solid fa-check text-success"></i></button>
                 </div>
             </div>
-            <button class="btn btn-outline-success h-100">Xếp lịch</button>
+            <router-link :to="{ name: 'arrange-work-staff-page' }">
+                <button class="btn btn-outline-success h-100">Xếp lịch</button>
+            </router-link>
         </div>
         <div class="d-flex justify-content-end">
             <ul class="d-flex">
@@ -50,7 +52,7 @@
                 </button>
                 <div class="collapse" id="collapse1Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendried.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
+                        <workingWeekComponent :work-week="calendrier.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -62,7 +64,7 @@
                 </button>
                 <div class="collapse" id="collapse2Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendried.tuan2" :idweek="[8, 9, 10, 11, 12, 13, 14]">
+                        <workingWeekComponent :work-week="calendrier.tuan2" :idweek="[8, 9, 10, 11, 12, 13, 14]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -74,7 +76,7 @@
                 </button>
                 <div class="collapse" id="collapse3Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendried.tuan3" :idweek="[15, 16, 17, 18, 19, 20, 21]">
+                        <workingWeekComponent :work-week="calendrier.tuan3" :idweek="[15, 16, 17, 18, 19, 20, 21]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -87,7 +89,7 @@
                     </button>
                     <div class="collapse" id="collapse4Example">
                         <div class="card card-body">
-                            <workingWeekComponent :work-week="calendried.tuan4" :idweek="[22, 23, 24, 25, 26, 27, 28]">
+                            <workingWeekComponent :work-week="calendrier.tuan4" :idweek="[22, 23, 24, 25, 26, 27, 28]">
                             </workingWeekComponent>
                         </div>
                     </div>
@@ -100,7 +102,7 @@
                 </button>
                 <div class="collapse" id="collapse5Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendried.tuan5" :idweek="[29, 30, 31, '', '', '', '']">
+                        <workingWeekComponent :work-week="calendrier.tuan5" :idweek="[29, 30, 31, '', '', '', '']">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -128,7 +130,7 @@ export default {
     data() {
         return {
             phase: '1',
-            calendried: [],
+            calendrier: [],
             phaseList: [],
         };
     },
@@ -151,9 +153,10 @@ export default {
 
         async fetchData() {
             try {
-                this.calendried = await calendrierService.FindOneByPhase(this.phase);
+                this.calendrier = await calendrierService.FindOneByPhase(this.phase);
             } catch (error) {
                 console.log(error);
+                this.calendrier = [];
             }
         },
 

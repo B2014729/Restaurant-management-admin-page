@@ -11,8 +11,8 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-4 col-12">
-                        <span><span class="fw-bold">Mã nhân viên: </span> 2664</span>
-                        <p><span class="fw-bold">Họ và tên: </span> Dương Hãi Băng</p>
+                        <span><span class="fw-bold">Mã nhân viên: </span> {{ inforStaff.idnhanvien }}</span>
+                        <p><span class="fw-bold">Họ và tên: </span> {{ inforStaff.hoten }}</p>
                     </div>
                     <div class="col-md-4 col-12">
                         <span><span class="fw-bold">Lương cơ bản: </span> 23,000 vnđ/h</span>
@@ -46,37 +46,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center" style="padding-top: 13px;"></td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="1"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="3"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="4"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
+                                    <td class="text-center" style="padding-top: 13px;">Ca làm</td>
+                                    <td v-for="(value, index) in tenDayFirst" :key="index" class="text-center"
+                                        style="padding-top: 13px;">
+                                        {{ value }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -97,37 +70,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center" style="padding-top: 13px;"></td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="1"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="3"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="4"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
+                                    <td class="text-center" style="padding-top: 13px;">Ca làm</td>
+                                    <td v-for="(value, index) in tenDaySecond" :key="index" class="text-center"
+                                        style="padding-top: 13px;">
+                                        {{ value }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -148,37 +94,25 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center" style="padding-top: 13px;"></td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="1"></workingWeekCard>
+                                    <td class="text-center" style="padding-top: 13px;">Ca làm</td>
+                                    <td v-for="(value, index) in tenDayThird" :key="index" class="text-center"
+                                        style="padding-top: 13px;">
+                                        {{ value }}
                                     </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="3"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="4"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="5"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
-                                    </td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <workingWeekCard :id="6"></workingWeekCard>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Ngày</th>
+                                    <th scope="col" class="text-center">31</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" style="padding-top: 13px;">Ca làm</td>
+                                    <td v-for="(value, index) in tenDayFinal" :key="index" class="text-center"
+                                        style="padding-top: 13px;">
+                                        {{ value }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -212,12 +146,10 @@
     </div>
 </template>
 <script>
-import workingWeekCard from "@/components/workingWeekCard.vue";
-
 import staffService from '@/services/staff.service';
 export default {
     components: {
-        workingWeekCard,
+
     },
 
     props: {
@@ -246,17 +178,50 @@ export default {
     data() {
         return {
             calendrier: {},
+            inforStaff: {},
+            tenDayFirst: [],
+            tenDaySecond: [],
+            tenDayThird: [],
+            tenDayFinal: [],
         }
     },
 
     async created() {
         await this.fetchData();
-        console.log(this.calendrier);
     },
 
     methods: {
         async fetchData() {
-            this.calendrier = await staffService.SalaryDetail(this.idStaff, this.phase);
+            try {
+                this.calendrier = await staffService.SalaryDetail(this.idStaff, this.phase);
+                this.inforStaff = this.calendrier.nhanvien;
+                let calendrierFormat = [];
+                this.calendrier.chitiet.forEach((element) => {
+                    calendrierFormat.push(element.ngay1);
+                    calendrierFormat.push(element.ngay2);
+                    calendrierFormat.push(element.ngay3);
+                    calendrierFormat.push(element.ngay4);
+                    calendrierFormat.push(element.ngay5);
+                    calendrierFormat.push(element.ngay6);
+                    calendrierFormat.push(element.ngay7);
+                });
+
+                for (let index = 0; index < calendrierFormat.length; index++) {
+                    const element = calendrierFormat[index];
+                    console.log(element);
+                    if (index <= 9) {
+                        this.tenDayFirst.push(element);
+                    } else if (index <= 19) {
+                        this.tenDaySecond.push(element);
+                    } else if (index <= 29) {
+                        this.tenDayThird.push(element);
+                    } else {
+                        this.tenDayFinal.push(element);
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 }

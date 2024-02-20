@@ -1,16 +1,28 @@
 import createApiClient from "./api.service";
 
 class BillService {
-    constructor(baseUrl = "http://localhost:8000/api/v1/restaurant-management-system/calendried") {
+    constructor(baseUrl = "http://localhost:8000/api/v1/restaurant-management-system/calendrier") {
         this.api = createApiClient(baseUrl);
     }
 
     async FindOneByPhase(idPhase) {
-        return (await this.api.post('/', { idPhase })).data.data[0];
+        return (await this.api.get(`/${idPhase}`)).data.data[0];
     }
 
     async GetPhase() {
         return (await this.api.get('/phase')).data.data;
+    }
+
+    async FindOneArrangeByPhase(idPhase) {
+        return (await this.api.get(`/arrange/${idPhase}`)).data.data[0];
+    }
+
+    async CreatePhase(startdate, enddate) {
+        return (await this.api.post(`/phase/create`, { startdate, enddate })).data;
+    }
+
+    async CreateWorkCalendrier(data) {
+        return (await this.api.post(`/arrange/create`, { workWeek: data })).data;
     }
 
     // async FindAll() {

@@ -4,7 +4,7 @@
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">
-            <form class="w-75" @submit.prevent="{ }">
+            <form class="w-75" @submit.prevent="submit">
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="form-floating mb-2">
@@ -81,8 +81,9 @@
                         <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân viên!
                     </span>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
-                            @click="toggleShowAlert">Thêm nhân viên</button>
+                        <button type="submit" class="btn btn-success ms-3" style="width: 150px;" @click="submit">
+                            Thêm nhân viên
+                        </button>
                     </div>
                 </div>
             </form>
@@ -118,7 +119,7 @@ export default {
     },
 
     methods: {
-        async toggleShowAlert() {
+        async submit() {
             if (!this.data.fullname || !this.data.dateofbirth || !this.data.datestart
                 || !this.data.phone || !this.data.idnumber || !this.data.address
                 || !this.data.idsalary || !this.data.idposition || !this.data.gender

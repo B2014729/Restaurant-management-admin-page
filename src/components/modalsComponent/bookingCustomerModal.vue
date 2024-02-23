@@ -4,20 +4,20 @@
             <div class="p-3 d-flex flex-column">
                 <div class=" d-flex justify-content-between">
                     <div>
-                        <h5 class="fw-bold">Thông tin khách hàng {{ idBill }}</h5>
+                        <h5 class="fw-bold">Thông tin khách hàng</h5>
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-6 col-12">
-                        <span><span class="fw-bold">Mã khách hàng: </span> 2335664</span>
-                        <p><span class="fw-bold">Họ tên khách hàng: </span> Dương Hãi Băng</p>
+                        <span><span class="fw-bold">Mã khách hàng: </span> {{ detailCustomer.idkhachhang }}</span>
+                        <p><span class="fw-bold">Họ tên khách hàng: </span>{{ detailCustomer.hotenkhachhang }}</p>
                     </div>
 
                     <div class="col-md-6 col-12">
-                        <span><span class="fw-bold">Số điện thoại: </span> 0957789393 </span>
-                        <p><span class="fw-bold">Tài khoản: </span> haibang</p>
+                        <span><span class="fw-bold">Số điện thoại: </span> {{ detailCustomer.sodienthoai }} </span>
+                        <p><span class="fw-bold">Tài khoản: </span> {{ detailCustomer.tendangnhap }}</p>
                     </div>
                 </div>
 
@@ -35,28 +35,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">18:00, 22/1/2024</td>
-                                    <td class="text-center" style="padding-top: 13px;">4</td>
+                                <tr v-for="(item, index) in  detailCustomer.chitietdatban" :key="index">
+                                    <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
                                     <td class="text-center" style="padding-top: 13px;">
-                                        <span class="status-wait">Đang chờ</span>
+                                        {{ formatDateTime(item.ngaygio) }}
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">18:00, 22/1/2024</td>
-                                    <td class="text-center" style="padding-top: 13px;">4</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.soluongnguoi }}</td>
                                     <td class="text-center" style="padding-top: 13px;">
-                                        <span class="status-success">Đã duyệt</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" style="padding-top: 13px;">1</td>
-                                    <td class="text-center" style="padding-top: 13px;">18:00, 22/1/2024</td>
-                                    <td class="text-center" style="padding-top: 13px;">4</td>
-                                    <td class="text-center" style="padding-top: 13px;">
-                                        <span class="status-success">Đã duyệt</span>
+                                        <span v-if="item.trangthai" class="status-success">Đã duyệt</span>
+                                        <span v-else class="status-wait">Đang chờ</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -74,9 +61,11 @@
     </div>
 </template>
 <script>
+import customerService from '@/services/customer.service';
+
 export default {
     props: {
-        idBill: {
+        idCustomer: {
             required: true,
             type: Number,
         }
@@ -86,8 +75,41 @@ export default {
         const closeModal = () => {
             context.emit("close");
         }
-        return { closeModal };
+
+        function formatDateTime(date) {
+            let newDate = new Date(date);
+            let hours = newDate.getHours() >= 10 ? newDate.getHours() : `0${newDate.getHours()}`;
+            let minutes = newDate.getMinutes() >= 10 ? newDate.getMinutes() : `0${newDate.getMinutes()}`;
+            let seconds = newDate.getSeconds() >= 10 ? newDate.getSeconds() : `0${newDate.getSeconds()}`;
+            let dateIn = newDate.getDate() >= 10 ? newDate.getDate() : `0${newDate.getDate()}`;
+            let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
+            let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
+
+            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+        }
+
+        return { closeModal, formatDateTime };
     },
+
+    data() {
+        return {
+            detailCustomer: {},
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                this.detailCustomer = await customerService.FindOneById(this.idCustomer);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 }
 </script>
 <style  scoped lang="css">

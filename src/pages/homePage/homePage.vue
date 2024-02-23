@@ -9,11 +9,10 @@
                             <div class="card-body">
                                 <div class="media d-flex justify-content-between">
                                     <div class="align-self-center p-3">
-
                                         <i class="fa-solid fa-chart-simple fs-1 text-success"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3 class="text-success">345,606,202</h3>
+                                        <h3 class="text-success">{{ formatNumber(sumRevenue) }}</h3>
                                         <span>Doanh thu (VNĐ)</span>
                                     </div>
                                 </div>
@@ -88,12 +87,41 @@
 </template>
 <script>
 import ChartRevenueComponent from '@/components/chartRevenueComponent.vue';
-
+import billService from '@/services/bill.service';
 export default {
     name: 'HomePage',
     components: {
         ChartRevenueComponent,
+    },
 
+    setup() {
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number));
+        }
+        return { formatNumber };
+    },
+
+    data() {
+        return {
+            sumRevenue: 0,
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                let listBill = await billService.FindAll();//Tinh  tong doanh thu
+                listBill.forEach((element) => {
+                    this.sumRevenue += element.thanhtoan;
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 }
 </script>

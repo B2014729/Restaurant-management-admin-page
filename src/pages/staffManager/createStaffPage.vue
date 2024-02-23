@@ -4,7 +4,7 @@
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">
-            <form class="w-75" @submit.prevent="submit">
+            <form class="w-75" @submit.prevent="{ }">
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="form-floating mb-2">

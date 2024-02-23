@@ -5,15 +5,14 @@
         <div class="d-flex justify-content-between">
             <h4 class="text-secondary fw-bold">Danh sách phiếu chi__:</h4>
             <div>
-                <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
+                <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i> Xuất
+                    file</button>
             </div>
         </div>
         <div class="row">
             <div class="col-md-5 col-12 d-flex ">
-                <button type="button" class="btn btn-outline-secondary me-1"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
-                <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username"
-                    aria-describedby="button-addon2">
+                <searchComponent class="w-100" @submit="search($event)" v-model="searchText">
+                </searchComponent>
             </div>
             <div class="col-md-5 col-12 mt-2">
                 <span class="me-2">từ: </span>
@@ -56,7 +55,7 @@
 
                         </th>
                     </tr>
-                    <tr v-for="(item, index) in listPayment" :key="index">
+                    <tr v-for="(item, index) in searchPayment" :key="index">
                         <th scope="row" class="text-center">{{ item.idphieuchi }}</th>
                         <td class="text-center">{{ item.ngaygio }}</td>
                         <td class="text-center">{{ item.nhanvien.hoten }}</td>
@@ -78,12 +77,15 @@
 <script>
 import { ref } from 'vue';
 import moment from 'moment';
+import * as XLSX from 'xlsx/xlsx.mjs';
 
 import detailPaymentModal from '@/components/modalsComponent/detailPaymentModal.vue';
+import searchComponent from '@/components/searchComponent.vue';
 import paymentService from '@/services/payment.service';
 export default {
     components: {
-        detailPaymentModal
+        detailPaymentModal,
+        searchComponent
     },
 
     setup() {
@@ -102,10 +104,31 @@ export default {
         return { modalActive, idPayment, toggleModal, formatNumber, };
     },
 
+    computed: {
+        paymentListString() {
+            return this.listPayment.map((payment) => {
+                const { idphieuchi, nhanvien, nhacungcap } = payment;
+                let hotennhanvien = nhanvien.hoten;
+                let tennhacungcap = nhacungcap.tennhacungcap;
+                return [idphieuchi, hotennhanvien, tennhacungcap].join("");
+            });
+        },
+
+        searchPayment() {
+            if (!this.searchText) {
+                return this.listPayment
+            }
+            return this.listPayment.filter((_payment, index) => {
+                return this.paymentListString[index].includes(this.searchText);
+            });
+        }
+    },
+
     data() {
         return {
             listPayment: [],
             sumAmount: 0,
+            searchText: '',
         };
     },
 
@@ -122,6 +145,28 @@ export default {
                     element.ngaygio = moment(element.ngaygio).format("DD/MM/YYYY");
                 });
             }
+        },
+
+        exportExcel() {
+            console.log(this.listPayment);
+            let data = [];
+            data.push(['Mã PC', 'NCC', 'Nhân viên', 'Ngày lập', 'Hàng hóa', 'Số lượng', 'Đơn giá', 'Giảm']);
+            this.listPayment.forEach(element => {
+                element.thongtinchitiet.forEach(item => {
+                    let row = [element.idphieuchi, element.nhacungcap.tennhacungcap, element.nhanvien.hoten,
+                    element.ngaygio, item.hanghoa.tenhanghoa, item.soluong, item.dongia, item.giam];
+                    data.push(row);
+                });
+            });
+
+            var workbook = XLSX.utils.book_new();
+            var worksheet = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, 'paymentFile.xlsx');
+        },
+
+        search(data) {
+            console.log(data);
         }
     }
 }

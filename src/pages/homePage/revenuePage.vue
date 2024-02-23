@@ -3,7 +3,8 @@
         <h4 class="text-secondary fw-bold">Tổng quan doanh thu__:</h4>
         <div class="p-2 d-flex justify-content-end" style="width: 860px;">
             <span class="me-1 p-1">Giai đoạn: tháng</span>
-            <select class="form-select" style="width: 72px; height: 33px;" aria-label="Default select example">
+            <select class="form-select" style="width: 72px; height: 33px;" aria-label="Default select example"
+                v-model="month">
                 <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -18,13 +19,14 @@
                 <option value=" 12">12</option>
             </select>
             <span class=" me-1 p-1">, năm</span>
-            <select class="form-select" style="width: 90px; height: 33px;" aria-label="Default select example">
-                <option value="3">2021</option>
-                <option value="4">2022</option>
-                <option value="5">2023</option>
-                <option value="6" selected>2024</option>
+            <select class="form-select" style="width: 90px; height: 33px;" aria-label="Default select example"
+                v-model="year">
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
             </select>
-            <button class="btn"><i class="fa-solid fa-check text-success"></i></button>
+            <button class="btn" ref="BtnChange" @click="changePhase"><i class="fa-solid fa-check text-success"></i></button>
         </div>
         <div class="row" style="height: 290px;">
             <div class=" col-md-8 col-12 bg-white rounded-3 ms-5" style="height: 280px;">
@@ -36,13 +38,13 @@
             <div class="col-md-3 col-12 h-100  mx-3">
                 <div class="p-3 bg-white rounded-3 shadow bg-body-tertiary">
                     <h5 class="fw-bold">Tổng doanh thu:</h5>
-                    <h4 class="text-center fw-bold">1,464,552,000 VNĐ</h4>
+                    <h4 class="text-center fw-bold">{{ formatNumber(sumRevenue) }} VNĐ</h4>
                 </div>
                 <div class="p-3 mt-3 bg-white rounded-3 shadow bg-body-tertiary">
-                    <h6 class="fw-bold">Tháng có doanh thu cao nhất: 12</h6>
+                    <h6 class="fw-bold">Tháng có doanh thu cao nhất: {{ monthMaxRevenue }}</h6>
                 </div>
                 <div class="p-3 mt-3 bg-white rounded-3 shadow  bg-body-tertiary">
-                    <h6 class="fw-bold">Loại món yêu thích nhất: Lẩu</h6>
+                    <h6 class="fw-bold">Loại món yêu thích nhất: {{ typeDishOnBest }}</h6>
                 </div>
             </div>
         </div>
@@ -60,40 +62,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row" class="text-center">1</th>
-                            <td class="text-center">Lẩu chua hải sản</td>
-                            <td class="text-center">Lẩu</td>
-                            <td class="text-center">240,000</td>
-                            <td class="text-center">23</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">1</th>
-                            <td class="text-center">Lẩu chua hải sản</td>
-                            <td class="text-center">Lẩu</td>
-                            <td class="text-center">240,000</td>
-                            <td class="text-center">23</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">1</th>
-                            <td class="text-center">Lẩu chua hải sản</td>
-                            <td class="text-center">Lẩu</td>
-                            <td class="text-center">240,000</td>
-                            <td class="text-center">23</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">1</th>
-                            <td class="text-center">Lẩu chua hải sản</td>
-                            <td class="text-center">Lẩu</td>
-                            <td class="text-center">240,000</td>
-                            <td class="text-center">23</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">1</th>
-                            <td class="text-center">Lẩu chua hải sản</td>
-                            <td class="text-center">Lẩu</td>
-                            <td class="text-center">240,000</td>
-                            <td class="text-center">23</td>
+                        <tr v-for="(item, index) in listDishSellALot" :key="index">
+                            <th scope="row" class="text-center">{{ index + 1 }}</th>
+                            <td class="text-center">{{ item.mon.tenmon }}</td>
+                            <td class="text-center">{{ item.mon.tenloai }}</td>
+                            <td class="text-center">{{ item.mon.gia }}</td>
+                            <td class="text-center">{{ item.soluong }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,27 +83,92 @@
     </div>
 </template>
 <script>
+import billService from '@/services/bill.service';
+import dishSevice from '@/services/dish.service';
 import Chart from 'chart.js/auto';
+
 export default {
 
-    mounted() {
-        function chartLineRevenue() {
-            const ctx = document.getElementById('chartLineRevenue');
+    setup() {
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number));
+        }
 
+        return {
+            formatNumber,
+        }
+    },
+
+    data() {
+
+        return {
+            month: 1,
+            year: 2024,
+            statisticalRevenue: [],
+            sumRevenue: 0,
+            monthMaxRevenue: 1,
+            listDishSellALot: [],
+            typeDishOnBest: '',
+        };
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                this.statisticalRevenue = await billService.GetStatisticalWithMonthAndYear(this.month, this.year);
+
+                let listBill = await billService.FindAll();//Tinh  tong doanh thu
+                listBill.forEach((element) => {
+                    this.sumRevenue += element.thanhtoan;
+                });
+
+                let statistical = await billService.GetStatistical();
+
+                let max = 0;
+                for (let index = 0; index < statistical.length; index++) {//Lay thang co doanh thu cao nhat
+                    const element = statistical[index];
+                    if (element > max) {
+                        max = element;
+                        this.monthMaxRevenue = index + 1;
+                    }
+                }
+
+                let listDishSellALotAll = await dishSevice.GetLishDishSellALot(); // Lay 5 mon ban nhieu nhat
+                this.typeDishOnBest = listDishSellALotAll[0].mon.tenloai; //Lay loai mon duoc yeu thich nhat
+
+                for (let index = 0; index < 5; index++) {
+                    const element = listDishSellALotAll[index];
+                    this.listDishSellALot[index] = element;
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async changePhase() {
+            await this.fetchData();
+        }
+    },
+
+    async mounted() {
+        await this.fetchData();
+        function chartLineRevenue(dataChart) {
+            const ctx = document.getElementById('chartLineRevenue');
 
             let labelsArray = [];
             for (let index = 0; index <= 30; index++) {
                 let labelsArrayItem = `${index + 1}`;
                 labelsArray.push(labelsArrayItem);
-
             }
-            const chartSyntheticOnThu = new Chart(ctx, {
+
+            const chartLineRevenue = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labelsArray,
                     datasets: [{
                         label: 'Doanh thu theo ngày',
-                        data: [10490090, 1004500, 2000000, 1056000, 3097889, 2620090, 7670090, 2970090, 4790090, 5970090, 2970090, 8970090, 5970090, 4700902, 2970090, 4770090, 3970090, 6970090, 1090909, 3797009, 4797007, 2379700, 7670090, 8670090, 5670090, 5767009, 7670090, 5767009, 7670099, 8670009, 12767003],
+                        data: dataChart,
                     }]
                 },
                 options: {
@@ -147,7 +186,7 @@ export default {
                 }
             });
 
-            chartSyntheticOnThu;
+            chartLineRevenue;
         }
 
         function chartSyntheticOnThu() {
@@ -169,7 +208,7 @@ export default {
 
             chartSyntheticOnThu;
         }
-        chartLineRevenue();
+        chartLineRevenue(this.statisticalRevenue);
         chartSyntheticOnThu();
     }
 }

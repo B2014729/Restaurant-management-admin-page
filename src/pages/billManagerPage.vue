@@ -5,7 +5,9 @@
         <div class="d-flex justify-content-between">
             <h4 class="text-secondary fw-bold">Hóa đơn__:</h4>
             <div>
-                <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
+                <button class="btn btn-outline-secondary" @click="exportExcel">
+                    <i class="fa-solid fa-file-excel"></i> Xuất file
+                </button>
             </div>
         </div>
         <div class="row">
@@ -41,7 +43,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr>
                         <th scope="row" class="text-center fw-bold  bg-success text-white">Tổng giá trị</th>
                         <td class="text-center"></td>
@@ -77,11 +78,13 @@
 </template>
 <script>
 import { ref } from 'vue';
+import * as XLSX from 'xlsx/xlsx.mjs';
 
 import DetailBillModal from '@/components/modalsComponent/detailBillModal.vue';
 import searchComponent from '@/components/searchComponent.vue';
 
 import billService from '@/services/bill.service';
+
 export default {
     components: {
         DetailBillModal, searchComponent
@@ -175,8 +178,22 @@ export default {
 
         search(data) {
             console.log(data);
+        },
+
+        exportExcel() {
+            let data = [];
+            data.push(['Mã HĐ', 'Ngày tạo', 'Nhân viên', 'Bàn', 'Thanh toán', 'Giảm giá', 'Trạng thái']);
+            this.billList.forEach(element => {
+                let row = [element.idhoadon, this.formatDateTime(element.ngaygioxuat), element.tennhanvien,
+                element.idban, element.thanhtoan, element.giamgia, element.trangthai];
+                data.push(row);
+            });
+            var workbook = XLSX.utils.book_new();
+            var worksheet = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, 'billFile.xlsx');
         }
-    }
+    },
 }
 
 </script>

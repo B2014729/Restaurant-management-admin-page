@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
+    {
+        path: '/',
+        name: 'login-page',
+        component: () => import('@/pages/loginPage.vue'),
+    },
 
     //Personal manager page--------------------------------------------
     {
@@ -17,7 +22,7 @@ const routes = [
 
     //Route home page--------------------------------------------
     {
-        path: '/',
+        path: '/trang-chu',
         name: 'home-page',
         component: () => import('@/pages/homePage/homePage.vue'),
     },

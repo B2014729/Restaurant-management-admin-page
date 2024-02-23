@@ -6,7 +6,7 @@
                 <div class="ms-4 d-flex">
                     <select class="form-select" aria-label="Default select example" v-model="phase">
                         <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
-                            {{ item.ngaybatdau }} - {{ item.ngayketthuc }}
+                            {{ formatDate(item.ngaybatdau) }} - {{ formatDate(item.ngayketthuc) }}
                         </option>
                     </select>
                     <button class="btn" @click="onPhases"><i class="fa-solid fa-check text-success"></i></button>
@@ -52,7 +52,7 @@
                 </button>
                 <div class="collapse" id="collapse1Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendrier.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
+                        <workingWeekComponent :month="month" :work-week="calendrier.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -64,7 +64,8 @@
                 </button>
                 <div class="collapse" id="collapse2Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendrier.tuan2" :idweek="[8, 9, 10, 11, 12, 13, 14]">
+                        <workingWeekComponent :month="month" :work-week="calendrier.tuan2"
+                            :idweek="[8, 9, 10, 11, 12, 13, 14]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -76,7 +77,8 @@
                 </button>
                 <div class="collapse" id="collapse3Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendrier.tuan3" :idweek="[15, 16, 17, 18, 19, 20, 21]">
+                        <workingWeekComponent :month="month" :work-week="calendrier.tuan3"
+                            :idweek="[15, 16, 17, 18, 19, 20, 21]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -89,7 +91,8 @@
                     </button>
                     <div class="collapse" id="collapse4Example">
                         <div class="card card-body">
-                            <workingWeekComponent :work-week="calendrier.tuan4" :idweek="[22, 23, 24, 25, 26, 27, 28]">
+                            <workingWeekComponent :month="month" :work-week="calendrier.tuan4"
+                                :idweek="[22, 23, 24, 25, 26, 27, 28]">
                             </workingWeekComponent>
                         </div>
                     </div>
@@ -102,7 +105,8 @@
                 </button>
                 <div class="collapse" id="collapse5Example">
                     <div class="card card-body">
-                        <workingWeekComponent :work-week="calendrier.tuan5" :idweek="[29, 30, 31, '', '', '', '']">
+                        <workingWeekComponent :month="month" :work-week="calendrier.tuan5"
+                            :idweek="[29, 30, 31, '', '', '', '']">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -127,22 +131,30 @@ export default {
         workingWeekComponent,
     },
 
+    setup() {
+        const formatDate = (date) => {
+            return moment(new Date(date)).format('DD/MM/YYYY');
+        }
+        return {
+            formatDate,
+        };
+    },
+
     data() {
         return {
             phase: '1',
             calendrier: [],
             phaseList: [],
+            month: 1,
         };
     },
 
     async created() {
-        await this.fetchData();
-        this.phaseList = await calendrierService.GetPhase();
-        if (this.phaseList.length != 0) {
-            this.phaseList.forEach((element) => {
-                element.ngaybatdau = moment(element.ngaybatdau).format("DD/MM/YYYY");
-                element.ngayketthuc = moment(element.ngayketthuc).format("DD/MM/YYYY");
-            });
+        try {
+            this.phaseList = await calendrierService.GetPhase();
+            await this.fetchData();
+        } catch (error) {
+            console.log(error);
         }
     },
 
@@ -154,6 +166,11 @@ export default {
         async fetchData() {
             try {
                 this.calendrier = await calendrierService.FindOneByPhase(this.phase);
+                this.phaseList.forEach(element => {
+                    if (element.idgiaidoan == this.phase) {
+                        this.month = (new Date(element.ngaybatdau).getMonth()) + 1;
+                    }
+                });
             } catch (error) {
                 console.log(error);
                 this.calendrier = [];
@@ -161,7 +178,7 @@ export default {
         },
 
         async onPhases() {
-            await this.fetchData()
+            await this.fetchData();
         }
     }
 }

@@ -24,6 +24,10 @@ class BillService {
     // async Update(id, dataUpdate) {
     //     return (await this.api.put(`/${id}`, dataUpdate)).data;
     // }
+
+    async GetStatistical(year) {
+        return (await this.api.get(`/statistical/${year}`)).data.data;
+    }
 }
 
 export default new BillService();

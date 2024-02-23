@@ -30,11 +30,11 @@
                 </div>
                 <div class="col-md-9 col-12">
                     <span class="me-2">từ: </span>
-                    <input type="date" style="border: none;">
+                    <input type="date" style="border: none;" v-model="data.startdate">
                     <span class="mx-2">đến: </span>
-                    <input type="date" style="border: none;">
+                    <input type="date" style="border: none;" v-model="data.enddate">
 
-                    <button class="btn"><i class="fa-solid fa-check text-success"></i></button>
+                    <button class="btn" @click="onGetBillWhereTime"><i class="fa-solid fa-check text-success"></i></button>
                 </div>
                 <div class="col-md-1 col-12">
                     <button class="btn"><i class="fa-solid fa-sort"></i></button>
@@ -46,10 +46,9 @@
                         <tr>
                             <th scope="col"></th>
                             <th scope="col" class="text-center">Mã HĐ</th>
-                            <th scope="col" class="text-center">Ngày</th>
-                            <th scope="col" class="text-center">Giờ</th>
-                            <th scope="col" class="text-center">Bàn</th>
-                            <th scope="col" class="text-center">Mã NV</th>
+                            <th scope="col" class="text-center">Thời gian</th>
+                            <th scope="col" class="text-center">Nhân viên</th>
+                            <th scope="col" class="text-center">Bàn</th>
                             <th scope="col" class="text-center">Tổng (vnđ)</th>
                             <th scope="col" class="text-center">Giảm (vnđ)</th>
                             <th scope="col" class="text-center">Trạng thái</th>
@@ -57,124 +56,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-for="(item, index) in billList" :key="index">
                             <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(23)">
+                                <button type="button" class="btn" @click="toggleModal(item.idhoadon)">
                                     <i class="fa-solid fa-circle-plus text-success"></i></button>
                             </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
+                            <th scope="row" class="text-center">{{ item.idhoadon }}</th>
+                            <td class="text-center">{{ formatDateTime(item.ngaygioxuat) }}</td>
+                            <td class="text-center">{{ item.tennhanvien }}</td>
+                            <td class="text-center">{{ item.idban }}</td>
+                            <td class="text-center">{{ formatNumber(item.thanhtoan) }}</td>
+                            <td class="text-center">{{ formatNumber(item.giamgia) }}</td>
                             <td class="text-center" style="padding-top: 13px;">
                                 <span class="status">Đã thanh toán</span>
                             </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-center">
-                                <button type="button" class="btn" @click="toggleModal(13)">
-                                    <i class="fa-solid fa-circle-plus text-success"></i></button>
-                            </th>
-                            <td class="text-center" style="padding-top: 13px;">1789</td>
-                            <td class="text-center" style="padding-top: 13px;">19/1/1024</td>
-                            <td class="text-center" style="padding-top: 13px;">18:40</td>
-                            <td class="text-center" style="padding-top: 13px;">13</td>
-                            <td class="text-center" style="padding-top: 13px;">3</td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
-                            <td class="text-center" style="padding-top: 13px;">0</td>
-                            <td class="text-center" style="padding-top: 13px;">
-                                <span class="status">Đã thanh toán</span>
-                            </td>
-                            <td class="text-center" style="padding-top: 13px;">345,000</td>
+                            <td class="text-center  fw-bold">{{ formatNumber(item.thanhtoan - item.giamgia) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -185,14 +81,18 @@
 
  
 <script>
-// import { onMounted, getCurrentInstance } from 'vue';
 import { ref } from 'vue';
 import Chart from 'chart.js/auto';
+
 import DetailBillModal from '@/components/modalsComponent/detailBillModal.vue';
+import dishService from '@/services/dish.service';
+import billService from '@/services/bill.service';
 export default {
     components: {
         DetailBillModal
     },
+
+
     setup() {
         let modalActive = ref(false);
         let idBill = ref(0);
@@ -201,18 +101,56 @@ export default {
             modalActive.value = !modalActive.value;
             idBill.value = id;
         }
-        return { modalActive, idBill, toggleModal, };
+
+        function formatDateTime(date) {
+            let newDate = new Date(date);
+            let hours = newDate.getHours() >= 10 ? newDate.getHours() : `0${newDate.getHours()}`;
+            let minutes = newDate.getMinutes() >= 10 ? newDate.getMinutes() : `0${newDate.getMinutes()}`;
+            let seconds = newDate.getSeconds() >= 10 ? newDate.getSeconds() : `0${newDate.getSeconds()}`;
+            let dateIn = newDate.getDate() >= 10 ? newDate.getDate() : `0${newDate.getDate()}`;
+            let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
+            let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
+
+            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+        }
+
+        const formatNumber = (number) => {
+            return (new Intl.NumberFormat().format(number))
+        }
+        return { modalActive, idBill, toggleModal, formatDateTime, formatNumber };
     },
 
-    mounted() {
+    data() {
+        return {
+            billList: [],
+            data: {},
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    async mounted() {
+        let listLabels = [];
+        let listValueData = [];
+        try {
+            let listStatisticalOnDishSell = await dishService.GetStatisticalOnDishSell();
+            listStatisticalOnDishSell.forEach((element) => {
+                listLabels.push(element.tenloai);
+                listValueData.push(element.soluong);
+            });
+        } catch (error) {
+            console.log(error);
+        }
         const ctx = document.getElementById('myChart');
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Lau', 'Nuong', 'Goi', 'Lau', 'Nuong', 'Goi', 'Lau', 'Nuong', 'Goi', 'Lau', 'Nuong', 'Goi', 'Lau', 'Nuong', 'Goi',],
+                labels: listLabels,
                 datasets: [{
                     label: 'Tổng doanh thu (VNĐ)',
-                    data: [12, 19, 3, 5, 2, 3, 5, 7, 8, 10, 26, 30, 14, 30, 14],
+                    data: listValueData,
                     borderWidth: 1,
                     backgroundColor: '#008B45',
                 },]
@@ -228,6 +166,36 @@ export default {
 
         myChart;
     },
+
+
+    methods: {
+        async fetchData() {
+            try {
+                this.billList = await billService.FindAll();
+                this.billList.forEach((element) => {
+                    this.sumDiscount += element.giamgia;
+                    this.amountPayment += element.thanhtoan;
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async onGetBillWhereTime() {
+            this.sumDiscount = 0;
+            this.amountPayment = 0;
+            try {
+                this.billList = await billService.FindBillWhereTime(this.data.startdate, this.data.enddate);
+
+                this.billList.forEach((element) => {
+                    this.sumDiscount += element.giamgia;
+                    this.amountPayment += element.thanhtoan;
+                });
+            } catch (error) {
+                console.log(error);
+                this.billList = [];
+            }
+        },
+    }
 }
 </script>
 

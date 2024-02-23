@@ -8,7 +8,8 @@
 
             <h4 class="text-secondary fw-bold">Danh sách nhà cung cấp__:</h4>
             <div>
-                <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
+                <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
+                    Xuất file</button>
             </div>
         </div>
         <div class="row mt-1">
@@ -61,6 +62,8 @@
 
 <script>
 import { ref } from 'vue';
+import * as XLSX from 'xlsx/xlsx.mjs';
+
 import confirmModal from '@/components/modalsComponent/confirmModal.vue';
 import alertMessage from '@/components/alertMessage/alertMessage.vue';
 import searchComponent from '@/components/searchComponent.vue';
@@ -72,6 +75,7 @@ export default {
         confirmModal,
         alertMessage
     },
+
     setup() {
         let showAlert = ref(false);
         let status = ref('');
@@ -80,7 +84,6 @@ export default {
         let confirmModalActive = ref(false);
         let message = ref('');
         let idSupplier = ref(0);
-
 
         const toggleModal = (id) => {
             idSupplier.value = id;
@@ -157,8 +160,24 @@ export default {
 
         search(data) {
             console.log(data);
+        },
+
+        exportExcel() {
+            console.log(this.supplierList);
+            let data = [];
+            data.push(['Mã NCC', 'Tên nhà cung cấp', 'Địa chỉ', 'Số điện thoại', 'Số tài khoản']);
+            this.supplierList.forEach(element => {
+                let row = [element.idnhacungcap, element.tennhacungcap,
+                element.diachi, element.sodienthoai, element.sotaikhoan];
+                data.push(row);
+            });
+
+            var workbook = XLSX.utils.book_new();
+            var worksheet = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, 'supplierInfoFile.xlsx');
         }
-    }
+    },
 }
 
 </script>

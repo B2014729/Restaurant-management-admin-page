@@ -4,13 +4,8 @@
         <h4 class="text-secondary fw-bold">Quản lí khách hàng__:</h4>
         <div class="row">
             <div class="col-md-9 col-12">
-                <div class="d-flex">
-                    <button type="button" class="btn btn-outline-secondary me-1"><i
-                            class="fa-solid fa-magnifying-glass"></i></button>
-                    <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username"
-                        aria-describedby="button-addon2">
-
-                </div>
+                <searchComponent class="w-100" @submit="search($event)" v-model="searchText">
+                </searchComponent>
                 <div class="mt-2">
                     <table class="table table-striped table-hover">
                         <thead>
@@ -25,63 +20,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center" style="padding-top: 13px;">1</td>
-                                <td class="text-center" style="padding-top: 13px;">Dương Hãi Băng</td>
-                                <td class="text-center" style="padding-top: 13px;">0398898909</td>
-                                <td class="text-center" style="padding-top: 13px;">haibang</td>
-                                <td class="text-center" style="padding-top: 13px;">0</td>
-                                <td class="text-center" style="padding-top: 13px;">Mới</td>
+                            <tr v-for="(item, index) in searchCustomer" :key="index">
+                                <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
+                                <td class="text-center" style="padding-top: 13px;">{{ item.hotenkhachhang }}</td>
+                                <td class="text-center" style="padding-top: 13px;">{{ item.sodienthoai }}</td>
+                                <td class="text-center" style="padding-top: 13px;">{{ item.tendangnhap }}</td>
+                                <td class="text-center" style="padding-top: 13px;">{{ item.datban }}</td>
+                                <td class="text-center" style="padding-top: 13px;">{{ item.trangthai }}</td>
                                 <th scope="row" class="text-center">
-                                    <button type="button" class="btn" @click="toggleModal(13), sendData">
-                                        <i class="fa-solid fa-circle-plus text-success"></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="padding-top: 13px;">1</td>
-                                <td class="text-center" style="padding-top: 13px;">Dương Hãi Băng</td>
-                                <td class="text-center" style="padding-top: 13px;">0398898909</td>
-                                <td class="text-center" style="padding-top: 13px;">haibang</td>
-                                <td class="text-center" style="padding-top: 13px;">0</td>
-                                <td class="text-center" style="padding-top: 13px;">Mới</td>
-                                <th scope="row" class="text-center">
-                                    <button type="button" class="btn" @click="toggleModal(13), sendData">
-                                        <i class="fa-solid fa-circle-plus text-success"></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="padding-top: 13px;">1</td>
-                                <td class="text-center" style="padding-top: 13px;">Dương Hãi Băng</td>
-                                <td class="text-center" style="padding-top: 13px;">0398898909</td>
-                                <td class="text-center" style="padding-top: 13px;">haibang</td>
-                                <td class="text-center" style="padding-top: 13px;">0</td>
-                                <td class="text-center" style="padding-top: 13px;">Mới</td>
-                                <th scope="row" class="text-center">
-                                    <button type="button" class="btn" @click="toggleModal(13), sendData">
-                                        <i class="fa-solid fa-circle-plus text-success"></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="padding-top: 13px;">1</td>
-                                <td class="text-center" style="padding-top: 13px;">Dương Hãi Băng</td>
-                                <td class="text-center" style="padding-top: 13px;">0398898909</td>
-                                <td class="text-center" style="padding-top: 13px;">haibang</td>
-                                <td class="text-center" style="padding-top: 13px;">0</td>
-                                <td class="text-center" style="padding-top: 13px;">Mới</td>
-                                <th scope="row" class="text-center">
-                                    <button type="button" class="btn" @click="toggleModal(13), sendData">
-                                        <i class="fa-solid fa-circle-plus text-success"></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="padding-top: 13px;">1</td>
-                                <td class="text-center" style="padding-top: 13px;">Dương Hãi Băng</td>
-                                <td class="text-center" style="padding-top: 13px;">0398898909</td>
-                                <td class="text-center" style="padding-top: 13px;">haibang</td>
-                                <td class="text-center" style="padding-top: 13px;">0</td>
-                                <td class="text-center" style="padding-top: 13px;">Mới</td>
-                                <th scope="row" class="text-center">
-                                    <button type="button" class="btn" @click="toggleModal(13), sendData">
+                                    <button type="button" class="btn" @click="toggleModal(item.idkhachhang)">
                                         <i class="fa-solid fa-circle-plus text-success"></i></button>
                                 </th>
                             </tr>
@@ -90,19 +37,10 @@
                 </div>
             </div>
             <div class="col-md-3 col-12 bg-white rounded-4 shadow">
-                <div class="pt-2"><span class="fw-bold">Đánh giá của khách hàng</span></div>
+                <div class="pt-2"><span class="fw-bold">Đánh giá của khách hàng gần đây</span></div>
                 <div>
-                    <evaluateCardComponent
-                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
-                    </evaluateCardComponent>
-                    <evaluateCardComponent
-                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
-                    </evaluateCardComponent>
-                    <evaluateCardComponent
-                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
-                    </evaluateCardComponent>
-                    <evaluateCardComponent
-                        :evaluate="{ user: 'haibang', date: '12/2/2024', star: 4, message: 'day la thong tin danh gia' }">
+                    <evaluateCardComponent v-for="(item, index) in evalueList" :key="index"
+                        :evaluate="{ user: item.tendangnhap, date: item.thoigian, star: item.sosao, message: item.noidung }">
                     </evaluateCardComponent>
                     ...
                 </div>
@@ -114,10 +52,15 @@
 import { ref } from 'vue';
 import evaluateCardComponent from '@/components/evaluateCardComponrnt.vue';
 import bookingCustomerModal from '@/components/modalsComponent/bookingCustomerModal.vue';
+import searchComponent from '@/components/searchComponent.vue';
+
+import customerService from '@/services/customer.service';
+import moment from 'moment';
 export default {
     components: {
         evaluateCardComponent,
-        bookingCustomerModal
+        bookingCustomerModal,
+        searchComponent
     },
 
     setup() {
@@ -130,6 +73,57 @@ export default {
         }
         return { modalActive, id, toggleModal, };
     },
+
+    computed: {
+        customerListString() {
+            return this.listCustomer.map((customer) => {
+                const { sodienthoai, tendangnhap, } = customer;
+                return [sodienthoai, tendangnhap].join("");
+            });
+        },
+
+        searchCustomer() {
+            if (!this.searchText) {
+                return this.listCustomer
+            }
+            return this.listCustomer.filter((_Customer, index) => {
+                return this.customerListString[index].includes(this.searchText);
+            });
+        }
+    },
+
+    data() {
+        return {
+            listCustomer: [],
+            evalueList: [],
+            searchText: '',
+        };
+    },
+
+    async created() {
+        await this.fetchData();
+    },
+
+    methods: {
+        async fetchData() {
+            try {
+                this.listCustomer = await customerService.FindAll();
+                let evalues = await customerService.FindAllEvalues();
+
+                for (let index = 0; index < 5; index++) {
+                    const element = evalues[index];
+                    element.thoigian = moment(element.thoigian).format("DD/MM/YYYY");
+                    this.evalueList.push(element);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        search(data) {
+            console.log(data);
+        }
+    }
 }
 </script>
 

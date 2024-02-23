@@ -6,7 +6,7 @@
                 <tr>
                     <th scope="col" class="text-center">Nhân viên</th>
                     <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center" style="width:125px">
-                        {{ item }}
+                        {{ item }}/{{ month }}
                     </th>
                     <th scope="col" class="text-center">Ghi chú</th>
                 </tr>
@@ -58,9 +58,9 @@ export default {
             type: Array,
         },
 
-        arrange: {
-            type: Boolean,
-        }
+        month: {
+            type: Number
+        },
     },
 
 }

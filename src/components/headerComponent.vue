@@ -33,8 +33,10 @@
                         </router-link>
                     </li>
                     <li>
-                        <a class="dropdown-item text-dark" href="#"><i class="fa-solid fa-right-from-bracket  me-1"></i>
-                            Đăng xuất</a>
+                        <a class="dropdown-item text-dark" @click="onLogout">
+                            <i class="fa-solid fa-right-from-bracket  me-1"></i>
+                            Đăng xuất
+                        </a>
                     </li>
                 </ul>
             </div>

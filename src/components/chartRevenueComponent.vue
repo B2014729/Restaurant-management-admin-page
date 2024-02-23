@@ -8,6 +8,8 @@
 </template>
     
 <script>
+import billService from '@/services/bill.service';
+import paymentService from '@/services/payment.service';
 import Chart from 'chart.js/auto';
 export default {
     props: {
@@ -16,7 +18,21 @@ export default {
         }
     },
 
-    mounted() {
+    data() {
+        return {
+            revenueInMonth: [],
+            paymentInMonth: [],
+        };
+    },
+
+
+    async mounted() {
+        try {
+            this.revenueInMonth = await billService.GetStatistical(2024);
+            this.paymentInMonth = await paymentService.GetStatistical(2024);
+        } catch (error) {
+            console.log(error);
+        }
         const ctx = document.getElementById('myChart');
 
         const myChart = new Chart(ctx, {
@@ -25,12 +41,12 @@ export default {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                 datasets: [{
                     label: 'Tổng doanh thu (VNĐ)',
-                    data: [12, 19, 3, 5, 2, 3, 5, 7, 8, 10, 26, 30],
+                    data: this.revenueInMonth,
                     borderWidth: 1,
                     backgroundColor: '#008B45',
                 }, {
                     label: 'Tổng thanh toán (VNĐ)',
-                    data: [7, 11, 2, 3, 1, 2, 3, 5, 5, 6, 18, 20],
+                    data: this.paymentInMonth,
                     borderWidth: 1,
                     backgroundColor: '#CDBE70',
                 }]

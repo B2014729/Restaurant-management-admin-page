@@ -52,7 +52,8 @@ export default {
         onLogout() {
             if (confirm('Bạn muốn đăng xuất!')) {
                 this.$cookies.remove('jwt');
-                window.location.href = '/';
+                this.$store.dispatch('user', null);
+                this.$router.push('/');
             }
         }
     }

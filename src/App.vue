@@ -1,5 +1,5 @@
 <template>
-  <div v-if="authToken" class="container-fluid">
+  <!-- <div v-if="authToken" class="container-fluid">
     <div class="row mt-2">
       <div class="col-md-2 col-12">
         <Logo></Logo>
@@ -16,23 +16,24 @@
   </div>
   <div v-else>
     <LoginPage class="w-100" />
-  </div>
+  </div> -->
+  <router-view></router-view>
 </template>
 
 <script>
-import LoginPage from '@/pages/loginPage.vue';
-import Logo from '@/components/logoComponent.vue';
-import HeaderComponent from '@/components/headerComponent.vue';
-import NavComponent from '@/components/navComponent.vue';
+// import LoginPage from '@/pages/loginPage.vue';
+// import Logo from '@/components/logoComponent.vue';
+// import HeaderComponent from '@/components/headerComponent.vue';
+// import NavComponent from '@/components/navComponent.vue';
 
 
 export default {
   name: 'App',
   components: {
-    Logo,
-    HeaderComponent,
-    NavComponent,
-    LoginPage
+    // Logo,
+    // HeaderComponent,
+    // NavComponent,
+    // LoginPage
   },
 
   data() {
@@ -42,12 +43,15 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('jwt')) {
-      this.authToken = false;
-    } else {
-      this.authToken = true;
-    }
-  }
+    // console.log(this.$store.state.user);
+    // if (!this.$store.state.user) {
+    //   console.log(12);
+    //   this.authToken = false;
+    // } else {
+    //   this.authToken = true;
+    // }
+  },
+
 }
 </script>
 

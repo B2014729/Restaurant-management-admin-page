@@ -57,6 +57,18 @@ export default {
         };
     },
 
+    created() {
+        try {
+            let token = this.$cookies.get('jwt');
+            if (token != null) {
+                this.$store.dispatch('user', token);
+                this.$router.push('/trang-chu');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
     methods: {
         async submit() {
             try {
@@ -67,7 +79,8 @@ export default {
                     await accountService.Login(this.data).then((result) => {
                         if (result.status == 200) {
                             this.$cookies.set('jwt', result.headers.authorization);
-                            window.location.href = '/trang-chu';
+                            this.$store.dispatch('user', result.headers.authorization);
+                            this.$router.push('/trang-chu');
                         }
                     });
                 }

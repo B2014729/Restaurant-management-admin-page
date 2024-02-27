@@ -1,5 +1,6 @@
+import store from "@/store";
 import { createRouter, createWebHistory } from "vue-router";
-
+// import store from "@/store";
 const routes = [
     {
         path: '/',
@@ -11,160 +12,342 @@ const routes = [
     {
         path: '/ca-nhan',
         name: 'personal-page',
-        component: () => import('@/pages/personalPage/personalInfoPage.vue'),
+        component: () => import('@/layout/personalLayout.vue'),
     },
 
     {
         path: '/thong-bao',
         name: 'notifycation-page',
-        component: () => import('@/pages/personalPage/notifycationPage.vue'),
+        component: () => import('@/layout/personalLayout.vue'),
     },
 
     //Route home page--------------------------------------------
     {
         path: '/trang-chu',
         name: 'home-page',
-        component: () => import('@/pages/homePage/homePage.vue'),
+        component: () => import('@/layout/homeLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/doanh-thu',
         name: 'revenue-page',
-        component: () => import('@/pages/homePage/revenuePage.vue'),
+        component: () => import('@/layout/homeLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/loi-nhuan',
         name: 'profit-page',
-        component: () => import('@/pages/homePage/profitPage.vue'),
+        component: () => import('@/layout/homeLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/cong-no',
         name: 'indebt-page',
-        component: () => import('@/pages/homePage/inDebtPage.vue'),
+        component: () => import('@/layout/homeLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/khach-hang',
         name: 'consumer-page',
-        component: () => import('@/pages/homePage/consumerPage.vue'),
+        component: () => import('@/layout/homeLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Bill manager page--------------------------------------------
     {
         path: '/hoa-don',
         name: 'bill-manager-page',
-        component: () => import('@/pages/billManagerPage.vue'),
+        component: () => import('@/layout/billLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Staff manager page--------------------------------------------
     {
         path: '/danh-sach-nhan-vien',
         name: 'list-staff-page',
-        component: () => import('@/pages/staffManager/listStaffPage.vue'),
+        component: () => import('@/layout/staffLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/thong-tin-luong',
         name: 'salary-page',
-        component: () => import('@/pages/staffManager/salaryStaffPage.vue'),
+        component: () => import('@/layout/staffLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/lich-lam-viec',
         name: 'calendrier-page',
-        component: () => import('@/pages/staffManager/calendrierStaffPage.vue'),
+        component: () => import('@/layout/staffLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/them-nhan-vien',
         name: 'create-staff-page',
-        component: () => import('@/pages/staffManager/createStaffPage.vue'),
+        component: () => import('@/layout/staffLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/cap-nhat-nhan-vien/:id',
         name: 'update-staff-page',
-        component: () => import('@/pages/staffManager/editStaffPage.vue'),
-        props: true
+        component: () => import('@/layout/staffLayout.vue'),
+        props: true,
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.state.user) {
+        //         console.log(123);
+        //         next('/');
+        //     }
+        //     next();
+        // },
     },
     {
         path: '/xep-lich-lam-viec',
         name: 'arrange-work-staff-page',
-        component: () => import('@/pages/staffManager/arrangeWorkStaffPage.vue'),
+        component: () => import('@/layout/staffLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Supplier manager page--------------------------------------------
     {
         path: '/nha-cung-cap',
         name: 'supplier-page',
-        component: () => import('@/pages/supplierManager/listSupplierPage.vue'),
+        component: () => import('@/layout/supplierLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/them-nha-cung-cap',
         name: 'create-supplier-page',
-        component: () => import('@/pages/supplierManager/createSupplierPage.vue'),
+        component: () => import('@/layout/supplierLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/nha-cung-cap/:id',
         name: 'update-supplier-page',
-        component: () => import('@/pages/supplierManager/editSupplierPage.vue'),
+        component: () => import('@/layout/supplierLayout.vue'),
         props: true,
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        },
     },
 
     //Payment manager page--------------------------------------------
     {
         path: '/phieu-chi',
         name: 'payment-page',
-        component: () => import('@/pages/paymentManager/listPaymentPage.vue'),
+        component: () => import('@/layout/paymentLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/lap-phieu-chi',
         name: 'create-payment-page',
-        component: () => import('@/pages/paymentManager/createPaymentPage.vue'),
+        component: () => import('@/layout/paymentLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Menu manager page--------------------------------------------
     {
         path: '/danh-sach-mon',
         name: 'list-dish-page',
-        component: () => import('@/pages/menuManager/listDishPage.vue'),
+        component: () => import('@/layout/menuLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/them-mon',
         name: 'create-dish-page',
-        component: () => import('@/pages/menuManager/createDishPage.vue'),
+        component: () => import('@/layout/menuLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/cap-nhat-mon/:id',
         name: 'update-dish-page',
-        component: () => import('@/pages/menuManager/editDishPage.vue'),
-        props: true
+        props: true,
+        component: () => import('@/layout/menuLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        },
     },
     {
         path: '/menu',
         name: 'menu-page',
-        component: () => import('@/pages/menuManager/menuPage.vue'),
+        component: () => import('@/layout/menuLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/chinh-sua-menu',
         name: 'update-menu-page',
-        component: () => import('@/pages/menuManager/updateMenuPage.vue'),
+        component: () => import('@/layout/menuLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Evalues manager page--------------------------------------------
     {
         path: '/danh-gia',
         name: 'evalues-page',
-        component: () => import('@/pages/evaluesManagerPage.vue'),
+        component: () => import('@/layout/evaluateLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Other route
     {
         path: '/ung-dung',
         name: 'application',
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     {
         path: '/quan-li-thong-tin',
         name: 'information-manager',
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     {
         path: '/cai-dat',
         name: 'setting',
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
     //{
     //     path: '/thong-tin-don-hang/:idOrder',
@@ -184,5 +367,7 @@ router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0);
     next();
 });
+
+
 
 export default router;

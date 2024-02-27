@@ -157,6 +157,7 @@ export default {
     },
 
     async created() {
+        console.log(this.id);
         this.staff = await staffService.FindOneById(this.id);
         // this.staff.ngaysinh = moment(this.staff.ngaysinh).format("YYYY-MM-DD");
         // this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("YYYY-MM-DD");

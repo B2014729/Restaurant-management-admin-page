@@ -29,8 +29,9 @@
                         <div class="form-floating mb-2">
                             <select class="form-select" id="supplier" aria-label="Default select example"
                                 v-model="data.idSupplier">
-                                <option v-for="(item, i)  in listSupplierFromSelect" :key="i" :value="item.idnhacungcap">{{
-                                    item.tennhacungcap }}
+                                <option v-for="(item, i)  in listSupplierFromSelect" :key="i"
+                                    :value="item.idnhacungcap">{{
+            item.tennhacungcap }}
                                 </option>
                             </select>
                             <label for="supplier">*Đơn vị cung cấp:</label>
@@ -53,14 +54,19 @@
                                 </select>
                                 <label for="product">*Sản phẩm:</label>
                             </div>
-                            <div class="form-floating mb-2 mx-3">
+                            <div class="form-floating mb-2 mx-2">
                                 <input type="number" class="form-control" id="payment"
                                     v-model="listProductQuantity[index - 1]">
                                 <label for="payment">*Số lượng:</label>
                             </div>
                             <div class="form-floating mb-2">
-                                <input type="number" class="form-control" id="price" v-model="listProductPrice[index - 1]">
+                                <input type="number" class="form-control" id="price"
+                                    v-model="listProductPrice[index - 1]">
                                 <label for="price">*Đơn giá:</label>
+                            </div>
+                            <div class="form-floating mb-2 ms-2">
+                                <input type="date" class="form-control" id="date" v-model="listProductDate[index - 1]">
+                                <label for="date">*Ngày sản xuất:</label>
                             </div>
                         </div>
                     </div>
@@ -116,6 +122,7 @@ export default {
             listProductId: [],
             listProductQuantity: [],
             listProductPrice: [],
+            listProductDate: [],
         };
     },
 
@@ -133,7 +140,9 @@ export default {
 
         async submit() {
             if (!this.data.createdate || !this.data.status || !this.data.idSupplier ||
-                this.listProductId.length <= 0 || this.listProductId.length !== this.listProductPrice.length || this.listProductId.length !== this.listProductQuantity.length) {
+                this.listProductId.length <= 0 || this.listProductId.length !== this.listProductPrice.length
+                || this.listProductId.length !== this.listProductQuantity.length
+                || this.listProductId.length !== this.listProductDate.length) {
                 this.errorNotifycation = true;
                 this.messageAlert = 'Lập phiếu chi không thành công!';
                 this.status = 'warning';
@@ -152,6 +161,7 @@ export default {
                     idGoods: this.listProductId,
                     quantity: this.listProductQuantity,
                     price: this.listProductPrice,
+                    dates: this.listProductDate,
                 };
                 console.log(formData);
                 try {
@@ -174,7 +184,7 @@ export default {
                     })
                 } catch (error) {
                     console.log(error);
-                    this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
+                    this.messageAlert = 'Lỗi trong khi tạo mới phiếu chi!';
                     this.status = 'danger';
                     this.showAlert = true;
                     setTimeout(() => {

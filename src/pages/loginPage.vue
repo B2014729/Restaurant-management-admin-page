@@ -7,8 +7,9 @@
                         <h3 class="card-title text-center mb-5 fw-bold">BEACH RESTAURANT</h3>
                         <form @submit.prevent="submit">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" style="background-color: rgba(240, 248, 255, 0);"
-                                    id="floatingInput" placeholder="ksksk" v-model="data.username">
+                                <input type="text" class="form-control"
+                                    style="background-color: rgba(240, 248, 255, 0);" id="floatingInput"
+                                    placeholder="ksksk" v-model="data.username">
                                 <label for="floatingInput"><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -44,6 +45,7 @@
 <script>
 import { ref } from 'vue';
 import accountService from '@/services/account.service';
+import staffService from '@/services/staff.service';
 
 export default {
     setup() {
@@ -57,12 +59,22 @@ export default {
         };
     },
 
-    created() {
+    async created() {
+        //console.log(this.$store.state.user);
         try {
             let token = this.$cookies.get('jwt');
             if (token != null) {
-                this.$store.dispatch('user', token);
-                this.$router.push('/trang-chu');
+                let user = await staffService.FindOneByToken(token);
+                if (Object.keys(user) != 0) {
+                    if (user.quyen == 5) {
+                        this.$store.dispatch('user', {
+                            token: token,
+                            quyentruycap: user.quyen,
+                            tendangnhap: user.tendangnhap,
+                        })
+                        this.$router.push('/trang-chu');
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -78,9 +90,19 @@ export default {
                     this.errorNotifycation = false;
                     await accountService.Login(this.data).then((result) => {
                         if (result.status == 200) {
-                            this.$cookies.set('jwt', result.headers.authorization);
-                            this.$store.dispatch('user', result.headers.authorization);
-                            this.$router.push('/trang-chu');
+                            if (result.data.data[0].quyen != 5) {
+                                this.errorNotifycation = true;
+                            } else {
+                                this.$cookies.set('jwt', result.headers.authorization);
+                                this.$store.dispatch('user',
+                                    {
+                                        token: result.headers.authorization,
+                                        tendangnhap: result.data.data[0].tendangnhap,
+                                        quyentruycap: result.data.data[0].quyen,
+                                    });
+                                // console.log(this.$store.state.user);
+                                this.$router.push('/trang-chu');
+                            }
                         }
                     });
                 }

@@ -1,5 +1,7 @@
 <template>
     <header class=" d-flex align-items-end justify-content-between">
+        <confirmModal v-if="modalActive" :message="message" @close="toggleModal" @onActive="onLogout">
+        </confirmModal>
         <h5 class="text-secondary fw-bold">Dashboard</h5>
         <div class="mb-2 d-flex">
             <div class="d-flex align-items-center">
@@ -20,7 +22,7 @@
                     aria-expanded="false">
                     <i class="fa-solid fa-user"></i>
                 </button>
-                <span class="ms-2 pt-1  text-success">Dương Hãi Băng</span>
+                <span class="ms-2 pt-1  text-success">{{ username }}</span>
                 <ul class="dropdown-menu">
                     <li>
                         <router-link class="dropdown-item text-dark" :to="{ name: 'notifycation-page' }">
@@ -33,7 +35,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <a class="dropdown-item text-dark" @click="onLogout">
+                        <a class="dropdown-item text-dark" @click="toggleModal">
                             <i class="fa-solid fa-right-from-bracket  me-1"></i>
                             Đăng xuất
                         </a>
@@ -44,21 +46,44 @@
     </header>
 </template>
 <script>
-
+import { ref } from 'vue';
+import confirmModal from './modalsComponent/confirmModal.vue';
 export default {
     name: 'HeaderComponent',
 
+    components: {
+        confirmModal
+    },
+
+    setup() {
+        let modalActive = ref(false);
+        let message = "Bạn muốn đăng xuất?";
+
+        const toggleModal = () => {
+            modalActive.value = !modalActive.value;
+        }
+
+        return {
+            modalActive, message, toggleModal
+        };
+    },
+
+    data() {
+        return {
+            username: this.$store.state.user.tendangnhap,
+        };
+    },
+
     methods: {
         onLogout() {
-            if (confirm('Bạn muốn đăng xuất!')) {
-                this.$cookies.remove('jwt');
-                this.$store.dispatch('user', null);
-                this.$router.push('/');
-            }
+            this.modalActive = false;
+            this.$cookies.remove('jwt');
+            this.$store.dispatch('user', null);
+            this.$router.push('/');
         }
     }
 }
-</script>   
+</script>
 <style scoped>
 header {
     height: 50px;

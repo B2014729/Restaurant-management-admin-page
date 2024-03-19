@@ -5,6 +5,7 @@
                 <div class=" d-flex justify-content-between">
                     <div>
                         <h5 class="fw-bold">Thông tin nhân viên</h5>
+                     <!-- {{ nhanvien.idnhanvien }} -->
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
@@ -60,6 +61,10 @@ export default {
         id: {
             required: true,
             type: Number,
+        },
+
+        nhanvien: {
+            type: Object,
         }
     },
 
@@ -79,6 +84,7 @@ export default {
     },
 
     async created() {
+        console.log('Nhan vien', this.nhanvien);
         this.staff = await staffService.FindOneById(this.id);
         this.staff.ngaysinh = moment(this.staff.ngaysinh).format("DD/MM/YYYY");
         this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("DD/MM/YYYY");

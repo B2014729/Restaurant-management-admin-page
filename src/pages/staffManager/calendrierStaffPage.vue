@@ -52,7 +52,8 @@
                 </button>
                 <div class="collapse" id="collapse1Example">
                     <div class="card card-body">
-                        <workingWeekComponent :month="month" :work-week="calendrier.tuan1" :idweek="[1, 2, 3, 4, 5, 6, 7]">
+                        <workingWeekComponent :month="month" :work-week="calendrier.tuan1"
+                            :idweek="[1, 2, 3, 4, 5, 6, 7]">
                         </workingWeekComponent>
                     </div>
                 </div>
@@ -135,6 +136,7 @@ export default {
         const formatDate = (date) => {
             return moment(new Date(date)).format('DD/MM/YYYY');
         }
+
         return {
             formatDate,
         };

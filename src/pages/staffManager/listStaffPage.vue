@@ -7,6 +7,7 @@
                 <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
             </div>
         </div>
+            
         <div class="row mt-1">
             <div class="col-md-10 col-12">
                 <searchComponent @submit="search($event)" v-model="searchText">
@@ -152,21 +153,25 @@ export default {
     },
 
     async created() {
-        this.staffList = await staffService.FindAll();
-
-        this.staffList.forEach((element) => {
+        try{
+            this.staffList = await staffService.FindAll();
+            this.staffList.forEach((element) => {
             if (element.trangthai === 1) {
                 this.staffListOn.push(element);
             } else {
                 this.staffListOff.push(element);
             }
         });
+        }catch(error){
+            console.log(error);
+        }
+        
     },
 
     methods: {
         search(e) {
             console.log(e);
-        }
+        },
     }
 }
 

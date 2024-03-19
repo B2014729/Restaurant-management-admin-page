@@ -1,11 +1,11 @@
 <template>
     <div>
-
         <table class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Nhân viên</th>
-                    <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center" style="width:125px">
+                    <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center"
+                        style="width:125px">
                         {{ item }}/{{ month }}
                     </th>
                     <th scope="col" class="text-center">Ghi chú</th>

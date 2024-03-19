@@ -10,7 +10,8 @@
                                 alt="" class="w-75 rounded-4">
                         </div>
                         <div class="d-flex justify-content-center form-floating my-2">
-                            <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles" ref="image">
+                            <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles"
+                                ref="image">
                             <label for="avatar" style="margin-left:35px;">Thêm avatar:</label>
                         </div>
                     </div>
@@ -73,8 +74,8 @@
                                 </div>
                                 <div class="d-flex mb-2">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" id="password" v-model="data.password"
-                                            disabled="disabled">
+                                        <input type="password" class="form-control" id="password"
+                                            v-model="data.password" disabled="disabled">
                                         <label for="password">*Mật khẩu: </label>
                                     </div>
                                     <button class="btn btn-outline-secondary h-50 ms-3 mt-3">
@@ -109,14 +110,18 @@ export default {
     },
 
     async created() {
-        await this.fetchData();
-        this.data.password = 'kkjhssjs';
-        this.data.taikhoan = 'haibang';
+        try {
+            await this.fetchData();
+            this.data.password = '11111111';
+            this.data.taikhoan = this.$store.state.user.tendangnhap;
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     methods: {
         async fetchData() {
-            this.data = await staffService.FindOneById(2);
+            this.data = await staffService.FindOneByToken(this.$store.state.user.token);
         }
     }
 }

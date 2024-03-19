@@ -1,6 +1,5 @@
 import store from "@/store";
 import { createRouter, createWebHistory } from "vue-router";
-// import store from "@/store";
 const routes = [
     {
         path: '/',
@@ -13,12 +12,26 @@ const routes = [
         path: '/ca-nhan',
         name: 'personal-page',
         component: () => import('@/layout/personalLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     {
         path: '/thong-bao',
         name: 'notifycation-page',
         component: () => import('@/layout/personalLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                console.log(123);
+                next('/');
+            }
+            next();
+        }
     },
 
     //Route home page--------------------------------------------
@@ -27,8 +40,7 @@ const routes = [
         name: 'home-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -39,8 +51,7 @@ const routes = [
         name: 'revenue-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -51,8 +62,7 @@ const routes = [
         name: 'profit-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -63,8 +73,7 @@ const routes = [
         name: 'indebt-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -75,8 +84,7 @@ const routes = [
         name: 'consumer-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -89,8 +97,7 @@ const routes = [
         name: 'bill-manager-page',
         component: () => import('@/layout/billLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -103,8 +110,7 @@ const routes = [
         name: 'list-staff-page',
         component: () => import('@/layout/staffLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -115,8 +121,7 @@ const routes = [
         name: 'salary-page',
         component: () => import('@/layout/staffLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -127,8 +132,7 @@ const routes = [
         name: 'calendrier-page',
         component: () => import('@/layout/staffLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -139,8 +143,7 @@ const routes = [
         name: 'create-staff-page',
         component: () => import('@/layout/staffLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -152,8 +155,8 @@ const routes = [
         component: () => import('@/layout/staffLayout.vue'),
         props: true,
         // beforeEnter: (to, from, next) => {
-        //     if (!store.state.user) {
-        //         console.log(123);
+        //     if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+        //       
         //         next('/');
         //     }
         //     next();
@@ -164,8 +167,7 @@ const routes = [
         name: 'arrange-work-staff-page',
         component: () => import('@/layout/staffLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -178,8 +180,7 @@ const routes = [
         name: 'supplier-page',
         component: () => import('@/layout/supplierLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -190,8 +191,7 @@ const routes = [
         name: 'create-supplier-page',
         component: () => import('@/layout/supplierLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -203,8 +203,7 @@ const routes = [
         component: () => import('@/layout/supplierLayout.vue'),
         props: true,
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -217,8 +216,7 @@ const routes = [
         name: 'payment-page',
         component: () => import('@/layout/paymentLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -229,8 +227,7 @@ const routes = [
         name: 'create-payment-page',
         component: () => import('@/layout/paymentLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -243,8 +240,7 @@ const routes = [
         name: 'list-dish-page',
         component: () => import('@/layout/menuLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -255,8 +251,7 @@ const routes = [
         name: 'create-dish-page',
         component: () => import('@/layout/menuLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -268,8 +263,7 @@ const routes = [
         props: true,
         component: () => import('@/layout/menuLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -280,8 +274,7 @@ const routes = [
         name: 'menu-page',
         component: () => import('@/layout/menuLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -292,8 +285,7 @@ const routes = [
         name: 'update-menu-page',
         component: () => import('@/layout/menuLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -306,8 +298,7 @@ const routes = [
         name: 'evalues-page',
         component: () => import('@/layout/evaluateLayout.vue'),
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -319,8 +310,7 @@ const routes = [
         path: '/ung-dung',
         name: 'application',
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -331,8 +321,7 @@ const routes = [
         path: '/quan-li-thong-tin',
         name: 'information-manager',
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();
@@ -342,8 +331,7 @@ const routes = [
         path: '/cai-dat',
         name: 'setting',
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) {
-                console.log(123);
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');
             }
             next();

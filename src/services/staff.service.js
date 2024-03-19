@@ -9,6 +9,10 @@ class StaffService {
         return (await this.api.get(`/${id}`)).data.data[0];
     }
 
+    async FindOneByToken(token) {
+        return (await this.api.post(`/token`, { token })).data.data[0];
+    }
+
     async FindAll() {
         return (await this.api.get(`/list`)).data.data;
     }

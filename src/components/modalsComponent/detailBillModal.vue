@@ -26,27 +26,28 @@
                 <div>
                     <span class="fw-bold">Danh sách món:</span>
 
-                    <div style="min-height:350px; overflow: hidden;">
+                    <div style="min-height:390px; overflow: hidden;">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center">STT</th>
                                     <th scope="col" class="text-center">Tên món</th>
-                                    <th scope="col" class="text-center">Đơn giá (vnđ)</th>
-                                    <th scope="col" class="text-center">Giảm (vnđ)</th>
-                                    <th scope="col" class="text-center">Số lượng</th>
-                                    <th scope="col" class="text-center">Tổng (vnđ)</th>
+                                    <th scope="col" class="text-center" style="width: 150px;">Đơn giá (vnđ)</th>
+                                    <th scope="col" class="text-center" style="width: 120px;">Giảm (vnđ)</th>
+                                    <th scope="col" class="text-center" style="width: 90px;">Số lượng</th>
+                                    <th scope="col" class="text-center" style="width: 150px;">Tổng (vnđ)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in bill.chitietdatmon" :key="index">
                                     <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
                                     <td class="text-center" style="padding-top: 13px;">{{ item.mon.tenmon }}</td>
-                                    <td class="text-center" style="padding-top: 13px;">{{ formatNumber(item.mon.gia) }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ formatNumber(item.mon.gia) }}
+                                    </td>
                                     <td class="text-center" style="padding-top: 13px;">0</td>
                                     <td class="text-center" style="padding-top: 13px;">{{ item.soluong }}</td>
                                     <td class="text-center" style="padding-top: 13px;">{{
-                                        formatNumber(item.soluong * item.mon.gia) }}</td>
+                            formatNumber(item.soluong * item.mon.gia) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -65,6 +66,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import billService from '@/services/bill.service';
 export default {
@@ -116,7 +118,8 @@ export default {
     }
 }
 </script>
-<style  scoped lang="css">
+
+<style scoped lang="css">
 .modalBill {
     display: none;
     position: fixed;

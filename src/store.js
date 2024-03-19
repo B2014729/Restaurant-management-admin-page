@@ -6,7 +6,6 @@ const state = {
 
 const store = new Vuex.Store({
     state,
-
     getters: {
         user: (state) => {
             return state.user;

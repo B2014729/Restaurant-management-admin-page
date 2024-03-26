@@ -26,7 +26,8 @@
                 <option value="2023">2023</option>
                 <option value="2024" selected>2024</option>
             </select>
-            <button class="btn" ref="BtnChange" @click="changePhase"><i class="fa-solid fa-check text-success"></i></button>
+            <button class="btn" ref="BtnChange" @click="changePhase"><i
+                    class="fa-solid fa-check text-success"></i></button>
         </div>
         <div class="row" style="height: 290px;">
             <div class=" col-md-8 col-12 bg-white rounded-3 ms-5" style="height: 280px;">
@@ -66,7 +67,7 @@
                             <th scope="row" class="text-center">{{ index + 1 }}</th>
                             <td class="text-center">{{ item.mon.tenmon }}</td>
                             <td class="text-center">{{ item.mon.tenloai }}</td>
-                            <td class="text-center">{{ item.mon.gia }}</td>
+                            <td class="text-center">{{ formatNumber(item.mon.gia) }}</td>
                             <td class="text-center">{{ item.soluong }}</td>
                         </tr>
                     </tbody>
@@ -75,7 +76,8 @@
             <div class="col-md-4 col-12 bg-white d-flex justify-content-center rounded-3">
                 <div class="w-75">
                     <canvas class="p-2" id="chartSyntheticOnThu"></canvas>
-                    <p style="font-size: 11px; text-align: center;">Biểu đồ tổng quan doanh thu theo ngày trong tuần.</p>
+                    <p style="font-size: 11px; text-align: center;">Biểu đồ tổng quan doanh thu theo ngày trong tuần.
+                    </p>
                 </div>
             </div>
         </div>
@@ -135,7 +137,6 @@ export default {
 
                 let listDishSellALotAll = await dishSevice.GetLishDishSellALot(); // Lay 5 mon ban nhieu nhat
                 this.typeDishOnBest = listDishSellALotAll[0].mon.tenloai; //Lay loai mon duoc yeu thich nhat
-
                 for (let index = 0; index < 5; index++) {
                     const element = listDishSellALotAll[index];
                     this.listDishSellALot[index] = element;

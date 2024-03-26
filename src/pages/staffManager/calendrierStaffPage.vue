@@ -4,12 +4,11 @@
             <div class="d-flex">
                 <h4 class="text-secondary fw-bold">Lịch làm việc__:</h4>
                 <div class="ms-4 d-flex">
-                    <select class="form-select" aria-label="Default select example" v-model="phase">
+                    <select class="form-select" aria-label="Default select example" v-model="phase" @change="onPhases">
                         <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
                             {{ formatDate(item.ngaybatdau) }} - {{ formatDate(item.ngayketthuc) }}
                         </option>
                     </select>
-                    <button class="btn" @click="onPhases"><i class="fa-solid fa-check text-success"></i></button>
                 </div>
             </div>
             <router-link :to="{ name: 'arrange-work-staff-page' }">
@@ -145,7 +144,7 @@ export default {
     data() {
         return {
             phase: '1',
-            calendrier: [],
+            calendrier: {},
             phaseList: [],
             month: 1,
         };
@@ -168,6 +167,7 @@ export default {
         async fetchData() {
             try {
                 this.calendrier = await calendrierService.FindOneByPhase(this.phase);
+
                 this.phaseList.forEach(element => {
                     if (element.idgiaidoan == this.phase) {
                         this.month = (new Date(element.ngaybatdau).getMonth()) + 1;
@@ -181,6 +181,7 @@ export default {
 
         async onPhases() {
             await this.fetchData();
+
         }
     }
 }

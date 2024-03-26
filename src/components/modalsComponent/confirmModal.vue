@@ -43,7 +43,7 @@ export default {
     },
 }
 </script>
-<style  scoped lang="css">
+<style scoped lang="css">
 .modalBill {
     display: none;
     position: fixed;

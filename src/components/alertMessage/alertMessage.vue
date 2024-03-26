@@ -6,10 +6,10 @@
             danger: isDanger,
         }">
             <span style="font-size: 13px;"> <i class="me-1" :class="{
-                'fa-solid fa-check': isSuccess,
-                'fa-solid fa-xmark': isDanger,
-                'fa-solid fa-triangle-exclamation': isWarning,
-            }"></i> {{ message }}
+            'fa-solid fa-check': isSuccess,
+            'fa-solid fa-xmark': isDanger,
+            'fa-solid fa-triangle-exclamation': isWarning,
+        }"></i> {{ message }}
             </span>
         </div>
     </div>

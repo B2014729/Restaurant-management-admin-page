@@ -17,12 +17,12 @@
             </div>
             <div class="col-md-5 col-12 mt-2">
                 <div class="d-flex " style="width: 270px">
-                    <select class="form-select" aria-label="Default select example" v-model="phase">
+                    <select class="form-select" aria-label="Default select example" v-model="phase"
+                        @change="onChangePhase">
                         <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
                             {{ formatDate(item.ngaybatdau) }} - {{ formatDate(item.ngayketthuc) }}
                         </option>
                     </select>
-                    <button class="btn" @click="onChangePhase"><i class="fa-solid fa-check text-success"></i></button>
                 </div>
             </div>
             <div class="col-md-1 col-12 pt-2 d-flex justify-content-end">
@@ -55,8 +55,9 @@
                         <td class="text-center">{{ item.tonggio }}</td>
                         <td class="text-center">{{ formatNumber(item.thuong) }}</td>
                         <td class="text-center">{{ formatNumber(item.phat) }}</td>
-                        <td class="text-center fw-bold">{{ formatNumber(item.tonggio * item.luong - item.phat + item.thuong)
-                        }}</td>
+                        <td class="text-center fw-bold">{{ formatNumber(item.tonggio * item.luong - item.phat +
+            item.thuong)
+                            }}</td>
                         <th scope="row" class="text-center">
                             <button type="button" class="btn" @click="toggleModal(item.nhanvien.idnhanvien)">
                                 <i class="fa-solid fa-circle-plus text-success"></i></button>
@@ -178,7 +179,7 @@ export default {
 }
 
 </script>
-<style  scoped>
+<style scoped>
 .status {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);

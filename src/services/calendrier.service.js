@@ -25,6 +25,10 @@ class BillService {
         return (await this.api.post(`/arrange/create`, { workWeek: data })).data;
     }
 
+    async FindAllWithIdCalendrier(idCalendrier) {
+        return (await this.api.get(`/get-with-id-calendrier/${idCalendrier}`)).data.data;
+    }
+
     // async FindAll() {
     //     return (await this.api.get(`/list`)).data.data;
     // }

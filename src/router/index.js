@@ -14,7 +14,6 @@ const routes = [
         component: () => import('@/layout/personalLayout.vue'),
         beforeEnter: (to, from, next) => {
             if (!store.state.user || (store.state.user.quyentruycap != 5)) {
-                console.log(123);
                 next('/');
             }
             next();
@@ -27,7 +26,6 @@ const routes = [
         component: () => import('@/layout/personalLayout.vue'),
         beforeEnter: (to, from, next) => {
             if (!store.state.user || (store.state.user.quyentruycap != 5)) {
-                console.log(123);
                 next('/');
             }
             next();
@@ -154,13 +152,12 @@ const routes = [
         name: 'update-staff-page',
         component: () => import('@/layout/staffLayout.vue'),
         props: true,
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.state.user || (store.state.user.quyentruycap != 5)) {
-        //       
-        //         next('/');
-        //     }
-        //     next();
-        // },
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                next('/');
+            }
+            next();
+        },
     },
     {
         path: '/xep-lich-lam-viec',

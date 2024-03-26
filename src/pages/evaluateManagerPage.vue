@@ -6,32 +6,37 @@
                 <div class="d-flex justify-content-between">
                     <div class="d-flex">
                         <h4 class="fw-bold">4,8 / 5 <i class="fa-solid fa-star text-warning"></i></h4>
-                        <p class="ps-2 pt-1">(1608 đánh giá)</p>
+                        <p class="ps-2 pt-1">({{ countEvaluate[0] }} đánh giá)</p>
                     </div>
                     <div class="d-flex">
-                        <button class="btn" @click="changeTab(5)" style="font-size: 14px;">Tất cả<i
+                        <button class="btn" @click="changeTab(0)" style="font-size: 14px;">Tất cả<i
                                 class="fa-solid fa-star text-warning"></i>
-                            (1608)</button>
-                        <button class="btn" @click="changeTab(4)" style="font-size: 14px;">1 <i
+                            ({{ countEvaluate[0] }})
+                        </button>
+                        <button class="btn" @click="changeTab(1)" style="font-size: 14px;">1 <i
                                 class="fa-solid fa-star text-warning"></i>
-                            (1032)</button>
-                        <button class="btn" @click="changeTab(3)" style="font-size: 14px;">2 <i
+                            ({{ countEvaluate[1] }})
+                        </button>
+                        <button class="btn" @click="changeTab(2)" style="font-size: 14px;">2 <i
                                 class="fa-solid fa-star text-warning"></i>
-                            (182)</button>
-                        <button class="btn" @click="changeTab(2)" style="font-size: 14px;">3 <i
+                            ({{ countEvaluate[2] }})
+                        </button>
+                        <button class="btn" @click="changeTab(3)" style="font-size: 14px;">3 <i
                                 class="fa-solid fa-star text-warning"></i>
-                            (182)</button>
-                        <button class="btn" @click="changeTab(1)" style="font-size: 14px;">4 <i
+                            ({{ countEvaluate[3] }})</button>
+                        <button class="btn" @click="changeTab(4)" style="font-size: 14px;">4 <i
                                 class="fa-solid fa-star text-warning"></i>
-                            (92)</button>
-                        <button class="btn" @click="changeTab(0)" style="font-size: 14px;">5 <i
+                            ({{ countEvaluate[4] }})
+                        </button>
+                        <button class="btn" @click="changeTab(5)" style="font-size: 14px;">5 <i
                                 class="fa-solid fa-star text-warning"></i>
-                            (19)</button>
+                            ({{ countEvaluate[5] }})
+                        </button>
                     </div>
                 </div>
-                <div class="bg-white p-2  row">
-                    <div class="col-md-6">
-                        <evaluateCardComponent v-for="(value, index) in evaluate" :key="index" :evaluate="value">
+                <div class="bg-white p-2 row">
+                    <div class="col-6" v-for="(value, index) in evaluate" :key="index">
+                        <evaluateCardComponent :evaluate="value">
                         </evaluateCardComponent>
                     </div>
                 </div>
@@ -42,6 +47,8 @@
 <script>
 import { ref } from 'vue';
 import evaluateCardComponent from '@/components/evaluateCardComponrnt.vue';
+import evaluateService from '@/services/evaluate.service';
+
 export default {
     components: {
         evaluateCardComponent
@@ -49,46 +56,62 @@ export default {
 
     setup() {
         let evaluate = ref([]);
-        let data = [];
+        let data = [[], [], [], [], [], []];
+        let countEvaluate = [];
 
         const changeTab = (value) => {
-            console.log(evaluate.value);
             evaluate.value = data[value];
         }
 
         return {
-            evaluate, changeTab, data
+            evaluate, changeTab, data, countEvaluate
         };
     },
 
-    mounted() {
-        this.data[0] = [
-            {
-                user: 'haibang',
-                date: '12/2/2024',
-                star: 5,
-                message: 'day la thong tin danh gia'
-            },
-            { user: 'haibang', date: '12/2/2024', star: 5, message: 'day la thong tin danh gia' }];
-        this.data[1] = [{
-            user: 'haibangsss',
-            date: '12/2/2024',
-            star: 4,
-            message: 'day la thonsssg tin danh gia'
-        },];
-        this.data[2] = [{ user: 'haibansssssssssg', date: '12/2/2024', star: 3, message: 'day la thong tin danh gia' }];
-        this.data[3] = [{ user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }, { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }];
-        this.data[4] = [];
-        this.data[5] = [{ user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }, { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }, { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }, { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' },
-        { user: 'haibang', date: '12/2/2024', star: 2, message: 'day la thong tin danh gia' }];
+    async created() {
+        await this.fetchData();
 
-        this.evaluate = this.data[5];//gia trin ban dau tat ca cac danh gia
     },
+
+    methods: {
+        async fetchData() {
+            try {
+                let dataFectch = await evaluateService.FindAll();
+                this.data[0] = dataFectch;
+                this.evaluate = this.data[0];
+
+                dataFectch.forEach(element => {
+                    switch (element.sosao) {
+                        case 1:
+                            this.data[1].push(element)
+                            break;
+                        case 2:
+                            this.data[2].push(element)
+                            break;
+                        case 3:
+                            this.data[3].push(element)
+                            break;
+                        case 4:
+                            this.data[4].push(element)
+                            break;
+                        case 5:
+                            this.data[5].push(element)
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+
+                for (let index = 0; index < 6; index++) {//this.data.length = 6
+                    const element = this.data[index];
+                    this.countEvaluate[index] = element.length;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 
 }
 </script>

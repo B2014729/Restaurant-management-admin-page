@@ -136,7 +136,7 @@ export default {
 .modal-bill-content {
     background-color: white;
     width: 60%;
-    margin: 50px 0px;
+    margin: 40px 0px;
     border-radius: 10px;
     animation-name: animationShow;
     animation-duration: 300ms;
@@ -149,7 +149,7 @@ export default {
     }
 
     100% {
-        margin-top: 50px;
+        margin-top: 40px;
     }
 }
 

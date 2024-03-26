@@ -13,9 +13,11 @@
                 </div>
             </div>
             <div class="d-flex align-items-center mx-3">
-                <button class="btn">
-                    <i class="fa-solid fa-bell text-secondary fs-5"></i>
-                </button>
+                <router-link class="dropdown-item text-dark" :to="{ name: 'notifycation-page' }">
+                    <button class="btn">
+                        <i class="fa-solid fa-bell text-secondary fs-5"></i>
+                    </button>
+                </router-link>
             </div>
             <div class="dropdown d-flex align-items-center">
                 <button class="btn btn-secondary rounded-circle" type="button" data-bs-toggle="dropdown"

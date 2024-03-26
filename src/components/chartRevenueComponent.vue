@@ -6,7 +6,7 @@
         <p class="text-center">{{ description }}</p>
     </div>
 </template>
-    
+
 <script>
 import billService from '@/services/bill.service';
 import paymentService from '@/services/payment.service';

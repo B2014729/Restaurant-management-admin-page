@@ -19,6 +19,49 @@ export default {
         },
     },
 
+    watch: {
+        id: function (newVal, oldVal) {
+            if (newVal != oldVal) {
+                switch (newVal) {
+                    case 1:
+                        this.isMorning = true;
+                        this.startTime = '06:00';
+                        this.endTime = '12:00';
+                        break;
+                    case 2:
+                        this.isAfternoon = true;
+                        this.startTime = '12:00';
+                        this.endTime = '18:00';
+                        break;
+                    case 3:
+                        this.isEvening = true;
+                        this.startTime = '18:00';
+                        this.endTime = '00:00';
+                        break;
+                    case 4:
+                        this.isFull = true;
+                        this.startTime = '06:00';
+                        this.endTime = '00:00';
+                        break;
+                    case 5:
+                        this.isMorningAndAfter = true;
+                        this.startTime = '06:00';
+                        this.endTime = '18:00';
+                        break;
+                    case 6:
+                        this.isAfterAndEvening = true;
+                        this.startTime = '12:00';
+                        this.endTime = '00:00';
+                        break;
+                    default:
+                        // buttonRemove.value = false;
+                        // buttonAdd.value = true;
+                        break;
+                }
+            }
+        }
+    },
+
     setup(props) {
         let isMorning = ref(false);
         let isAfternoon = ref(false);
@@ -28,8 +71,6 @@ export default {
         let isAfterAndEvening = ref(false);
         let startTime = ref('_');
         let endTime = ref('_');
-        // let buttonAdd = ref(false);
-        // let buttonRemove = ref(true);
 
         switch (props.id) {
             case 1:

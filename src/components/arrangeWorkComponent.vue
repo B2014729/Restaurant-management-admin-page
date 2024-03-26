@@ -1,12 +1,12 @@
 <template>
     <div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
-
         <table class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Nhân viên</th>
-                    <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center" style="width:125px">
+                    <th v-for="(item, index) in idweek" :key="index" scope="col" class="text-center"
+                        style="width:125px">
                         {{ item }}
                     </th>
                     <th scope="col" class="text-center">Ghi chú</th>
@@ -203,7 +203,6 @@ import { ref } from 'vue';
 import alertMessage from '@/components/alertMessage/alertMessage.vue';
 import calendrierService from '@/services/calendrier.service';
 import workingWeekCard from './workingWeekCard.vue';
-
 export default {
     components: {
         workingWeekCard, alertMessage,
@@ -226,6 +225,7 @@ export default {
         let showAlert = ref(false);
         let status = ref('');
         let messageAlert = ref('');
+
         return {
             showAlert, status, messageAlert
         };

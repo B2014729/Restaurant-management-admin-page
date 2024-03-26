@@ -31,7 +31,7 @@
                                         <i class="fa-solid fa-hand-holding-dollar fs-1 text-success"></i>
                                     </div>
                                     <div class="media-body float-right">
-                                        <h3 class="text-success">156,706,909</h3>
+                                        <h3 class="text-success">{{ formatNumber(profit) }}</h3>
                                         <span>Lợi nhuận (VNĐ)</span>
                                     </div>
                                 </div>
@@ -88,6 +88,7 @@
 <script>
 import ChartRevenueComponent from '@/components/chartRevenueComponent.vue';
 import billService from '@/services/bill.service';
+import paymentService from '@/services/payment.service';
 export default {
     name: 'HomePage',
     components: {
@@ -104,6 +105,7 @@ export default {
     data() {
         return {
             sumRevenue: 0,
+            profit: 0,
         };
     },
 
@@ -118,6 +120,15 @@ export default {
                 listBill.forEach((element) => {
                     this.sumRevenue += element.thanhtoan;
                 });
+
+                let sumpaymentList = 0;
+                let listPayment = await paymentService.FindAll(); //Thong phieu chi
+
+                listPayment.forEach(element => {
+                    sumpaymentList += Number(element.thanhtoan);
+                });
+
+                this.profit = this.sumRevenue - sumpaymentList;
             } catch (error) {
                 console.log(error);
             }

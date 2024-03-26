@@ -7,7 +7,7 @@
                 <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận__:</h4>
                 <div class="p-3 bg-white rounded-3 shadow bg-body-tertiary">
                     <h5 class="fw-bold">Lợi nhuận:</h5>
-                    <h4 class="text-center fw-bold">464,552,000 VNĐ</h4>
+                    <h4 class="text-center fw-bold"> {{ formatNumber(profit) }} VNĐ</h4>
                 </div>
             </div>
             <div class="col-md-6 col-12">
@@ -18,7 +18,8 @@
             </div>
             <div class="col-md-2 col-12 d-flex justify-content-end">
                 <div>
-                    <button class="btn btn-outline-secondary mt-3"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
+                    <button class="btn btn-outline-secondary mt-3"><i class="fa-solid fa-file-excel"></i> Xuất
+                        file</button>
                 </div>
             </div>
 
@@ -34,7 +35,8 @@
                     <span class="mx-2">đến: </span>
                     <input type="date" style="border: none;" v-model="data.enddate">
 
-                    <button class="btn" @click="onGetBillWhereTime"><i class="fa-solid fa-check text-success"></i></button>
+                    <button class="btn" @click="onGetBillWhereTime"><i
+                            class="fa-solid fa-check text-success"></i></button>
                 </div>
                 <div class="col-md-1 col-12">
                     <button class="btn"><i class="fa-solid fa-sort"></i></button>
@@ -79,7 +81,7 @@
     </div>
 </template>
 
- 
+
 <script>
 import { ref } from 'vue';
 import Chart from 'chart.js/auto';
@@ -87,6 +89,7 @@ import Chart from 'chart.js/auto';
 import DetailBillModal from '@/components/modalsComponent/detailBillModal.vue';
 import dishService from '@/services/dish.service';
 import billService from '@/services/bill.service';
+import paymentService from '@/services/payment.service';
 export default {
     components: {
         DetailBillModal
@@ -124,6 +127,7 @@ export default {
         return {
             billList: [],
             data: {},
+            profit: 0,
         };
     },
 
@@ -172,24 +176,25 @@ export default {
         async fetchData() {
             try {
                 this.billList = await billService.FindAll();
-                this.billList.forEach((element) => {
-                    this.sumDiscount += element.giamgia;
-                    this.amountPayment += element.thanhtoan;
+                let sumbillList = 0;
+                let sumpaymentList = 0;
+                let listPayment = await paymentService.FindAll();
+
+                listPayment.forEach(element => {
+                    sumpaymentList += Number(element.thanhtoan);
                 });
+                this.billList.forEach(element => {
+                    sumbillList += Number(element.thanhtoan);
+                });
+
+                this.profit = sumbillList - sumpaymentList;
             } catch (error) {
                 console.log(error);
             }
         },
         async onGetBillWhereTime() {
-            this.sumDiscount = 0;
-            this.amountPayment = 0;
             try {
                 this.billList = await billService.FindBillWhereTime(this.data.startdate, this.data.enddate);
-
-                this.billList.forEach((element) => {
-                    this.sumDiscount += element.giamgia;
-                    this.amountPayment += element.thanhtoan;
-                });
             } catch (error) {
                 console.log(error);
                 this.billList = [];
@@ -199,7 +204,7 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .status {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);

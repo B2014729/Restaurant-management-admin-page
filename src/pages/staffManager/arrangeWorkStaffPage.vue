@@ -8,12 +8,12 @@
                 <h4 class="text-secondary fw-bold">Sắp xếp lịch làm việc__:</h4>
 
                 <div class="ms-4 d-flex">
-                    <select class="form-select" aria-label="Default select example" v-model="phase">
+                    <select class="form-select" aria-label="Default select example" v-model="phase"
+                        @change="onChangePhases">
                         <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">
                             {{ item.ngaybatdau }} - {{ item.ngayketthuc }}
                         </option>
                     </select>
-                    <button class="btn" @click="onChangePhases"><i class="fa-solid fa-check text-success"></i></button>
                 </div>
             </div>
             <button class="btn btn-outline-success h-100" @click="toggleModal"><i class="fa-solid fa-plus"></i></button>

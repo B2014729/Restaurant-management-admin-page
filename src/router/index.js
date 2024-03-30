@@ -67,8 +67,8 @@ const routes = [
         }
     },
     {
-        path: '/cong-no',
-        name: 'indebt-page',
+        path: '/quan-li-kho',
+        name: 'depot-page',
         component: () => import('@/layout/homeLayout.vue'),
         beforeEnter: (to, from, next) => {
             if (!store.state.user || (store.state.user.quyentruycap != 5)) {
@@ -231,6 +231,42 @@ const routes = [
         }
     },
 
+    //Goods manager page--------------------------------------------
+    {
+        path: '/hang-hoa',
+        name: 'goods-page',
+        component: () => import('@/layout/goodsManagerLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                next('/');
+            }
+            next();
+        }
+    },
+    {
+        path: '/them-hang-hoa',
+        name: 'create-goods-page',
+        component: () => import('@/layout/goodsManagerLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                next('/');
+            }
+            next();
+        }
+    },
+    {
+        path: '/cap-nhat-hang-hoa/:id',
+        name: 'update-goods-page',
+        component: () => import('@/layout/goodsManagerLayout.vue'),
+        props: true,
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                next('/');
+            }
+            next();
+        }
+    },
+
     //Menu manager page--------------------------------------------
     {
         path: '/danh-sach-mon',
@@ -352,7 +388,5 @@ router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0);
     next();
 });
-
-
 
 export default router;

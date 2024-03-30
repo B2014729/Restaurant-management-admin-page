@@ -5,7 +5,7 @@
             <div class="w-75">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex">
-                        <h4 class="fw-bold">4,8 / 5 <i class="fa-solid fa-star text-warning"></i></h4>
+                        <h4 class="fw-bold">{{ agvStar }}/ 5 <i class="fa-solid fa-star text-warning"></i></h4>
                         <p class="ps-2 pt-1">({{ countEvaluate[0] }} đánh giá)</p>
                     </div>
                     <div class="d-flex">
@@ -58,13 +58,14 @@ export default {
         let evaluate = ref([]);
         let data = [[], [], [], [], [], []];
         let countEvaluate = [];
+        let agvStar = 0;
 
         const changeTab = (value) => {
             evaluate.value = data[value];
         }
 
         return {
-            evaluate, changeTab, data, countEvaluate
+            evaluate, changeTab, data, countEvaluate, agvStar
         };
     },
 
@@ -103,10 +104,17 @@ export default {
                     }
                 });
 
+                let sumStar = 0;
                 for (let index = 0; index < 6; index++) {//this.data.length = 6
                     const element = this.data[index];
                     this.countEvaluate[index] = element.length;
+
+                    if (index > 0) {
+                        sumStar += (index * this.countEvaluate[index]);
+                    }
                 }
+
+                this.agvStar = (sumStar / this.countEvaluate[0]).toFixed(1);
             } catch (error) {
                 console.log(error);
             }

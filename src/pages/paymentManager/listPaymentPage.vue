@@ -5,8 +5,9 @@
         <div class="d-flex justify-content-between">
             <h4 class="text-secondary fw-bold">Danh sách phiếu chi__:</h4>
             <div>
-                <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i> Xuất
-                    file</button>
+                <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
+                    Xuất file
+                </button>
             </div>
         </div>
         <div class="row">
@@ -172,7 +173,7 @@ export default {
 }
 
 </script>
-<style  scoped>
+<style scoped>
 .status {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);

@@ -5,11 +5,13 @@
             warning: isWarning,
             danger: isDanger,
         }">
-            <span style="font-size: 13px;"> <i class="me-1" :class="{
+            <span style="font-size: 14px;">
+                <i class="me-1" :class="{
             'fa-solid fa-check': isSuccess,
             'fa-solid fa-xmark': isDanger,
             'fa-solid fa-triangle-exclamation': isWarning,
-        }"></i> {{ message }}
+        }"></i>
+                {{ message }}
             </span>
         </div>
     </div>
@@ -71,14 +73,20 @@ export default {
 }
 
 .success {
-    background-color: rgba(0, 128, 0, 0.558);
+    background-color: rgb(0, 97, 0);
+    color: white;
+    font-weight: bold;
 }
 
 .warning {
-    background-color: rgba(255, 255, 0, 0.607);
+    background-color: rgb(218, 196, 0);
+    color: white;
+    font-weight: bold;
 }
 
 .danger {
-    background-color: rgba(207, 13, 2, 0.566);
+    background-color: rgb(132, 7, 0);
+    color: white;
+    font-weight: bold;
 }
 </style>

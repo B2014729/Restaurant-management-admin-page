@@ -45,7 +45,7 @@
                         </div>
                         <div class="d-flex" v-for="index in productCount" :key="index">
                             <div class="form-floating mb-2 w-50 ">
-                                <select class="form-select" id="product" aria-label="Default select example"
+                                <select type="text" class="form-select" id="product" aria-label="Default select example"
                                     v-model="listProductId[index - 1]">
                                     <option v-for="(product, i) in lisProductFromSelect" :key="i"
                                         :value="product.idhanghoa">

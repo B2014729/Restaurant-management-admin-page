@@ -32,6 +32,14 @@ class StaffService {
     async SalaryDetail(idStaff, idPhase) {
         return (await this.api.get(`/salary/${idStaff}/calendrier/${idPhase}`)).data.data;
     }
+
+    async UploadAvatar(token, data) {
+        return (await this.api.post(`/upload-avatar/${token}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })).data;
+    }
 }
 
 export default new StaffService();

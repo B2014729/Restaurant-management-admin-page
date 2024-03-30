@@ -13,21 +13,22 @@
                     <div class="row">
                         <div class="col-md-4 col-12">
                             <div class="d-flex justify-content-center">
-                                <img src="https://image.phunuonline.com.vn/fckeditor/upload/2022/20220815/images/4176_3-2.jpg"
-                                    alt="" class="w-75 rounded-4">
+                                <img :src="staff.hinhanh" alt="Avatar" class="w-75 rounded-4">
                             </div>
-                            <div class="d-flex justify-content-center form-floating my-2">
+                            <!-- <div class="d-flex justify-content-center form-floating my-2">
                                 <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles"
                                     ref="image">
                                 <label for="avatar" style="margin-left:35px;">Thêm avatar:</label>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-md-8 col-12">
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control  ms-2" id="fullname" v-model="staff.hoten">
-                                        <label for="fullname" :class="{ custom: notifycationActive }">*Họ và tên:</label>
+                                        <input type="text" class="form-control  ms-2" id="fullname"
+                                            v-model="staff.hoten">
+                                        <label for="fullname" :class="{ custom: notifycationActive }">*Họ và
+                                            tên:</label>
                                     </div>
                                     <div class="form-floating mb-2">
                                         <input type="date" class="form-control ms-2" id="dateofbirth"
@@ -49,12 +50,13 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control ms-2" id="phone" v-model="staff.sodienthoai">
+                                        <input type="text" class="form-control ms-2" id="phone"
+                                            v-model="staff.sodienthoai">
                                         <label for="phone">*Số điện thoại:</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <select class="form-select ms-2" id="position" aria-label="Default select example"
-                                            v-model="staff.idchucvu">
+                                        <select class="form-select ms-2" id="position"
+                                            aria-label="Default select example" v-model="staff.idchucvu">
                                             <option value="1">Thu ngân</option>
                                             <option value="2">Phục vụ</option>
                                             <option value="3">Quản lí</option>
@@ -96,7 +98,8 @@
                             </div>
                         </div>
                         <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân viên!
+                            <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân
+                            viên!
                         </span>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
@@ -157,7 +160,7 @@ export default {
     },
 
     async created() {
-        console.log(this.id);
+        //console.log(this.id);
         this.staff = await staffService.FindOneById(this.id);
         // this.staff.ngaysinh = moment(this.staff.ngaysinh).format("YYYY-MM-DD");
         // this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("YYYY-MM-DD");

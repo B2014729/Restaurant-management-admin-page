@@ -12,9 +12,5 @@ class CustomerService {
     async FindAll() {
         return (await this.api.get(`/list`)).data.data;
     }
-
-    async FindAllEvalues() {
-        return (await this.api.get(`/evalues`)).data.data;
-    }
 }
 export default new CustomerService();

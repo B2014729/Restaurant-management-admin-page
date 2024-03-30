@@ -5,21 +5,20 @@
                 <div class=" d-flex justify-content-between">
                     <div>
                         <h5 class="fw-bold">Thông tin nhân viên</h5>
-                     <!-- {{ nhanvien.idnhanvien }} -->
+                        <!-- {{ nhanvien.idnhanvien }} -->
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
                 <hr>
                 <div class="row" style="min-height: 500px;">
                     <div class="col-md-4 col-12">
-                        <img src="https://image.phunuonline.com.vn/fckeditor/upload/2022/20220815/images/4176_3-2.jpg"
-                            alt="" class="w-100 rounded-5 pt-2">
+                        <img :src="staff.hinhanh" alt="Avatar" class="w-100 rounded-5 pt-2">
                         <h6 class="text-center fw-bold mt-2">MS: {{ staff.idnhanvien }}</h6>
                         <h5 class="text-center fw-bold mt-2"> {{ staff.hoten }}</h5>
                         <span class="text-center" :class="{
-                            'status-on': (statusMessage == 'Đang làm việc'),
-                            'status-off': (statusMessage == 'Đã nghĩ việc')
-                        }">{{ statusMessage }}
+                        'status-on': (statusMessage == 'Đang làm việc'),
+                        'status-off': (statusMessage == 'Đã nghĩ việc')
+                    }">{{ statusMessage }}
                         </span>
                     </div>
                     <div class="col-md-8 col-12">
@@ -97,7 +96,7 @@ export default {
     }
 }
 </script>
-<style  scoped lang="css">
+<style scoped lang="css">
 .modalBooking {
     display: none;
     position: fixed;

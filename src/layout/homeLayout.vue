@@ -11,8 +11,9 @@
                 <hr>
                 <div style="min-height: 640px ;background-color: #e8e8e8cb;">
                     <homePage v-if="home"></homePage>
-                    <profitPage v-if="profit"></profitPage>
                     <revenuePage v-if="revenue"></revenuePage>
+                    <profitPage v-if="profit"></profitPage>
+                    <depotPage v-if="depot"></depotPage>
                     <consumerPage v-if="consumer"></consumerPage>
                 </div>
             </div>
@@ -28,6 +29,7 @@ import NavComponent from '@/components/navComponent.vue';
 import homePage from '@/pages/homePage/homePage.vue';
 import revenuePage from '@/pages/homePage/revenuePage.vue';
 import profitPage from '@/pages/homePage/profitPage.vue';
+import depotPage from '@/pages/homePage/depotPage.vue';
 import consumerPage from '@/pages/homePage/consumerPage.vue';
 
 import { ref } from 'vue';
@@ -35,15 +37,16 @@ import { ref } from 'vue';
 export default {
     components: {
         Logo, HeaderComponent, NavComponent,
-        homePage, revenuePage, profitPage, consumerPage,
+        homePage, revenuePage, profitPage, consumerPage, depotPage,
     },
     setup() {
         let home = ref(false);
         let consumer = ref(false);
         let revenue = ref(false);
         let profit = ref(false);
+        let depot = ref(false);
 
-        return { home, consumer, revenue, profit };
+        return { home, consumer, revenue, profit, depot };
     },
 
     watch: {
@@ -56,24 +59,35 @@ export default {
                     this.revenue = false;
                     this.profit = false;
                     this.consumer = false;
+                    this.depot = false;
                     break;
                 case 'profit-page':
                     this.profit = true;
                     this.home = false;
                     this.revenue = false;
                     this.consumer = false;
+                    this.depot = false;
+                    break;
+                case 'depot-page':
+                    this.revenue = false;
+                    this.home = false;
+                    this.profit = false;
+                    this.consumer = false;
+                    this.depot = true;
                     break;
                 case 'revenue-page':
                     this.revenue = true;
                     this.home = false;
                     this.profit = false;
                     this.consumer = false;
+                    this.depot = false;
                     break;
                 case 'consumer-page':
                     this.consumer = true;
                     this.home = false;
                     this.profit = false;
                     this.revenue = false;
+                    this.depot = false;
                     break;
                 default:
                     break;
@@ -86,11 +100,14 @@ export default {
             case 'home-page':
                 this.home = true;
                 break;
+            case 'revenue-page':
+                this.revenue = true;
+                break;
             case 'profit-page':
                 this.profit = true;
                 break;
-            case 'revenue-page':
-                this.revenue = true;
+            case 'depot-page':
+                this.depot = true;
                 break;
             case 'consumer-page':
                 this.consumer = true;

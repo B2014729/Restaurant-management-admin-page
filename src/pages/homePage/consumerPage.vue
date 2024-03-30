@@ -39,8 +39,7 @@
             <div class="col-md-3 col-12 bg-white rounded-4 shadow">
                 <div class="pt-2"><span class="fw-bold">Đánh giá của khách hàng gần đây</span></div>
                 <div>
-                    <evaluateCardComponent v-for="(item, index) in evalueList" :key="index"
-                        :evaluate="{ user: item.tendangnhap, date: item.thoigian, star: item.sosao, message: item.noidung }">
+                    <evaluateCardComponent v-for="(item, index) in evalueList" :key="index" :evaluate="item">
                     </evaluateCardComponent>
                     ...
                 </div>
@@ -55,7 +54,8 @@ import bookingCustomerModal from '@/components/modalsComponent/bookingCustomerMo
 import searchComponent from '@/components/searchComponent.vue';
 
 import customerService from '@/services/customer.service';
-import moment from 'moment';
+import evaluateService from '@/services/evaluate.service';
+
 export default {
     components: {
         evaluateCardComponent,
@@ -108,12 +108,10 @@ export default {
         async fetchData() {
             try {
                 this.listCustomer = await customerService.FindAll();
-                let evalues = await customerService.FindAllEvalues();
+                let evalues = await evaluateService.FindAll();
 
                 for (let index = 0; index < 5; index++) {
-                    const element = evalues[index];
-                    element.thoigian = moment(element.thoigian).format("DD/MM/YYYY");
-                    this.evalueList.push(element);
+                    this.evalueList.push(evalues[index]);
                 }
             } catch (error) {
                 console.log(error);

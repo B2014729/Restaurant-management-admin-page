@@ -41,7 +41,7 @@
                 </router-link>
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-                <router-link style="text-decoration: none;" :to="{ name: 'indebt-page' }">
+                <router-link style="text-decoration: none;" :to="{ name: 'depot-page' }">
                     <div class="card">
                         <div class="card-content">
                             <div class="card-body">
@@ -50,7 +50,7 @@
                                         <i class="fa-solid fa-warehouse fs-1 text-warning"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3 class="text-warning">34,756</h3>
+                                        <h3 class="text-warning">{{ countDepot }}</h3>
                                         <span>QL Kho</span>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                         <i class="fa-solid fa-users fs-1 text-secondary"></i>
                                     </div>
                                     <div class="media-body">
-                                        <h3>423</h3>
+                                        <h3>{{ countCustomer }}</h3>
                                         <span>Khách hàng</span>
                                     </div>
                                 </div>
@@ -88,7 +88,9 @@
 <script>
 import ChartRevenueComponent from '@/components/chartRevenueComponent.vue';
 import billService from '@/services/bill.service';
+import customerService from '@/services/customer.service';
 import paymentService from '@/services/payment.service';
+import depotService from '@/services/depot.service';
 export default {
     name: 'HomePage',
     components: {
@@ -106,6 +108,8 @@ export default {
         return {
             sumRevenue: 0,
             profit: 0,
+            countCustomer: 0,
+            countDepot: 0,
         };
     },
 
@@ -116,19 +120,25 @@ export default {
     methods: {
         async fetchData() {
             try {
-                let listBill = await billService.FindAll();//Tinh  tong doanh thu
+                let listBill = await billService.FindAll();//Tinh tong doanh thu
                 listBill.forEach((element) => {
                     this.sumRevenue += element.thanhtoan;
                 });
 
                 let sumpaymentList = 0;
-                let listPayment = await paymentService.FindAll(); //Thong phieu chi
-
+                let listPayment = await paymentService.FindAll(); //Tinh tong phieu chi => thanh toan
                 listPayment.forEach(element => {
                     sumpaymentList += Number(element.thanhtoan);
                 });
 
                 this.profit = this.sumRevenue - sumpaymentList;
+
+                let listCustomer = await customerService.FindAll(); //So luog khach hang
+                this.countCustomer = listCustomer.length;
+
+                let listProductDepot = await depotService.FindAll();
+                this.countDepot = listProductDepot.length;
+
             } catch (error) {
                 console.log(error);
             }

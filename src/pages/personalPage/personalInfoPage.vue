@@ -2,6 +2,9 @@
     <confirmModal v-if="notifycationActive" message="Lưu thông tin nhân viên ?" @close="closeNotifycation"
         @onActive="submit">
     </confirmModal>
+    <changePassModal v-if="modalActiveChangePass" @close="toggleModalChangePass" @onActive="changePass($event)">
+    </changePassModal>
+
     <div class="p-3">
         <h4 class="text-secondary fw-bold">Thông tin cá nhân__:</h4>
 
@@ -14,7 +17,6 @@
                         <div class="d-flex justify-content-center">
                             <img :src="staff.hinhanh" alt="Avatar" class="w-75 rounded-4">
                         </div>
-                        <form></form>
                         <div class="d-flex justify-content-center form-floating my-2">
                             <input class="w-75 form-control" id="avatar" type="file" @change="previewFiles"
                                 ref="avatar">
@@ -87,7 +89,8 @@
                                             v-model="staff.password" disabled="disabled">
                                         <label for="password">*Mật khẩu: </label>
                                     </div>
-                                    <button class="btn btn-outline-secondary h-50 ms-3 mt-3">
+                                    <button class="btn btn-outline-secondary h-50 ms-3 mt-3"
+                                        @click="toggleModalChangePass">
                                         _<i class="fa-solid fa-pencil"></i></button>
                                 </div>
                             </div>
@@ -117,14 +120,20 @@
 import staffService from '@/services/staff.service';
 import { ref } from 'vue';
 import confirmModal from '@/components/modalsComponent/confirmModal.vue';
+import changePassModal from '@/components/modalsComponent/changePassModal.vue';
 import alertMessage from '@/components/alertMessage/alertMessage.vue';
+
+import accountService from '@/services/account.service.js';
 export default {
     components: {
-        confirmModal, alertMessage,
+        confirmModal, alertMessage, changePassModal
     },
 
     setup() {
         let notifycationActive = ref(false);
+        // Quan li modal cap nhat thong tin tai khoan
+        let modalActiveChangePass = ref(false);
+
         let showAlert = ref(false);
         let status = ref('');
         let messageAlert = ref('');
@@ -142,7 +151,16 @@ export default {
             }
         }
 
-        return { notifycationActive, closeNotifycation, showAlert, status, messageAlert, errorNotifycation };
+        const toggleModalChangePass = () => {
+            notifycationActive.value = false;
+            modalActiveChangePass.value = !modalActiveChangePass.value;
+        }
+
+        return {
+            notifycationActive, closeNotifycation, showAlert,
+            status, messageAlert, errorNotifycation,
+            modalActiveChangePass, toggleModalChangePass,
+        };
     },
 
     data() {
@@ -233,7 +251,31 @@ export default {
                         this.showAlert = false;
                     }, 2500);
                 }
+            }
+        },
 
+        async changePass(data) {
+            this.modalActiveChangePass = false;
+            try {
+                await accountService.Update(data.token, data).then(result => {
+                    if (result.statusCode == 200) {
+                        this.showAlert = true;
+                        this.messageAlert = 'Đã cập nhật thông tin tài khoản!';
+                        this.status = 'success';
+                        setTimeout(() => {
+                            this.showAlert = false;
+                        }, 2500);
+
+                    }
+                })
+            } catch (error) {
+                console.log(error);
+                this.showAlert = true;
+                this.messageAlert = 'Lỗi khi cập nhật thông tin tài khoản!';
+                this.status = 'danger';
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
             }
         },
     }

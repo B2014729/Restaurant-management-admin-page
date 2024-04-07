@@ -15,7 +15,7 @@
 
                 <div class="d-flex justify-content-end mt-auto w-100">
                     <div>
-                        <button type="button" class="btn btn-danger" @click="closeModal">Hủy</button>
+                        <button type="button" class="btn btn-outline-danger" @click="closeModal">Hủy</button>
                         <button type="button" class="btn btn-success ms-2" @click="onActive">Ok</button>
                     </div>
                 </div>

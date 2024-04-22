@@ -4,7 +4,7 @@
             @onActive="submit">
         </confirmModal>
         <div class="p-3">
-            <h4 class="text-secondary fw-bold">Cập nhật thông tin hang hóa__:</h4>
+            <h4 class="text-secondary fw-bold">Cập nhật thông tin hang hóa:</h4>
 
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

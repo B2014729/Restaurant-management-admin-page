@@ -16,14 +16,15 @@
                         <h6 class="text-center fw-bold mt-2">MS: {{ staff.idnhanvien }}</h6>
                         <h5 class="text-center fw-bold mt-2"> {{ staff.hoten }}</h5>
                         <span class="text-center" :class="{
-                        'status-on': (statusMessage == 'Đang làm việc'),
-                        'status-off': (statusMessage == 'Đã nghĩ việc')
-                    }">{{ statusMessage }}
+                            'status-on': (statusMessage == 'Đang làm việc'),
+                            'status-off': (statusMessage == 'Đã nghĩ việc')
+                        }">{{ statusMessage }}
                         </span>
                     </div>
                     <div class="col-md-8 col-12">
                         <ul class="pt-3">
-                            <li><span class="fw-bold">Họ và tên:</span> {{ staff.hoten }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 150px;">Họ và tên:</span> {{
+                                staff.hoten }}</li>
                             <li><span class="fw-bold">Ngày sinh:</span> {{ staff.ngaysinh }}</li>
                             <li><span class="fw-bold">Giới tính:</span> {{ staff.gioitinhchu }}</li>
                             <li><span class="fw-bold">Thẻ căn cước:</span> {{ staff.cccd }}</li>

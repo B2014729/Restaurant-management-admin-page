@@ -4,7 +4,7 @@
             <DetailBillModal class="modal-detail-bill" v-if="modalActive" :idBill="idBill" @close="toggleModal(0)">
             </DetailBillModal>
             <div class="col-md-4 col-12">
-                <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận__:</h4>
+                <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận:</h4>
                 <div class="p-3 bg-white rounded-3 shadow bg-body-tertiary">
                     <h5 class="fw-bold">Lợi nhuận:</h5>
                     <h4 class="text-center fw-bold"> {{ formatNumber(profit) }} VNĐ</h4>

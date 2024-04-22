@@ -1,5 +1,6 @@
 <template>
-    <detailBookingModal v-if="modalActive" :id="idbooking" @close="toggleModalDetail" @onActive="confirmBooking">
+    <detailBookingModal v-if="modalActive" :id="idbooking" @close="toggleModalDetail"
+        @onActive="confirmBooking($event)">
     </detailBookingModal>
     <div>
         <div class="border border-2 rounded-3 mb-2">
@@ -18,7 +19,7 @@
                 </div>
                 <div class="col-2 ps-4 mt-2">
                     <span v-if="booking.trangthai == 1" class="text-success fw-bold">Đã xác nhận</span>
-                    <span v-else class="text-danger fw-bold">Chưa xác nhận</span>
+                    <span v-else class="text-danger fw-bold">Chờ xác nhận</span>
                 </div>
                 <div class="col-1">
                     <button class="btn btn-outline-success border" @click="toggleModalDetail"><i
@@ -60,7 +61,7 @@ export default {
             let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
             let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
 
-            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+            return `${hours}:${minutes}:${seconds}, ${dateIn}/${month}/${year}`;
         }
 
 
@@ -90,10 +91,11 @@ export default {
             }
         },
 
-        async confirmBooking() {
+        async confirmBooking(data) {
             this.modalActive = false;
+            console.log(data);
             try {
-                await bookingService.Confirm(this.idbooking).then((result) => {
+                await bookingService.Confirm(data.idBooking, data.status, data.idTable).then((result) => {
                     if (result.statusCode == 200) {
                         this.fetchData();
                     }

@@ -9,6 +9,10 @@ class DishService {
         return (await this.api.get(`/${id}`)).data.data[0];
     }
 
+    async FindAllNoType() {
+        return (await this.api.get(`/list`)).data.data;
+    }
+
     async FindAll() {
         return (await this.api.get(`/list-on-type`)).data.data;
     }

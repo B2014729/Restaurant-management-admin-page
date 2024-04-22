@@ -1,7 +1,7 @@
 <template>
     <div class="p-3">
         <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Quản lí kho__:</h4>
+            <h4 class="text-secondary fw-bold">Quản lí kho:</h4>
             <div>
                 <router-link :to="{ name: 'goods-page' }">
                     <button class="btn btn-secondary">

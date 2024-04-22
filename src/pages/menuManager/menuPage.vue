@@ -1,7 +1,7 @@
 <template>
     <div class="p-3">
         <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Giao diện menu__:</h4>
+            <h4 class="text-secondary fw-bold">Giao diện menu:</h4>
             <router-link :to="{ name: 'update-menu-page' }">
                 <button class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></button>
             </router-link>
@@ -13,7 +13,7 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món nướng</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in    monNuong   " :key="index" style="list-style: none;"
+                            <li v-for="(   item, index   ) in monNuong   " :key="index" style="list-style: none;"
                                 class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
@@ -34,7 +34,7 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món lẩu</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in    monLau   " :key="index" style="list-style: none;"
+                            <li v-for="(   item, index   ) in monLau   " :key="index" style="list-style: none;"
                                 class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
@@ -48,8 +48,8 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món gỏi & khai vị</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in    monGoiVaKhaivi   " :key="index" style="list-style: none;"
-                                class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in monGoiVaKhaivi   " :key="index"
+                                style="list-style: none;" class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
                                 </span>
@@ -66,8 +66,8 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Thức uống & thêm</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in    monThemVaNuoc   " :key="index" style="list-style: none;"
-                                class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in monThemVaNuoc   " :key="index"
+                                style="list-style: none;" class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
                                 </span>

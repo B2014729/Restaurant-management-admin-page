@@ -12,20 +12,49 @@
                 <div class="row">
                     <div class="col-6">
                         <h6 class="fw-bold">Thông tin khách hàng</h6>
-                        <p class="m-0">Họ tên khách hàng: {{ customerInfor.hotenkhachhang }}</p>
-                        <p class="m-0">Số điện thoại: {{ customerInfor.sodienthoai }}</p>
-                        <p class="m-0">Tên đăng nhập: {{ customerInfor.tendangnhap }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 140px;">Họ tên khách hàng</span>: {{
+                            customerInfor.hotenkhachhang }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 140px;">Số điện thoại</span>: {{
+                            customerInfor.sodienthoai }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 140px;">Tên đăng nhập</span>: {{
+                            customerInfor.tendangnhap }}</p>
+                        <div class="form-floating mt-4 w-50">
+                            <select class="form-select" id="table" aria-label="Default select example"
+                                v-model="booking.idban">
+                                <option
+                                    v-for="(item, index) in [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]"
+                                    :value="item" :key="index">
+                                    {{ item }}
+                                </option>
+                            </select>
+                            <label for="table">*Chọn bàn:</label>
+                        </div>
+                        <span v-if="errorEmptyTable" class="text-end text-warning" style="font-size: 12px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Vui lòng chọn bàn!
+                        </span>
                     </div>
                     <div class="col-6">
                         <h6 class="fw-bold">Thông tin đặt bàn</h6>
-                        <p class="m-0">Ngày giờ: {{ formatDateTime(booking.ngaygio) }}</p>
-                        <p class="m-0">Số lượng người: {{ booking.soluongnguoi }}</p>
-                        <p class="m-0">Trạng thái: {{ booking.trangthai }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 130px;">Ngày giờ</span>:
+                            {{ formatDateTime(booking.ngaygio) }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 130px;">Số lượng người</span>: {{
+                            booking.soluongnguoi }}</p>
+                        <p class="m-0"><span style="display: inline-block; width: 130px;">Ghi chú</span>: {{
+                            booking.ghichu }}</p>
+                        <div class="form-floating mt-4">
+                            <select class="form-select" id="statusBooking" aria-label="Default select example"
+                                v-model="booking.trangthai">
+                                <option value="0" class="text-danger">Chờ xác nhận</option>
+                                <option value="1" class="text-success">Đã xác nhận</option>
+                            </select>
+                            <label for="statusBooking">*Trạng thái:</label>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-auto w-100">
-                    <div>
-                        <button type="button" class="btn btn-danger" @click="closeModal">Hủy</button>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-outline-danger" @click="closeModal">Hủy</button>
                         <button type="button" class="btn btn-success ms-2" @click="onActive">Xác nhận</button>
                     </div>
                 </div>
@@ -34,6 +63,7 @@
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import bookingService from '@/services/booking.service';
 
 export default {
@@ -45,13 +75,12 @@ export default {
     },
 
     setup(props, context) {
+        let errorEmptyTable = ref(false);
+
         const closeModal = () => {
             context.emit("close");
         }
 
-        const onActive = () => {
-            context.emit("onActive");
-        }
 
         function formatDateTime(date) {
             let newDate = new Date(date);
@@ -62,10 +91,10 @@ export default {
             let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
             let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
 
-            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+            return `${hours}:${minutes}:${seconds}, ${dateIn}/${month}/${year}`;
         }
 
-        return { closeModal, onActive, formatDateTime };
+        return { closeModal, formatDateTime, errorEmptyTable };
     },
 
     data() {
@@ -88,6 +117,19 @@ export default {
                 console.log(error);
             }
         },
+
+        onActive() {
+            if (Number(this.booking.idban) != 1) {
+                this.errorEmptyTable = false;
+                this.$emit('onActive', {
+                    idBooking: this.booking.iddatban,
+                    status: Number(this.booking.trangthai),
+                    idTable: Number(this.booking.idban),
+                });
+            } else {
+                this.errorEmptyTable = true;
+            }
+        },
     }
 }
 </script>
@@ -107,10 +149,11 @@ export default {
 .modal-bill-content {
     background-color: white;
     width: 45%;
-    height: 33%;
+    height: 50%;
     border-radius: 10px;
     animation-name: animationShow;
     animation-duration: 300ms;
+    overflow: auto;
 }
 
 

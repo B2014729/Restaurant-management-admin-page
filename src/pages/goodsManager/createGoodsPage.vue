@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="p-3">
-            <h4 class="text-secondary fw-bold">Thêm hàng hóa__:</h4>
+            <h4 class="text-secondary fw-bold">Thêm hàng hóa:</h4>
 
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

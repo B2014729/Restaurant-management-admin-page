@@ -5,7 +5,7 @@
         </createPhaseModal>
         <div class="d-flex justify-content-between">
             <div class="d-flex">
-                <h4 class="text-secondary fw-bold">Sắp xếp lịch làm việc__:</h4>
+                <h4 class="text-secondary fw-bold">Sắp xếp lịch làm việc:</h4>
 
                 <div class="ms-4 d-flex">
                     <select class="form-select" aria-label="Default select example" v-model="phase"

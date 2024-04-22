@@ -6,7 +6,7 @@
 
         <div class="d-flex justify-content-between">
 
-            <h4 class="text-secondary fw-bold">Danh sách nhà cung cấp__:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách nhà cung cấp:</h4>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
                     Xuất file</button>

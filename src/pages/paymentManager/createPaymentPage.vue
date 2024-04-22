@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Lập phiếu chi__:</h4>
+        <h4 class="text-secondary fw-bold">Lập phiếu chi:</h4>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
         <div class="d-flex justify-content-center">
             <form class="w-75" @submit.prevent="{ }">
@@ -31,7 +31,7 @@
                                 v-model="data.idSupplier">
                                 <option v-for="(item, i)  in listSupplierFromSelect" :key="i"
                                     :value="item.idnhacungcap">{{
-            item.tennhacungcap }}
+                                        item.tennhacungcap }}
                                 </option>
                             </select>
                             <label for="supplier">*Đơn vị cung cấp:</label>

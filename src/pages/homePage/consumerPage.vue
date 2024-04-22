@@ -1,7 +1,7 @@
 <template>
     <div class="p-3">
         <bookingCustomerModal v-if="modalActive" :idCustomer="id" @close="toggleModal(0)"></bookingCustomerModal>
-        <h4 class="text-secondary fw-bold">Quản lí khách hàng__:</h4>
+        <h4 class="text-secondary fw-bold">Quản lí khách hàng:</h4>
         <div class="row">
             <div class="col-md-9 col-12">
                 <searchComponent class="w-100" @submit="search($event)" v-model="searchText">

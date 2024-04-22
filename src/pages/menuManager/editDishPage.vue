@@ -3,7 +3,7 @@
         <confirmModal v-if="notifycationActive" message="Lưu thông tin món ăn?" @close="closeNotifycation"
             @onActive="submit">
         </confirmModal>
-        <h4 class="text-secondary fw-bold">Cập nhật thông tin món ăn__:</h4>
+        <h4 class="text-secondary fw-bold">Cập nhật thông tin món ăn:</h4>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">

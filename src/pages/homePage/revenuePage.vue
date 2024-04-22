@@ -1,6 +1,14 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Tổng quan doanh thu__:</h4>
+        <forcastPredictionModal v-if="modalPrediction" @close="toggleModalPrediction"></forcastPredictionModal>
+        <div class="d-flex justify-content-between">
+            <h4 class="text-secondary fw-bold">Tổng quan doanh thu:</h4>
+            <div>
+                <button class="btn btn-outline-success" @click="toggleModalPrediction">Doanh thu</button>
+                <button class="btn btn-success  ms-2">+</button>
+            </div>
+        </div>
+
         <div class="p-2 d-flex justify-content-end" style="width: 860px;">
             <span class="me-1 p-1">Giai đoạn: tháng</span>
             <select class="form-select" style="width: 72px; height: 33px;" aria-label="Default select example"
@@ -31,7 +39,6 @@
         </div>
         <div class="row" style="height: 290px;">
             <div class=" col-md-8 col-12 bg-white rounded-3 ms-5" style="height: 280px;">
-
                 <canvas class="p-2" id="chartLineRevenue"></canvas>
                 <p style="font-size: 11px; text-align: center;">Biểu đồ thống kê doanh thu các ngày trong tháng.</p>
             </div>
@@ -85,19 +92,28 @@
     </div>
 </template>
 <script>
+import forcastPredictionModal from '@/components/modalsComponent/forcastPredictionModal.vue';
 import billService from '@/services/bill.service';
 import dishSevice from '@/services/dish.service';
 import Chart from 'chart.js/auto';
-
+import { ref } from 'vue';
 export default {
+    components: {
+        forcastPredictionModal
+    },
 
     setup() {
+        let modalPrediction = ref(false);
+        const toggleModalPrediction = () => {
+            modalPrediction.value = !modalPrediction.value;
+        }
+
         const formatNumber = (number) => {
             return (new Intl.NumberFormat().format(number));
         }
 
         return {
-            formatNumber,
+            formatNumber, modalPrediction, toggleModalPrediction,
         }
     },
 
@@ -149,6 +165,10 @@ export default {
 
         async changePhase() {
             await this.fetchData();
+        },
+
+        onModalPrediction() {
+            this.$emit('onModalPrediction');
         }
     },
 

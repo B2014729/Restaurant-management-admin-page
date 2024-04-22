@@ -26,14 +26,13 @@
                 <div>
                     <span class="fw-bold">Danh sách món:</span>
 
-                    <div style="min-height:390px; overflow: hidden;">
+                    <div style="min-height:360px; overflow: hidden;">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center">STT</th>
                                     <th scope="col" class="text-center">Tên món</th>
                                     <th scope="col" class="text-center" style="width: 150px;">Đơn giá (vnđ)</th>
-                                    <th scope="col" class="text-center" style="width: 120px;">Giảm (vnđ)</th>
                                     <th scope="col" class="text-center" style="width: 90px;">Số lượng</th>
                                     <th scope="col" class="text-center" style="width: 150px;">Tổng (vnđ)</th>
                                 </tr>
@@ -41,18 +40,21 @@
                             <tbody>
                                 <tr v-for="(item, index) in bill.chitietdatmon" :key="index">
                                     <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
-                                    <td class="text-center" style="padding-top: 13px;">{{ item.mon.tenmon }}</td>
-                                    <td class="text-center" style="padding-top: 13px;">{{ formatNumber(item.mon.gia) }}
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.tenmon }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ formatNumber(item.gia) }}
                                     </td>
-                                    <td class="text-center" style="padding-top: 13px;">0</td>
+
                                     <td class="text-center" style="padding-top: 13px;">{{ item.soluong }}</td>
                                     <td class="text-center" style="padding-top: 13px;">{{
-                            formatNumber(item.soluong * item.mon.gia) }}</td>
+                                        formatNumber(item.soluong * item.gia) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-end mt-2">
+                    <div class="d-flex justify-content-end">
+                        <p class="fw-bold m-0">Khuyến mãi combo: {{ formatNumber(bill.giamgia) }} vnđ</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
                         <p class="fw-bold">Thanh toán: {{ formatNumber(bill.thanhtoan) }} vnđ</p>
                     </div>
                 </div>
@@ -69,6 +71,7 @@
 
 <script>
 import billService from '@/services/bill.service';
+
 export default {
     props: {
         idBill: {
@@ -113,7 +116,18 @@ export default {
 
     methods: {
         async fetchData() {
+            let listDishBill = [];
             this.bill = await billService.FindOneById(this.idBill);
+            this.bill.chitietdatmon.forEach(element => {
+                if (Object.keys(element.khuyenmai).length == 0) {
+                    element.mon.soluong = element.soluong;
+                    listDishBill.push(element.mon);
+                } else {
+                    listDishBill.push(...element.mon);
+                }
+            });
+            this.bill.chitietdatmon = listDishBill;
+            console.log(listDishBill)
         }
     }
 }
@@ -140,6 +154,7 @@ export default {
     border-radius: 10px;
     animation-name: animationShow;
     animation-duration: 300ms;
+    overflow: auto;
 }
 
 

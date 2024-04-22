@@ -4,7 +4,7 @@
         </confirmModal>
 
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách món ăn __:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách món ăn:</h4>
         </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>

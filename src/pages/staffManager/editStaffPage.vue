@@ -4,7 +4,7 @@
             @onActive="submit">
         </confirmModal>
         <div class="p-3">
-            <h4 class="text-secondary fw-bold">Cập nhật nhân viên__:</h4>
+            <h4 class="text-secondary fw-bold">Cập nhật nhân viên:</h4>
 
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
@@ -160,10 +160,14 @@ export default {
     },
 
     async created() {
-        //console.log(this.id);
-        this.staff = await staffService.FindOneById(this.id);
-        // this.staff.ngaysinh = moment(this.staff.ngaysinh).format("YYYY-MM-DD");
-        // this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("YYYY-MM-DD");
+        try {
+            //console.log(this.id);
+            this.staff = await staffService.FindOneById(this.id);
+            // this.staff.ngaysinh = moment(this.staff.ngaysinh).format("YYYY-MM-DD");
+            // this.staff.ngaythamgia = moment(this.staff.ngaythamgia).format("YYYY-MM-DD");
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     methods: {

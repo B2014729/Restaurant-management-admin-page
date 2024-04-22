@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Tổng quan__:</h4>
+        <h4 class="text-secondary fw-bold">Tổng quan:</h4>
         <div class="row">
             <div class="col-xl-3 col-sm-6 col-12">
                 <router-link style="text-decoration: none;" :to="{ name: 'revenue-page' }">

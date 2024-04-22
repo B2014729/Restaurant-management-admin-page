@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Đánh giá của khách hàng__:</h4>
+        <h4 class="text-secondary fw-bold">Đánh giá của khách hàng:</h4>
         <div class="d-flex justify-content-center">
             <div class="w-75">
                 <div class="d-flex justify-content-between">

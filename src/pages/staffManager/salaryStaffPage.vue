@@ -4,7 +4,7 @@
             @close="toggleModal(0)">
         </detailSalaryModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Thông tin lương__:</h4>
+            <h4 class="text-secondary fw-bold">Thông tin lương:</h4>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel">
                     <i class="fa-solid fa-file-excel"></i> Xuất file</button>
@@ -56,7 +56,7 @@
                         <td class="text-center">{{ formatNumber(item.thuong) }}</td>
                         <td class="text-center">{{ formatNumber(item.phat) }}</td>
                         <td class="text-center fw-bold">{{ formatNumber(item.tonggio * item.luong - item.phat +
-            item.thuong)
+                            item.thuong)
                             }}</td>
                         <th scope="row" class="text-center">
                             <button type="button" class="btn" @click="toggleModal(item.nhanvien.idnhanvien)">

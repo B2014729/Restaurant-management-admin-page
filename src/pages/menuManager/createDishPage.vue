@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới món ăn__:</h4>
+        <h4 class="text-secondary fw-bold">Thêm mới món ăn:</h4>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
         <div class="d-flex justify-content-center">
             <form class="w-75" @submit.prevent="{ }">

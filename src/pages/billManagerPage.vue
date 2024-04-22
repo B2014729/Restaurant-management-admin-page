@@ -3,7 +3,7 @@
         <DetailBillModal class="modal-detail-bill" v-if="modalActive" :idBill="idBill" @close="toggleModal(0)">
         </DetailBillModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Hóa đơn__:</h4>
+            <h4 class="text-secondary fw-bold">Hóa đơn:</h4>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel">
                     <i class="fa-solid fa-file-excel"></i> Xuất file
@@ -44,7 +44,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row" class="text-center fw-bold  bg-success text-white">Tổng giá trị</th>
+                        <th scope="row" class="text-center fw-bold  bg-success text-white">
+                            <button class="btn btn-success fw-bold" @click="fetchData()"> Tổng giá trị</button>
+                        </th>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
@@ -60,9 +62,9 @@
                         <td class="text-center">{{ formatDateTime(item.ngaygioxuat) }}</td>
                         <td class="text-center">{{ item.tennhanvien }}</td>
                         <td class="text-center">{{ item.idban }}</td>
-                        <td class="text-center">{{ formatNumber(item.thanhtoan) }}</td>
+                        <td class="text-center">{{ formatNumber(item.thanhtoan + item.giamgia) }}</td>
                         <td class="text-center">{{ formatNumber(item.giamgia) }}</td>
-                        <td class="text-center  fw-bold">{{ formatNumber(item.thanhtoan - item.giamgia) }}</td>
+                        <td class="text-center  fw-bold">{{ formatNumber(item.thanhtoan) }}</td>
                         <td class="text-center" style="padding-top: 13px;">
                             <span class="status">Đã thanh toán</span>
                         </td>
@@ -108,7 +110,7 @@ export default {
             let month = (newDate.getMonth() + 1) >= 10 ? (newDate.getMonth() + 1) : `0${(newDate.getMonth() + 1)}`;
             let year = newDate.getFullYear() >= 10 ? newDate.getFullYear() : `0${newDate.getFullYear()}`;
 
-            return `${hours}:${minutes}:${seconds} ${dateIn}/${month}/${year}`;
+            return `${hours}:${minutes}:${seconds}, ${dateIn}/${month}/${year}`;
         }
 
         const formatNumber = (number) => {
@@ -153,7 +155,10 @@ export default {
 
     methods: {
         async fetchData() {
+            this.sumDiscount = 0;
+            this.amountPayment = 0;
             this.billList = await billService.FindAll();
+
             this.billList.forEach((element) => {
                 this.sumDiscount += element.giamgia;
                 this.amountPayment += element.thanhtoan;
@@ -197,7 +202,7 @@ export default {
 }
 
 </script>
-<style  scoped>
+<style scoped>
 .status {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);

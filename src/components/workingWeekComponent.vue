@@ -144,6 +144,7 @@ export default {
 
     watch: {
         workWeek: function (newVal, oldVal) { // watch it
+            console.log(newVal);
             if (newVal != oldVal) {
                 this.data = newVal;
                 this.id = newVal.length;

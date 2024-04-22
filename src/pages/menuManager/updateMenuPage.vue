@@ -5,7 +5,7 @@
         <addDishOnMenuModal v-if="addModalActive" @close="closeModalAdd" @onActive="onAddDish($event)">
         </addDishOnMenuModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách món ăn trong menu__:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách món ăn trong menu:</h4>
         </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
@@ -15,7 +15,8 @@
                 </searchComponent>
             </div>
             <div class="col-md-2 d-flex justify-content-end">
-                <button class="btn btn-success" @click="closeModalAdd"><i class="fa-solid fa-plus"></i> Thêm món</button>
+                <button class="btn btn-success" @click="closeModalAdd"><i class="fa-solid fa-plus"></i> Thêm
+                    món</button>
             </div>
         </div>
         <div class="mt-2">

@@ -3,7 +3,7 @@
         <detailPaymentModal class="modal-detail-bill" v-if="modalActive" :idPayment="idPayment" @close="toggleModal(0)">
         </detailPaymentModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách phiếu chi__:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách phiếu chi:</h4>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
                     Xuất file
@@ -45,7 +45,9 @@
                 <tbody>
 
                     <tr>
-                        <th scope="row" class="text-center fw-bold  bg-success text-white">Tổng giá trị</th>
+                        <th scope="row" class="text-center fw-bold  bg-success text-white">
+                            <button class="btn btn-success fw-bold" @click="fetchData()"> Tổng giá trị</button>
+                        </th>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
@@ -139,6 +141,7 @@ export default {
 
     methods: {
         async fetchData() {
+            this.sumAmount = 0;
             this.listPayment = await paymentService.FindAll();
             if (this.listPayment.length > 0) {
                 this.listPayment.forEach((element) => {

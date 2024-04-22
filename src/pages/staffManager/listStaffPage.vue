@@ -2,12 +2,12 @@
     <div class="p-3">
         <detailStaffModal v-if="modalActive" :id="idStaff" @close="toggleModal(0)"></detailStaffModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách nhân viên__:</h4>
+            <h4 class="text-secondary fw-bold">Danh sách nhân viên:</h4>
             <div>
                 <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
             </div>
         </div>
-            
+
         <div class="row mt-1">
             <div class="col-md-10 col-12">
                 <searchComponent @submit="search($event)" v-model="searchText">
@@ -153,19 +153,19 @@ export default {
     },
 
     async created() {
-        try{
+        try {
             this.staffList = await staffService.FindAll();
             this.staffList.forEach((element) => {
-            if (element.trangthai === 1) {
-                this.staffListOn.push(element);
-            } else {
-                this.staffListOff.push(element);
-            }
-        });
-        }catch(error){
+                if (element.trangthai === 1) {
+                    this.staffListOn.push(element);
+                } else {
+                    this.staffListOff.push(element);
+                }
+            });
+        } catch (error) {
             console.log(error);
         }
-        
+
     },
 
     methods: {

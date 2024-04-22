@@ -142,7 +142,6 @@ export default {
 }
 
 .modal-bill-content {
-
     background-color: white;
     width: 23%;
     height: 60%;

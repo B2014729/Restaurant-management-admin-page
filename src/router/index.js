@@ -351,8 +351,9 @@ const routes = [
     },
 
     {
-        path: '/quan-li-thong-tin',
+        path: '/thong-tin-nha-hang',
         name: 'information-manager',
+        component: () => import('@/layout/inforManagerLayout.vue'),
         beforeEnter: (to, from, next) => {
             if (!store.state.user || (store.state.user.quyentruycap != 5)) {
                 next('/');

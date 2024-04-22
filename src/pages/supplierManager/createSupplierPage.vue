@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới nhà cung cấp__:</h4>
+        <h4 class="text-secondary fw-bold">Thêm mới nhà cung cấp:</h4>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
@@ -41,7 +41,8 @@
                         </div>
                     </div>
                     <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhà cung cấp!
+                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhà cung
+                        cấp!
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;"

@@ -1,12 +1,12 @@
 <template>
-    <confirmModal v-if="notifycationActive" message="Lưu thông tin nhân viên ?" @close="closeNotifycation"
+    <confirmModal v-if="notifycationActive" message="Lưu thông tin cá nhân?" @close="closeNotifycation"
         @onActive="submit">
     </confirmModal>
     <changePassModal v-if="modalActiveChangePass" @close="toggleModalChangePass" @onActive="changePass($event)">
     </changePassModal>
 
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thông tin cá nhân__:</h4>
+        <h4 class="text-secondary fw-bold">Thông tin cá nhân:</h4>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

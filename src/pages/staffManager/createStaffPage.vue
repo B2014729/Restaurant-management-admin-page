@@ -1,6 +1,6 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới nhân viên__:</h4>
+        <h4 class="text-secondary fw-bold">Thêm mới nhân viên:</h4>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">
@@ -115,10 +115,15 @@ export default {
     data() {
         return {
             data: {},
+            fileSelect: null,
         };
     },
 
     methods: {
+        previewFiles(event) {
+            this.fileSelect = event.target.files[0];
+        },
+
         async submit() {
             if (!this.data.fullname || !this.data.dateofbirth || !this.data.datestart
                 || !this.data.phone || !this.data.idnumber || !this.data.address
@@ -136,7 +141,20 @@ export default {
             else {
                 this.errorNotifycation = false;
                 try {
-                    await staffService.Create(this.data).then((result) => {
+                    const fd = new FormData();
+                    fd.append('avatar', this.fileSelect);
+                    fd.append('fullname', this.data.fullname);
+                    fd.append('dateofbirth', this.data.dateofbirth);
+                    fd.append('datestart', this.data.datestart);
+                    fd.append('phone', this.data.phone);
+                    fd.append('idnumber', this.data.idnumber);
+                    fd.append('address', this.data.address);
+                    fd.append('idsalary', this.data.idsalary);
+                    fd.append('idposition', this.data.idposition);
+                    fd.append('gender', this.data.gender);
+                    fd.append('status', this.data.status);
+
+                    await staffService.Create(fd).then((result) => {
                         if (result.statusCode == 200) {
                             this.messageAlert = 'Thêm nhân viên mới thành công!';
                             this.status = 'success';
@@ -164,6 +182,7 @@ export default {
                 }
             }
         },
+
     }
 }
 </script>

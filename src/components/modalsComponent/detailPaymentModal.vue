@@ -4,17 +4,20 @@
             <div class="p-3 d-flex flex-column">
                 <div class=" d-flex justify-content-between">
                     <div>
-                        <h5 class="fw-bold">Thông tin chi tiết phiếu chi {{ idPayment }}</h5>
+                        <h5 class="fw-bold">Chi tiết phiếu chi</h5>
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-5 col-12">
+                        <span class="fw-bold ms-3">Thông tin phiếu chi:</span>
                         <ul>
-                            <li class="py-1"><span class="fw-bold title">Mã phiếu chi</span>: {{ paymentInfo.idphieuchi }}
+                            <li class="py-1"><span class="fw-bold title">Mã phiếu chi</span>: {{ paymentInfo.idphieuchi
+                                }}
                             </li>
-                            <li class="py-1"><span class=" fw-bold title">Ngày lập</span>: {{ paymentInfo.ngaygio }}</li>
+                            <li class="py-1"><span class=" fw-bold title">Ngày lập</span>: {{ paymentInfo.ngaygio }}
+                            </li>
                             <li class="py-1"><span class="fw-bold title">Nhân viên</span>: {{ staffInfo.hoten }}</li>
                             <li class="py-1"><span class="fw-bold title">Trạng thái</span>:
                                 <span class="status">Đã thanh toán</span>
@@ -23,13 +26,18 @@
                     </div>
 
                     <div class="col-md-7 col-12">
-                        <span class="fw-bold">Thông tin nhà cung cấp:</span>
+                        <span class="fw-bold ms-3">Thông tin nhà cung cấp:</span>
                         <ul>
-                            <li class="py-1"><span class="fw-bold title">Mã NCC</span>: {{ supplierInfo.idnhacungcap }}</li>
+                            <li class="py-1"><span class="fw-bold title">Mã NCC</span>: {{ supplierInfo.idnhacungcap }}
+                            </li>
                             <li class="py-1"><span class=" fw-bold title">Tên đơn vị</span>:
                                 {{ supplierInfo.tennhacungcap }}
                             </li>
-                            <li class="py-1"><span class="fw-bold title">Địa chỉ</span>: {{ supplierInfo.diachi }}</li>
+                            <li class="py-1 d-flex"><span class="fw-bold title">Địa chỉ</span>
+                                :
+                                <span class="ms-1" style="display: inline-block; width: 300px;"> {{ supplierInfo.diachi
+                                    }}</span>
+                            </li>
                             <li class="py-1"><span class="fw-bold title">Số điện thoại</span>:
                                 {{ supplierInfo.sodienthoai }}</li>
                             <li class="py-1"><span class="fw-bold title">Số tài khoản</span>:
@@ -57,7 +65,8 @@
                             <tbody>
                                 <tr v-for="(item, index) in detailPayment" :key="index">
                                     <td class="text-center" style="padding-top: 13px;">{{ index + 1 }}</td>
-                                    <td class="text-center" style="padding-top: 13px;">{{ item.hanghoa.tenhanghoa }}</td>
+                                    <td class="text-center" style="padding-top: 13px;">{{ item.hanghoa.tenhanghoa }}
+                                    </td>
                                     <td class="text-center" style="padding-top: 13px;">{{ item.dongia }}</td>
                                     <td class="text-center" style="padding-top: 13px;">{{ item.giam }}</td>
                                     <td class="text-center" style="padding-top: 13px;">{{ item.soluong }}</td>
@@ -141,7 +150,7 @@ export default {
     }
 }
 </script>
-<style  scoped lang="css">
+<style scoped lang="css">
 .modalBill {
     display: none;
     position: fixed;

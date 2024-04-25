@@ -23,18 +23,33 @@
                     </div>
                     <div class="col-md-8 col-12">
                         <ul class="pt-3">
-                            <li><span class="fw-bold" style="display: inline-block; width: 150px;">Họ và tên:</span> {{
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Họ và tên</span>: {{
                                 staff.hoten }}</li>
-                            <li><span class="fw-bold">Ngày sinh:</span> {{ staff.ngaysinh }}</li>
-                            <li><span class="fw-bold">Giới tính:</span> {{ staff.gioitinhchu }}</li>
-                            <li><span class="fw-bold">Thẻ căn cước:</span> {{ staff.cccd }}</li>
-                            <li><span class="fw-bold">Nơi cư trú:</span> {{ staff.diachi }}</li>
-                            <li><span class="fw-bold">Số điện thoại:</span> {{ staff.sodienthoai }}</li>
-                            <li><span class="fw-bold">Ngày bắt đầu:</span> {{ staff.ngaythamgia }}</li>
-                            <li><span class="fw-bold">Chức vụ:</span> {{ staff.tenchucvu }}</li>
-                            <li><span class="fw-bold">Hệ số lương:</span> {{ staff.idluong }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Ngày sinh</span>: {{
+                                staff.ngaysinh }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Giới tính</span>: {{
+                                staff.gioitinhchu }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Thẻ căn cước</span>:
+                                {{ staff.cccd }}</li>
+                            <li class="d-flex">
+                                <span class="fw-bold" style="display: inline-block; width: 180px;">
+                                    Nơi cư trú
+                                </span>:
+                                <span style="display: inline-block; width: 360px;">
+                                    {{ staff.diachi }}
+                                </span>
+                            </li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Số điện thoại</span>:
+                                {{ staff.sodienthoai }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Ngày bắt đầu</span>:
+                                {{ staff.ngaythamgia }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Chức vụ</span>: {{
+                                staff.tenchucvu }}</li>
+                            <li><span class="fw-bold" style="display: inline-block; width: 180px;">Hệ số lương</span>:
+                                {{ staff.idluong }}</li>
                             <li>
-                                <span class="fw-bold">Hình thức trả lương:</span> tháng
+                                <span class="fw-bold" style="display: inline-block; width: 180px;">Hình thức trả
+                                    lương</span>: tháng
                                 <router-link :to="{ name: 'salary-page' }" style="text-decoration: none;">
                                     (xem lương)
                                 </router-link>
@@ -114,10 +129,11 @@ export default {
 .modal-booking-content {
     background-color: white;
     width: 60%;
-    margin: 50px 0px 50px 0px;
+    margin: 20px 0px 70px 0px;
     border-radius: 10px;
     animation-name: animationShow;
     animation-duration: 300ms;
+    overflow: auto;
 }
 
 @keyframes animationShow {
@@ -126,7 +142,7 @@ export default {
     }
 
     100% {
-        margin-top: 50px;
+        margin-top: 20px;
     }
 }
 

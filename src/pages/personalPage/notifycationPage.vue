@@ -1,6 +1,15 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thông báo đặt bàn:</h4>
+        <createBookingModal v-if="modalCreateBookingActive" @close="toggelModalCreateBooking"
+            @onActive="createBooking($event)">
+        </createBookingModal>
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="text-secondary fw-bold">Thông báo đặt bàn:</h4>
+            <button class="btn btn-outline-success" @click="toggelModalCreateBooking"><i class="fa-solid fa-plus"></i>
+                Tạo
+                đặt bàn</button>
+        </div>
+        <alertMessage v-if="showAlert" :message="messageAlert" :status="status"></alertMessage>
         <div class="row">
             <div class="col-md-4 col-12">
                 <h6 class="text fw-bold ms-3 mt-3" style="font-size: 18px;">Sắp diển ra:</h6>
@@ -13,7 +22,8 @@
 
         <div class="d-flex justify-content-center">
             <div class="w-100">
-                <notifycationCard v-for="(item, index) in searchBookingUpcoming" :key="index" :idbooking=item.iddatban>
+                <notifycationCard v-for="(item, index) in searchBookingUpcoming" :key="index" :idbooking=item.iddatban
+                    @UpdateStatus="showAlertMessage($event)">
                 </notifycationCard>
             </div>
         </div>
@@ -37,13 +47,16 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import createBookingModal from '@/components/modalsComponent/createBookingModal.vue';
 import notifycationCard from '@/components/notifycationCard.vue';
 import bookingService from '@/services/booking.service';
 import searchComponent from '@/components/searchComponent.vue';
+import alertMessage from '@/components/alertMessage/alertMessage.vue';
 
 export default {
     components: {
-        notifycationCard, searchComponent
+        notifycationCard, searchComponent, alertMessage, createBookingModal
     },
 
     computed: {
@@ -80,6 +93,22 @@ export default {
         }
     },
 
+    setup() {
+        let messageAlert = ref('');
+        let showAlert = ref(false);
+        let status = ref('');
+
+        let modalCreateBookingActive = ref(false);
+
+        const toggelModalCreateBooking = () => {
+            modalCreateBookingActive.value = !modalCreateBookingActive.value;
+        }
+
+        return {
+            messageAlert, showAlert, status, modalCreateBookingActive, toggelModalCreateBooking,
+        };
+    },
+
 
     data() {
         return {
@@ -98,6 +127,9 @@ export default {
 
     methods: {
         async fetchData() {
+            this.listBooking = [];
+            this.listBookingsUpcoming = [];
+            this.listBookingsHistory = [];
             try {
                 this.listBooking = await bookingService.FindAll();
                 if (this.listBooking.length > 0) {
@@ -117,6 +149,60 @@ export default {
 
         search(data) {
             console.log(data);
+        },
+
+        showAlertMessage(data) {
+            if (data) {
+                this.status = 'success';
+                this.messageAlert = 'Đã xác nhận thông tin đặt bàn!';
+                this.showAlert = true; // On alert message
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
+            } else {
+                this.status = 'danger';
+                this.messageAlert = 'Xác nhận thông tin đặt bàn không thành công!';
+                this.showAlert = true; // On alert message
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
+            }
+        },
+
+        async createBooking(data) {
+            this.modalCreateBookingActive = false;
+            try {
+                data.token = '';
+                data.staff = this.$store.state.user.token;   //id nhan vien tao 
+
+                let resultAdd = await bookingService.Create(data);
+                if (resultAdd.statusCode == 200) {
+                    await this.fetchData();
+                    this.showAlert = true;
+                    this.messageAlert = 'Đã thêm đặt bàn mới!';
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                    this.status = 'success';
+                    data = {};
+
+                } else {
+                    this.showAlert = true;
+                    this.messageAlert = 'Lỗi khi thêm đặt bàn!';
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                    this.status = 'danger';
+                }
+            } catch (error) {
+                this.showAlert = true;
+                this.messageAlert = 'Error when booking your table';
+                setTimeout(() => {
+                    this.showAlert = false;
+                }, 2500);
+                this.status = 'danger';
+                console.log(error);
+            }
         }
     }
 }

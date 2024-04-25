@@ -15,7 +15,7 @@
                         <p class="m-0"><span style="display: inline-block; width: 140px;">Họ tên khách hàng</span>: {{
                             customerInfor.hotenkhachhang }}</p>
                         <p class="m-0"><span style="display: inline-block; width: 140px;">Số điện thoại</span>: {{
-                            customerInfor.sodienthoai }}</p>
+                            booking.sodienthoai }}</p>
                         <p class="m-0"><span style="display: inline-block; width: 140px;">Tên đăng nhập</span>: {{
                             customerInfor.tendangnhap }}</p>
                         <div class="form-floating mt-4 w-50">
@@ -40,8 +40,10 @@
                             {{ formatDateTime(booking.ngaygio) }}</p>
                         <p class="m-0"><span style="display: inline-block; width: 130px;">Số lượng người</span>: {{
                             booking.soluongnguoi }}</p>
-                        <p class="m-0"><span style="display: inline-block; width: 130px;">Ghi chú</span>: {{
-                            booking.ghichu }}</p>
+                        <p class="m-0 d-flex">
+                            <span style="display: inline-block; width: 130px;">Ghi chú</span>:
+                            <span class="ms-1" style="display: inline-block; width: 185px;">{{ booking.ghichu }}</span>
+                        </p>
                         <div class="form-floating mt-4">
                             <select class="form-select" id="statusBooking" aria-label="Default select example"
                                 v-model="booking.trangthai">

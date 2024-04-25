@@ -45,6 +45,8 @@ export default {
         }
     },
 
+    emits: ['UpdateStatus'],
+
     setup() {
         let modalActive = ref(false);
 
@@ -98,9 +100,11 @@ export default {
                 await bookingService.Confirm(data.idBooking, data.status, data.idTable).then((result) => {
                     if (result.statusCode == 200) {
                         this.fetchData();
+                        this.$emit('UpdateStatus', true);
                     }
                 })
             } catch (error) {
+                this.$emit('UpdateStatus', false);
                 console.log(error);
             }
         }

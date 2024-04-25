@@ -13,6 +13,10 @@ class BookingService {
         return (await this.api.get(`/list`)).data.data;
     }
 
+    async Create(data) {
+        return (await this.api.post(`/create`, data)).data;
+    }
+
     async Confirm(id, status, idTable) {
         return (await this.api.put(`/confirm/${id}`, {
             status: status,

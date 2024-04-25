@@ -123,6 +123,7 @@ export default {
                 let listBill = await billService.FindAll();//Tinh tong doanh thu
                 listBill.forEach((element) => {
                     this.sumRevenue += element.thanhtoan;
+                    this.sumRevenue -= element.giamgia;
                 });
 
                 let sumpaymentList = 0;

@@ -109,9 +109,13 @@ export default {
             try {
                 this.listCustomer = await customerService.FindAll();
                 let evalues = await evaluateService.FindAll();
-
-                for (let index = 0; index < 5; index++) {
-                    this.evalueList.push(evalues[index]);
+                if (evalues.length >= 5) {
+                    for (let index = 0; index < 5; index++) {
+                        this.evalueList.push(evalues[index]);
+                    }
+                }
+                else {
+                    this.evalueList = evalues;
                 }
             } catch (error) {
                 console.log(error);

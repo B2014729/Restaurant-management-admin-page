@@ -14,8 +14,9 @@
             </div>
             <div class="d-flex align-items-center mx-3">
                 <router-link class="dropdown-item text-dark" :to="{ name: 'notifycation-page' }">
-                    <button class="btn">
+                    <button class="btn" style="position: relative;">
                         <i class="fa-solid fa-bell text-secondary fs-5"></i>
+                        <span class="number-bell">{{ notificationCount }}</span>
                     </button>
                 </router-link>
             </div>
@@ -49,7 +50,9 @@
 </template>
 <script>
 import { ref } from 'vue';
+import { io } from "socket.io-client";
 import confirmModal from './modalsComponent/confirmModal.vue';
+import bookingService from '@/services/booking.service';
 export default {
     name: 'HeaderComponent',
 
@@ -73,10 +76,35 @@ export default {
     data() {
         return {
             username: this.$store.state.user.tendangnhap,
+            notificationCount: 0,
         };
     },
 
+    async created() {
+        await this.fetchData();
+        const socket = io('http://localhost:8000');
+
+        //socket.emit('Fordisconnect');
+        await socket.on('bookingSuccess', () => {
+            this.fetchData();
+        })
+    },
+
     methods: {
+        async fetchData() {
+            this.notificationCount = 0;
+            try {
+                let resultListBooking = await bookingService.FindAll();
+                resultListBooking.forEach(element => {
+                    if (element.trangthai == 0) {
+                        this.notificationCount++;
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
         onLogout() {
             this.modalActive = false;
             this.$cookies.remove('jwt');
@@ -110,5 +138,21 @@ input {
 
 .active {
     background-color: #bebebe !important;
+}
+
+.number-bell {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #c00101;
+    border-radius: 50%;
+    padding-top: 1px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 20px;
+    top: 2px;
+    align-items: center;
 }
 </style>

@@ -1,7 +1,19 @@
 <template>
     <div class="p-3">
         <bookingCustomerModal v-if="modalActive" :idCustomer="id" @close="toggleModal(0)"></bookingCustomerModal>
-        <h4 class="text-secondary fw-bold">Quản lí khách hàng:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Quản lí khách hàng:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'home-page' }">
+                    <span>Trang chủ</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'consumer-page' }">
+                    <span> / Khách hàng</span>
+                </router-link>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-9 col-12">
                 <searchComponent class="w-100" @submit="search($event)" v-model="searchText">
@@ -42,6 +54,9 @@
                     <evaluateCardComponent v-for="(item, index) in evalueList" :key="index" :evaluate="item">
                     </evaluateCardComponent>
                     ...
+                    <router-link :to="{ name: 'evalues-page' }" style="text-decoration: none; font-size: 13px;">
+                        Xem chi tiết
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -129,4 +144,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+table>thead>tr>th {
+    background-color: var(--color-header-table);
+}
+</style>

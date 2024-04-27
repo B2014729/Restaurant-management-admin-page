@@ -4,7 +4,15 @@
             @close="toggleModal(0)">
         </detailSalaryModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Thông tin lương:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Thông tin lương:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'salary-page' }">
+                        <span>Lương nhân viên</span>
+                    </router-link>
+                </div>
+            </div>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel">
                     <i class="fa-solid fa-file-excel"></i> Xuất file</button>
@@ -36,6 +44,7 @@
                         <th scope="col" class="text-center">STT</th>
                         <th scope="col" class="text-center">Mã NV</th>
                         <th scope="col" class="text-center">Họ và tên</th>
+                        <th scope="col" class="text-center">Chức vụ</th>
                         <th scope="col" class="text-center">Lương (vnđ/h)</th>
                         <th scope="col" class="text-center">Hình thức</th>
                         <th scope="col" class="text-center">Tổng giờ làm</th>
@@ -50,14 +59,15 @@
                         <td class="text-center">{{ index + 1 }}</td>
                         <th scope="row" class="text-center">{{ item.nhanvien.idnhanvien }}</th>
                         <td class="text-center">{{ item.nhanvien.hoten }}</td>
+                        <td class="text-center">{{ item.nhanvien.tenchucvu }}</td>
                         <td class="text-center">{{ formatNumber(item.luong) }}</td>
                         <td class="text-center">tháng</td>
                         <td class="text-center">{{ item.tonggio }}</td>
                         <td class="text-center">{{ formatNumber(item.thuong) }}</td>
                         <td class="text-center">{{ formatNumber(item.phat) }}</td>
-                        <td class="text-center fw-bold">{{ formatNumber(item.tonggio * item.luong - item.phat +
-                            item.thuong)
-                            }}</td>
+                        <td class="text-center fw-bold">
+                            {{ formatNumber(item.tonggio * item.luong - item.phat + item.thuong) }}
+                        </td>
                         <th scope="row" class="text-center">
                             <button type="button" class="btn" @click="toggleModal(item.nhanvien.idnhanvien)">
                                 <i class="fa-solid fa-circle-plus text-success"></i></button>
@@ -131,10 +141,14 @@ export default {
     },
 
     async created() {
-        this.phaseList = await calendrierService.GetPhase();
-        this.phase = this.phaseList[this.phaseList.length - 1].idgiaidoan;
+        try {
+            this.phaseList = await calendrierService.GetPhase();
+            this.phase = this.phaseList[this.phaseList.length - 1].idgiaidoan;
 
-        await this.fetchData();
+            await this.fetchData();
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     methods: {
@@ -184,5 +198,9 @@ export default {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);
     border-radius: 15px;
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

@@ -3,7 +3,15 @@
         <detailPaymentModal class="modal-detail-bill" v-if="modalActive" :idPayment="idPayment" @close="toggleModal(0)">
         </detailPaymentModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách phiếu chi:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Quản lí phiếu chi:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'payment-page' }">
+                        <span>Danh sách phiếu chi</span>
+                    </router-link>
+                </div>
+            </div>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
                     Xuất file
@@ -17,11 +25,11 @@
             </div>
             <div class="col-md-5 col-12 mt-2">
                 <span class="me-2">từ: </span>
-                <input type="date" style="border: none;">
+                <input type="date" style="border: none;" v-model="data.start">
                 <span class="mx-2">đến: </span>
-                <input type="date" style="border: none;">
+                <input type="date" style="border: none;" v-model="data.end">
 
-                <button class="btn"><i class="fa-solid fa-check text-success"></i></button>
+                <button class="btn" @click="getPaymentInTime"><i class="fa-solid fa-check text-success"></i></button>
             </div>
             <div class="col-md-2 col-12 pt-2 d-flex justify-content-end">
                 <router-link :to="{ name: 'create-payment-page' }">
@@ -69,7 +77,8 @@
                         </td>
                         <th scope="row" class="text-center">
                             <button type="button" class="btn" @click="toggleModal(item.idphieuchi)">
-                                <i class="fa-solid fa-circle-plus text-success"></i></button>
+                                <i class="fa-solid fa-circle-plus text-success"></i>
+                            </button>
                         </th>
                     </tr>
                 </tbody>
@@ -132,6 +141,7 @@ export default {
             listPayment: [],
             sumAmount: 0,
             searchText: '',
+            data: {},
         };
     },
 
@@ -152,7 +162,6 @@ export default {
         },
 
         exportExcel() {
-            console.log(this.listPayment);
             let data = [];
             data.push(['Mã PC', 'NCC', 'Nhân viên', 'Ngày lập', 'Hàng hóa', 'Số lượng', 'Đơn giá', 'Giảm']);
             this.listPayment.forEach(element => {
@@ -171,6 +180,24 @@ export default {
 
         search(data) {
             console.log(data);
+        },
+
+        async getPaymentInTime() {
+            try {
+                this.listPayment = [];
+                this.sumAmount = 0;
+                this.listPayment = await paymentService.getPaymentWhereTime(this.data.start, this.data.end);
+                if (this.listPayment.length > 0) {
+                    this.listPayment.forEach((element) => {
+                        this.sumAmount += element.thanhtoan;
+                        element.ngaygio = moment(element.ngaygio).format("DD/MM/YYYY");
+                    });
+                }
+            } catch (error) {
+                this.listPayment = [];
+                this.sumAmount = 0;
+                console.log(error);
+            }
         }
     }
 }
@@ -181,5 +208,9 @@ export default {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);
     border-radius: 15px;
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

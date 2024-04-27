@@ -5,7 +5,19 @@
             </DetailBillModal>
             <div class="col-md-4 col-12">
                 <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận:</h4>
-                <div class="p-3 bg-white rounded-3 shadow bg-body-tertiary">
+                <div>
+                    <div class="ms-2">
+                        <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                            :to="{ name: 'home-page' }">
+                            <span>Trang chủ</span>
+                        </router-link>
+                        <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                            :to="{ name: 'profit-page' }">
+                            <span> / Lợi nhuận</span>
+                        </router-link>
+                    </div>
+                </div>
+                <div class="p-3 bg-white rounded-3 shadow bg-body-tertiary mt-3">
                     <h5 class="fw-bold">Lợi nhuận:</h5>
                     <h4 class="text-center fw-bold"> {{ formatNumber(profit) }} VNĐ</h4>
                 </div>
@@ -214,5 +226,9 @@ export default {
 .modal-detail-bill {
     transition: all 3000ms ease-in-out;
     transform: translate(100%, 1 00%) scale(1);
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

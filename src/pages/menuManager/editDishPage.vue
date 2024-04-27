@@ -3,7 +3,19 @@
         <confirmModal v-if="notifycationActive" message="Lưu thông tin món ăn?" @close="closeNotifycation"
             @onActive="submit">
         </confirmModal>
-        <h4 class="text-secondary fw-bold">Cập nhật thông tin món ăn:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Cập nhật thông tin món ăn:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'list-dish-page' }">
+                    <span>Danh sách món ăn</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'update-dish-page' }">
+                    <span> / Cập nhật món ăn</span>
+                </router-link>
+            </div>
+        </div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">

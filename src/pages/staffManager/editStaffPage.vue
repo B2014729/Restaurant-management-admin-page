@@ -4,7 +4,19 @@
             @onActive="submit">
         </confirmModal>
         <div class="p-3">
-            <h4 class="text-secondary fw-bold">Cập nhật nhân viên:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Cập nhật nhân viên:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'list-staff-page' }">
+                        <span>Danh sách nhân viên</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'update-staff-page' }">
+                        <span> / Cập nhật nhân viên</span>
+                    </router-link>
+                </div>
+            </div>
 
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

@@ -12,13 +12,14 @@
                 <div class="row">
                     <span>{{ message }}</span>
                 </div>
-
-                <div class="d-flex justify-content-end mt-auto w-100">
-                    <div>
-                        <button type="button" class="btn btn-outline-danger" @click="closeModal">Hủy</button>
-                        <button type="button" class="btn btn-success ms-2" @click="onActive">Ok</button>
+                <form @submit.prevent="{ }">
+                    <div class="d-flex justify-content-end mt-auto w-100">
+                        <div>
+                            <button type="button" class="btn btn-outline-danger" @click="closeModal">Hủy</button>
+                            <button type="button" class="btn btn-success ms-2" @click="onActive">Ok</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

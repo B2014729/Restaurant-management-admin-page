@@ -1,11 +1,25 @@
 <template>
     <div class="p-3">
+        <detailDepotModal v-if="modalActive" :id="idDish" @close="toggleModal(0)"></detailDepotModal>
         <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Quản lí kho:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Quản lí kho:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'home-page' }">
+                        <span>Trang chủ</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'depot-page' }">
+                        <span> / Quản lí kho</span>
+                    </router-link>
+                </div>
+            </div>
+
             <div>
                 <router-link :to="{ name: 'goods-page' }">
-                    <button class="btn btn-secondary">
-                        QL hàng hóa
+                    <button class="btn btn-outline-secondary">
+                        DS hàng hóa
                     </button>
                 </router-link>
             </div>
@@ -17,13 +31,15 @@
                     <th scope="col">STT</th>
                     <th scope="col" class="text-center">Mã hàng hóa</th>
                     <th scope="col" class="text-center">Tên hàng hóa</th>
-                    <th scope="col" class="text-center">Số lượng</th>
-                    <th scope="col" class="text-center">Ngày nhập</th>
+                    <th scope="col" class="text-center" style="width: 90px;">Số lượng</th>
+                    <th scope="col" class="text-center" style="width: 120px;">Đơn vị tính</th>
+                    <th scope="col" class="text-center">Ngày nhập mới</th>
+                    <th scope="col" class="text-center" style="width: 50px;"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in searchDish" :key="index">
-                    <th scope="row" style="width: 20px;text-align: center;">{{ index + 1 }}</th>
+                    <th scope="row" style="width: 50px; text-align: center;">{{ index + 1 }}</th>
                     <td style="width: 140px; text-align: center;">
                         {{ listId[index] }}
                     </td>
@@ -32,8 +48,16 @@
                         {{ listQuantity[index] }}
                     </td>
                     <td class="text-center">
+                        {{ item.hanghoa.tendonvi }}
+                    </td>
+                    <td class="text-center">
                         {{ formatDate(item.ngaynhap) }}
                     </td>
+                    <th scope="row" class="text-center">
+                        <button type="button" class="btn" @click="toggleModal(item.idhanghoa)">
+                            <i class="fa-solid fa-circle-plus text-success"></i>
+                        </button>
+                    </th>
                 </tr>
             </tbody>
         </table>
@@ -46,11 +70,14 @@
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import searchComponent from '@/components/searchComponent.vue';
 import depotService from '@/services/depot.service';
+
+import detailDepotModal from '@/components/modalsComponent/detailDepotModal.vue';
 export default {
     components: {
-        searchComponent,
+        searchComponent, detailDepotModal
     },
 
     computed: {
@@ -73,6 +100,14 @@ export default {
     },
 
     setup() {
+        let idDish = ref(0);
+        let modalActive = ref(false);
+
+        const toggleModal = (id) => {
+            idDish.value = id;
+            modalActive.value = !modalActive.value;
+        }
+
         function formatDate(date) {
             let newDate = new Date(date);
             let dateIn = newDate.getDate() >= 10 ? newDate.getDate() : `0${newDate.getDate()}`;
@@ -83,7 +118,7 @@ export default {
         }
 
         return {
-            formatDate
+            formatDate, toggleModal, idDish, modalActive
         };
     },
 
@@ -122,4 +157,8 @@ export default {
 
 }</script>
 
-<style scoped></style>
+<style scoped>
+table>thead>tr>th {
+    background-color: var(--color-header-table);
+}
+</style>

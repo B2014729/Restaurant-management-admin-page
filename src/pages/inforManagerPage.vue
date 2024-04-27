@@ -10,7 +10,16 @@
         </confirmModal>
 
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Quản lí thông tin nhà hàng:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Quản lí thông tin nhà hàng:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'information-manager' }">
+                        <span> Giới thiệu và khuyến mãi</span>
+                    </router-link>
+                </div>
+            </div>
+
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
         </div>
         <div class="row align-items-end">

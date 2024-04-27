@@ -4,8 +4,27 @@
             @onActive="submit">
         </confirmModal>
         <div class="p-3">
-            <h4 class="text-secondary fw-bold">Cập nhật thông tin hang hóa:</h4>
-
+            <div>
+                <h4 class="text-secondary fw-bold">Cập nhật thông tin hang hóa:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'home-page' }">
+                        <span>Trang chủ</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'depot-page' }">
+                        <span> / Quản lí kho</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'goods-page' }">
+                        <span> / Danh sách hàng hóa</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'update-goods-page' }">
+                        <span> / Cập nhật hàng hóa</span>
+                    </router-link>
+                </div>
+            </div>
             <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
             <div class="d-flex justify-content-center">

@@ -4,8 +4,18 @@
         </confirmModal>
         <addDishOnMenuModal v-if="addModalActive" @close="closeModalAdd" @onActive="onAddDish($event)">
         </addDishOnMenuModal>
-        <div class="d-flex justify-content-between">
+        <div>
             <h4 class="text-secondary fw-bold">Danh sách món ăn trong menu:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'menu-page' }">
+                    <span>Menu</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'update-menu-page' }">
+                    <span> / Danh sách món menu</span>
+                </router-link>
+            </div>
         </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
@@ -276,5 +286,9 @@ export default {
     position: fixed;
     bottom: 10px;
     right: 20px;
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

@@ -3,7 +3,15 @@
         <DetailBillModal class="modal-detail-bill" v-if="modalActive" :idBill="idBill" @close="toggleModal(0)">
         </DetailBillModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Hóa đơn:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Hóa đơn:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'bill-manager-page' }">
+                        <span>Hóa đơn</span>
+                    </router-link>
+                </div>
+            </div>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel">
                     <i class="fa-solid fa-file-excel"></i> Xuất file
@@ -20,11 +28,10 @@
                 <input type="date" style="border: none;" v-model="data.start">
                 <span class="mx-2">đến: </span>
                 <input type="date" style="border: none;" v-model="data.end">
-
                 <button class="btn" @click="onGetBillWhereTime"><i class="fa-solid fa-check text-success"></i></button>
             </div>
             <div class="col-md-1 col-12 pt-2 d-flex justify-content-end">
-                <button class="btn"><i class="fa-solid fa-sort"></i></button>
+                <button class="btn" @click="Sort"><i class="fa-solid fa-sort"></i></button>
             </div>
         </div>
         <div class="mt-2">
@@ -155,6 +162,7 @@ export default {
 
     methods: {
         async fetchData() {
+            this.data = {};
             this.sumDiscount = 0;
             this.amountPayment = 0;
             this.billList = await billService.FindAll();
@@ -197,6 +205,19 @@ export default {
             var worksheet = XLSX.utils.aoa_to_sheet(data);
             XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
             XLSX.writeFile(workbook, 'billFile.xlsx');
+        },
+
+        Sort() {//bubble sort
+            let temp = {};
+            for (let i = 0; i < this.billList.length; i++) {
+                for (let j = 0; j < this.billList.length - i - 1; j++) {
+                    if (this.billList[j].thanhtoan < this.billList[j + 1].thanhtoan) {
+                        temp = this.billList[j];
+                        this.billList[j] = this.billList[j + 1];
+                        this.billList[j + 1] = temp;
+                    }
+                }
+            }
         }
     },
 }
@@ -207,5 +228,9 @@ export default {
     padding: 3px 8px;
     background-color: rgba(0, 128, 0, 0.575);
     border-radius: 15px;
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

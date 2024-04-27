@@ -4,8 +4,19 @@
             @onActive="submit">
         </confirmModal>
 
-        <h4 class="text-secondary fw-bold">Cập nhật thông tin nhà cung cấp:</h4>
-
+        <div>
+            <h4 class="text-secondary fw-bold">Cập nhật thông tin nhà cung cấp:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'supplier-page' }">
+                    <span>Danh sách nhà cung cấp</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'update-supplier-page' }">
+                    <span> / Cập nhật nhà cung cấp</span>
+                </router-link>
+            </div>
+        </div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">
@@ -50,7 +61,8 @@
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
-                            @click="closeNotifycation">Cập nhật</button>
+                            @click="closeNotifycation">Cập nhật
+                        </button>
                     </div>
                 </div>
             </form>
@@ -88,7 +100,7 @@ export default {
             if (notifycationActive.value === false) {
                 showAlert.value = true;
                 status.value = 'danger';
-                messageAlert.value = 'Đã hủy thông tin cập nhật!';
+                messageAlert.value = 'Đã hủy yêu cầu cập nhật!';
                 setTimeout(() => {
                     showAlert.value = false;
                 }, 2500);

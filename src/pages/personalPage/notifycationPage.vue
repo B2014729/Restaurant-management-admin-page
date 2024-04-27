@@ -4,10 +4,19 @@
             @onActive="createBooking($event)">
         </createBookingModal>
         <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Thông báo đặt bàn:</h4>
-            <button class="btn btn-outline-success" @click="toggelModalCreateBooking"><i class="fa-solid fa-plus"></i>
-                Tạo
-                đặt bàn</button>
+            <div>
+                <h4 class="text-secondary fw-bold">Thông báo đặt bàn:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'evalues-page' }">
+                        <span> Đặt bàn</span>
+                    </router-link>
+                </div>
+            </div>
+            <button class="btn btn-outline-success h-75" @click="toggelModalCreateBooking"><i
+                    class="fa-solid fa-plus"></i>
+                Tạo đặt bàn
+            </button>
         </div>
         <alertMessage v-if="showAlert" :message="messageAlert" :status="status"></alertMessage>
         <div class="row">
@@ -30,14 +39,19 @@
         <hr>
         <div class="row">
             <div class="col-md-4 col-12">
-                <h6 class="text fw-bold ms-3 mt-3" style="font-size: 18px;">Lịch sử đặt bàn:</h6>
+                <h6 class="text fw-bold ms-3 mt-3" style="font-size: 18px;">Lịch sử đặt bàn:
+                    <button class="btn" v-if="!showHistory" @click="onToggleShowHistory"><i
+                            class="fa-solid fa-chevron-down"></i></button>
+                    <button class="btn" v-else @click="onToggleShowHistory"><i
+                            class="fa-solid fa-chevron-up"></i></button>
+                </h6>
             </div>
             <div class="col-md-8 col-12 d-flex justify-content-end">
                 <searchComponent class="w-50" @submit="search($event)" v-model="searchTextHistory">
                 </searchComponent>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div v-if="showHistory" class="d-flex justify-content-center">
             <div class="w-100">
                 <notifycationCard v-for="(item, index) in searchBookingHistory" :key="index" :idbooking=item.iddatban>
                 </notifycationCard>
@@ -97,6 +111,7 @@ export default {
         let messageAlert = ref('');
         let showAlert = ref(false);
         let status = ref('');
+        let showHistory = ref(false);
 
         let modalCreateBookingActive = ref(false);
 
@@ -104,8 +119,12 @@ export default {
             modalCreateBookingActive.value = !modalCreateBookingActive.value;
         }
 
+        const onToggleShowHistory = () => {
+            showHistory.value = !showHistory.value;
+        }
+
         return {
-            messageAlert, showAlert, status, modalCreateBookingActive, toggelModalCreateBooking,
+            messageAlert, showAlert, status, modalCreateBookingActive, toggelModalCreateBooking, showHistory, onToggleShowHistory
         };
     },
 

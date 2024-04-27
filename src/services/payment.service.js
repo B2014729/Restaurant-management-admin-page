@@ -28,6 +28,10 @@ class BillService {
     async GetStatistical(year) {
         return (await this.api.get(`/statistical/${year}`)).data.data;
     }
+
+    async getPaymentWhereTime(start, end) {
+        return (await this.api.get(`/list-in-time/${start}&${end}`)).data.data;
+    }
 }
 
 export default new BillService();

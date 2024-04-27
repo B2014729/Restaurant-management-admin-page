@@ -5,8 +5,16 @@
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-between">
+            <div>
+                <h4 class="text-secondary fw-bold">Quản lí nhà cung cấp:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'supplier-page' }">
+                        <span>Danh sách nhà cung cấp</span>
+                    </router-link>
+                </div>
+            </div>
 
-            <h4 class="text-secondary fw-bold">Danh sách nhà cung cấp:</h4>
             <div>
                 <button class="btn btn-outline-secondary" @click="exportExcel"><i class="fa-solid fa-file-excel"></i>
                     Xuất file</button>
@@ -195,6 +203,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
 
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

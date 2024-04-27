@@ -1,6 +1,18 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới nhà cung cấp:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Thêm mới nhà cung cấp:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'supplier-page' }">
+                    <span>Danh sách nhà cung cấp</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'create-supplier-page' }">
+                    <span> / Thêm nhà cung cấp</span>
+                </router-link>
+            </div>
+        </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

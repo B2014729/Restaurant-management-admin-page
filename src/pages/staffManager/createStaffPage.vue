@@ -1,6 +1,18 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới nhân viên:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Thêm mới nhân viên:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'list-staff-page' }">
+                    <span>Danh sách nhân viên</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'create-staff-page' }">
+                    <span> / Thêm nhân viên</span>
+                </router-link>
+            </div>
+        </div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
         <div class="d-flex justify-content-center">

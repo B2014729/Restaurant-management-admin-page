@@ -206,4 +206,8 @@ ul>li {
     width: 150px;
     height: 100%;
 }
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
+}
 </style>

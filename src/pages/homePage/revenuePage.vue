@@ -2,7 +2,20 @@
     <div class="p-3">
         <forcastPredictionModal v-if="modalPrediction" @close="toggleModalPrediction"></forcastPredictionModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Tổng quan doanh thu:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Tổng quan doanh thu:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'home-page' }">
+                        <span>Trang chủ</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'revenue-page' }">
+                        <span> / Doanh thu</span>
+                    </router-link>
+                </div>
+            </div>
+
             <div>
                 <button class="btn btn-outline-success" @click="toggleModalPrediction">Doanh thu</button>
                 <button class="btn btn-success  ms-2">+</button>
@@ -132,7 +145,7 @@ export default {
             monthMaxRevenue: 1,
             listDishSellALot: [],
             typeDishOnBest: '',
-            chartLine: null,
+            chartLine: null,//Bien luu chart
             sumRevenueInMonth: 0,
         };
     },
@@ -288,10 +301,14 @@ export default {
         await this.fetchData();
         //Lay du lieu cho do thi
         await this.getRevenueWithMonthAndYear(this.month, this.year);
-
+        //Ve chart
         this.chartLineRevenue(this.statisticalRevenue);
         this.chartSyntheticOnDay();
     }
 }
 </script>
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+table>thead>tr>th {
+    background-color: var(--color-header-table);
+}
+</style>

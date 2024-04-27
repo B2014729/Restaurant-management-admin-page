@@ -1,7 +1,15 @@
 <template>
     <div class="p-3">
         <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Giao diện menu:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Giao diện menu:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'menu-page' }">
+                        <span>Menu</span>
+                    </router-link>
+                </div>
+            </div>
             <router-link :to="{ name: 'update-menu-page' }">
                 <button class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></button>
             </router-link>
@@ -48,8 +56,8 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món gỏi & khai vị</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in monGoiVaKhaivi   " :key="index"
-                                style="list-style: none;" class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in monGoiVaKhaivi   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
                                 </span>
@@ -66,8 +74,8 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Thức uống & thêm</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in monThemVaNuoc   " :key="index"
-                                style="list-style: none;" class="text-warning fw-bold">
+                            <li v-for="(   item, index   ) in monThemVaNuoc   " :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
                                 </span>

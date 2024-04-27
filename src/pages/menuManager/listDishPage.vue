@@ -2,9 +2,14 @@
     <div class="p-3">
         <confirmModal v-if="confirmModalActive" :message="message" @close="toggleModal(0)" @onActive="onDelete">
         </confirmModal>
-
-        <div class="d-flex justify-content-between">
+        <div>
             <h4 class="text-secondary fw-bold">Danh sách món ăn:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'list-dish-page' }">
+                    <span>Danh sách món ăn</span>
+                </router-link>
+            </div>
         </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
@@ -212,5 +217,9 @@ export default {
     position: fixed;
     bottom: 10px;
     right: 20px;
+}
+
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

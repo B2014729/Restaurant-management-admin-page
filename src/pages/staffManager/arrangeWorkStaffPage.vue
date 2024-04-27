@@ -5,9 +5,20 @@
         </createPhaseModal>
         <div class="d-flex justify-content-between">
             <div class="d-flex">
-                <h4 class="text-secondary fw-bold">Sắp xếp lịch làm việc:</h4>
-
-                <div class="ms-4 d-flex">
+                <div>
+                    <h4 class="text-secondary fw-bold">Sắp xếp lịch làm việc:</h4>
+                    <div class="ms-2">
+                        <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                            :to="{ name: 'calendrier-page' }">
+                            <span>Lịch làm việc</span>
+                        </router-link>
+                        <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                            :to="{ name: 'arrange-work-staff-page' }">
+                            <span> / Xếp lịch làm việc</span>
+                        </router-link>
+                    </div>
+                </div>
+                <div class="ms-4 d-flex h-75">
                     <select class="form-select" aria-label="Default select example" v-model="phase"
                         @change="onChangePhases">
                         <option v-for="(item, index) in phaseList" :key="index" :value="item.idgiaidoan">

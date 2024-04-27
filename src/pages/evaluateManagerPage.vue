@@ -1,6 +1,14 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Đánh giá của khách hàng:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Quản lí đánh giá:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'evalues-page' }">
+                    <span> Đánh giá chung</span>
+                </router-link>
+            </div>
+        </div>
         <div class="d-flex justify-content-center">
             <div class="w-75">
                 <div class="d-flex justify-content-between">

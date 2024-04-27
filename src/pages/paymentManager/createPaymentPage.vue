@@ -1,6 +1,18 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Lập phiếu chi:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Lập phiếu chi:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'payment-page' }">
+                    <span>Danh sách phiếu chi</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'create-payment-page' }">
+                    <span> / Thêm phiếu chi</span>
+                </router-link>
+            </div>
+        </div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
         <div class="d-flex justify-content-center">
             <form class="w-75" @submit.prevent="{ }">
@@ -54,7 +66,7 @@
                                 </select>
                                 <label for="product">*Sản phẩm:</label>
                             </div>
-                            <div class="form-floating mb-2 mx-2">
+                            <div class="form-floating mb-2 mx-2" style="width: 150px;">
                                 <input type="number" class="form-control" id="payment"
                                     v-model="listProductQuantity[index - 1]">
                                 <label for="payment">*Số lượng:</label>
@@ -128,7 +140,7 @@ export default {
 
     async created() {
         await this.fetchData();
-        this.data.staff = 'Duong Hai Bang';
+        this.data.staff = 'Dương Hãi Băng';
         this.data.createdate = moment(new Date()).format('YYYY-MM-DD');
     },
 
@@ -138,7 +150,19 @@ export default {
             this.lisProductFromSelect = await productService.FindAll();
         },
 
+        resetData() {
+            this.data = {};
+            this.data.staff = 'Dương Hãi Băng';
+            this.data.createdate = moment(new Date()).format('YYYY-MM-DD');
+            this.listProductDate = [];
+            this.listProductId = [];
+            this.listProductPrice = [];
+            this.listProductQuantity = [];
+            this.productCount = 1;
+        },
+
         async submit() {
+            console.log(this.listProductId.length, this.listProductDate.length);
             if (!this.data.createdate || !this.data.status || !this.data.idSupplier ||
                 this.listProductId.length <= 0 || this.listProductId.length !== this.listProductPrice.length
                 || this.listProductId.length !== this.listProductQuantity.length
@@ -167,6 +191,7 @@ export default {
                 try {
                     await paymentService.Create(formData).then((result) => {
                         if (result.statusCode == 200) {
+                            this.resetData();
                             this.messageAlert = 'Lập phiếu chi thành công!';
                             this.status = 'success';
                             this.showAlert = true;

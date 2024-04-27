@@ -2,7 +2,15 @@
     <div class="p-3">
         <detailStaffModal v-if="modalActive" :id="idStaff" @close="toggleModal(0)"></detailStaffModal>
         <div class="d-flex justify-content-between">
-            <h4 class="text-secondary fw-bold">Danh sách nhân viên:</h4>
+            <div>
+                <h4 class="text-secondary fw-bold">Danh sách nhân viên:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'list-staff-page' }">
+                        <span>Danh sách nhân viên</span>
+                    </router-link>
+                </div>
+            </div>
             <div>
                 <button class="btn btn-outline-secondary"><i class="fa-solid fa-file-excel"></i> Xuất file</button>
             </div>
@@ -61,8 +69,12 @@
             </table>
         </div>
 
-        <p class="text-danger fw-bold">DS nhân viên đã nghĩ việc:</p>
-        <div class="mt-2">
+        <p class="text-danger fw-bold">DS nhân viên đã nghĩ việc:
+            <button class="btn" v-if="!showStaffOff" @click="onToggleShowStaff"><i
+                    class="fa-solid fa-chevron-down"></i></button>
+            <button class="btn" v-else @click="onToggleShowStaff"><i class="fa-solid fa-chevron-up"></i></button>
+        </p>
+        <div class="mt-2" v-if="showStaffOff">
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -116,13 +128,17 @@ export default {
     setup() {
         let modalActive = ref(false);
         let idStaff = ref(0);
+        let showStaffOff = ref(false);
 
         const toggleModal = (id) => {
             modalActive.value = !modalActive.value;
             idStaff.value = id;
         }
 
-        return { modalActive, idStaff, toggleModal, };
+        const onToggleShowStaff = () => {
+            showStaffOff.value = !showStaffOff.value;
+        }
+        return { modalActive, idStaff, toggleModal, showStaffOff, onToggleShowStaff };
     },
 
     data() {
@@ -196,6 +212,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
 
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

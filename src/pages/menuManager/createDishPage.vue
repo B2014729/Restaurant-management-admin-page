@@ -1,6 +1,18 @@
 <template>
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thêm mới món ăn:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Thêm mới món ăn:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'list-dish-page' }">
+                    <span>Danh sách món ăn</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'create-dish-page' }">
+                    <span> / Thêm món ăn</span>
+                </router-link>
+            </div>
+        </div>
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
         <div class="d-flex justify-content-center">
             <form class="w-75" @submit.prevent="{ }">

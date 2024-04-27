@@ -1,78 +1,94 @@
 <template>
-    <div>
-        <div class="p-3">
+    <div class="p-3">
+        <div>
             <h4 class="text-secondary fw-bold">Thêm hàng hóa:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'home-page' }">
+                    <span>Trang chủ</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'depot-page' }">
+                    <span> / Quản lí kho</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'goods-page' }">
+                    <span> / Danh sách hàng hóa</span>
+                </router-link>
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'create-goods-page' }">
+                    <span> / Thêm hàng hóa</span>
+                </router-link>
+            </div>
+        </div>
+        <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
-            <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
-
-            <div class="d-flex justify-content-center">
-                <form class="w-75" @submit.prevent="{ }" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <div class="d-flex justify-content-center form-floating my-2">
-                                <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles"
-                                    ref="image">
-                                <label for="avatar" style="margin-left:35px;">Thêm ảnh:</label>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-12">
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-floating mb-2">
-                                        <input type="text" class="form-control  ms-2" id="fullname"
-                                            v-model="goods.tenhanghoa">
-                                        <label for="fullname" class="custom">
-                                            *Tên hàng hóa:</label>
-                                    </div>
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select ms-2" id="salary" aria-label="Default select example"
-                                            v-model="goods.idloai">
-                                            <option value="2">Nước ngọt</option>
-                                            <option value="3">Bia</option>
-                                            <option value="8">Hải sản</option>
-                                            <option value="9">Thịt tươi</option>
-                                            <option value="15">Rau củ</option>
-                                        </select>
-                                        <label for="salary">*Nhóm hàng hóa:</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-floating mb-2">
-                                        <input type="number" class="form-control ms-2" id="phone"
-                                            v-model="goods.hansudung">
-                                        <label for="phone">*Hạn sử dụng (tháng):</label>
-                                    </div>
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select ms-2" id="salary" aria-label="Default select example"
-                                            v-model="goods.iddonvitinh">
-                                            <option value="3">Kg</option>
-                                            <option value="10">Thùng</option>
-                                            <option value="5">Chai</option>
-                                            <option value="2">Lon</option>
-                                        </select>
-                                        <label for="salary">*Đơn vị tính:</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-2">
-                                <textarea type="text" class="form-control ms-2" id="address" v-model="goods.mota"
-                                    style="height: 100px;"></textarea>
-                                <label for="address">*Mô tả chi tiết:</label>
-                            </div>
-                            <div class="d-flex justify-content-end mt-2">
-                                <span v-if="errorNotifycation" class="text-end text-warning " style="font-size: 14px;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin
-                                    hàng hóa!
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-end mt-2">
-                                <button type="submit" class="btn btn-success" style="width: 150px;" @click="submit">Thêm
-                                    mới</button> <!--On Modal -->
-                            </div>
+        <div class="d-flex justify-content-center">
+            <form class="w-75" @submit.prevent="{ }" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <div class="d-flex justify-content-center form-floating my-2">
+                            <input class=" w-75 form-control" id="avatar" type="file" @change="previewFiles"
+                                ref="image">
+                            <label for="avatar" style="margin-left:35px;">Thêm ảnh:</label>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="col-md-8 col-12">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-floating mb-2">
+                                    <input type="text" class="form-control  ms-2" id="fullname"
+                                        v-model="goods.tenhanghoa">
+                                    <label for="fullname" class="custom">
+                                        *Tên hàng hóa:</label>
+                                </div>
+                                <div class="form-floating mb-2">
+                                    <select class="form-select ms-2" id="salary" aria-label="Default select example"
+                                        v-model="goods.idloai">
+                                        <option value="2">Nước ngọt</option>
+                                        <option value="3">Bia</option>
+                                        <option value="8">Hải sản</option>
+                                        <option value="9">Thịt tươi</option>
+                                        <option value="15">Rau củ</option>
+                                    </select>
+                                    <label for="salary">*Nhóm hàng hóa:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-floating mb-2">
+                                    <input type="number" class="form-control ms-2" id="phone" v-model="goods.hansudung">
+                                    <label for="phone">*Hạn sử dụng (tháng):</label>
+                                </div>
+                                <div class="form-floating mb-2">
+                                    <select class="form-select ms-2" id="salary" aria-label="Default select example"
+                                        v-model="goods.iddonvitinh">
+                                        <option value="3">Kg</option>
+                                        <option value="10">Thùng</option>
+                                        <option value="5">Chai</option>
+                                        <option value="2">Lon</option>
+                                    </select>
+                                    <label for="salary">*Đơn vị tính:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <textarea type="text" class="form-control ms-2" id="address" v-model="goods.mota"
+                                style="height: 100px;"></textarea>
+                            <label for="address">*Mô tả chi tiết:</label>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <span v-if="errorNotifycation" class="text-end text-warning " style="font-size: 14px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin
+                                hàng hóa!
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <button type="submit" class="btn btn-success" style="width: 150px;" @click="submit">Thêm
+                                mới</button> <!--On Modal -->
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>

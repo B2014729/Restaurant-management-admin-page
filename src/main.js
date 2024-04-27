@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import store from './store';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import '@/assets/css/style.css';
 import router from './router/index.js';
 
 // const store = createStore({

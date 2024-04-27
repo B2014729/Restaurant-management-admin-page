@@ -3,11 +3,28 @@
         <confirmModal v-if="modalActive" message="Xóa hàng hóa khỏi hệ thống?" @close="toggleModalConfirm(0)"
             @onActive="onDelete">
         </confirmModal>
+        <div class="d-flex justify-content-start">
+            <div>
+                <h4 class="text-secondary fw-bold">Danh sách hàng hóa:</h4>
+                <div class="ms-2">
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'home-page' }">
+                        <span>Trang chủ</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'depot-page' }">
+                        <span> / Quản lí kho</span>
+                    </router-link>
+                    <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                        :to="{ name: 'goods-page' }">
+                        <span> / Danh sách hàng hóa</span>
+                    </router-link>
+                </div>
+            </div>
+        </div>
+
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 
-        <div class="d-flex justify-content-start">
-            <h4 class="text-secondary fw-bold">Danh sách hàng hóa:</h4>
-        </div>
         <div class="row mt-1">
             <div class="col-md-10 col-12">
                 <searchComponent @submit="search($event)" v-model="searchText">
@@ -86,7 +103,7 @@ export default {
                     showAlert.value = false;
                 }, 2500);
                 status.value = 'danger';
-                messageAlert.value = 'Đã hủy thông tin cập nhật!';
+                messageAlert.value = 'Đã hủy yêu cầu xóa!';
             }
         }
 
@@ -193,6 +210,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
 
+table>thead>tr>th {
+    background-color: var(--color-header-table);
 }
 </style>

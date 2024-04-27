@@ -6,7 +6,15 @@
     </changePassModal>
 
     <div class="p-3">
-        <h4 class="text-secondary fw-bold">Thông tin cá nhân:</h4>
+        <div>
+            <h4 class="text-secondary fw-bold">Thông tin cá nhân:</h4>
+            <div class="ms-2">
+                <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
+                    :to="{ name: 'personal-page' }">
+                    <span> Cá nhân</span>
+                </router-link>
+            </div>
+        </div>
 
         <alertMessage v-if="showAlert" :status="status" :message="messageAlert"></alertMessage>
 

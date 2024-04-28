@@ -197,6 +197,7 @@ export default {
                 });
                 this.billList.forEach(element => {
                     sumbillList += Number(element.thanhtoan);
+                    sumbillList -= Number(element.giamgia);
                 });
 
                 this.profit = sumbillList - sumpaymentList;

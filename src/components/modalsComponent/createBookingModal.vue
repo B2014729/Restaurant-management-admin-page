@@ -4,7 +4,7 @@
             <div class="p-3 d-flex flex-column">
                 <div class=" d-flex justify-content-between">
                     <div>
-                        <h5 class="fw-bold">Thêm mới đặt bàn
+                        <h5 class="fw-bold">Thêm đặt bàn mới
                         </h5>
                     </div>
                     <button type="button" class="btn-close" @click="closeModal"></button>

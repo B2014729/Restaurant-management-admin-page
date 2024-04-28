@@ -105,7 +105,7 @@
                     FACEBOOK
                 </li>
             </a>
-            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'setting' }">
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'personal-page' }">
                 <li class="nav-item"><i class="ps-2 fa-solid fa-gear"></i> CÀI ĐẶT</li>
             </router-link>
         </ul>

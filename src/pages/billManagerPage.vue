@@ -4,7 +4,15 @@
         </DetailBillModal>
         <div class="d-flex justify-content-between">
             <div>
-                <h4 class="text-secondary fw-bold">Hóa đơn:</h4>
+                <div class="d-flex">
+                    <h4 class="text-secondary fw-bold">Hóa đơn:</h4>
+                    <div class="d-flex justify-content-center ms-3">
+                        <div v-if="loading" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="ms-2">
                     <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
                         :to="{ name: 'bill-manager-page' }">
@@ -102,6 +110,7 @@ export default {
     setup() {
         let modalActive = ref(false);
         let idBill = ref(0);
+        let loading = ref(true);
 
         const toggleModal = (id) => {
             modalActive.value = !modalActive.value;
@@ -124,7 +133,7 @@ export default {
             return (new Intl.NumberFormat().format(number))
         }
 
-        return { modalActive, idBill, toggleModal, formatNumber, formatDateTime };
+        return { modalActive, idBill, toggleModal, formatNumber, formatDateTime, loading };
     },
 
     computed: {
@@ -166,6 +175,7 @@ export default {
             this.sumDiscount = 0;
             this.amountPayment = 0;
             this.billList = await billService.FindAll();
+            this.loading = false;
 
             this.billList.forEach((element) => {
                 this.sumDiscount += element.giamgia;

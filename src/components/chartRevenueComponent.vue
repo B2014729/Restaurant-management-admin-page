@@ -33,33 +33,39 @@ export default {
         } catch (error) {
             console.log(error);
         }
-        const ctx = document.getElementById('myChart');
 
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                datasets: [{
-                    label: 'Tổng doanh thu (VNĐ)',
-                    data: this.revenueInMonth,
-                    borderWidth: 1,
-                    backgroundColor: '#008B45',
-                }, {
-                    label: 'Tổng thanh toán (VNĐ)',
-                    data: this.paymentInMonth,
-                    borderWidth: 1,
-                    backgroundColor: '#CDBE70',
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+
+        try {
+            const ctx = document.getElementById('myChart');
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    datasets: [{
+                        label: 'Tổng doanh thu (VNĐ)',
+                        data: this.revenueInMonth,
+                        borderWidth: 1,
+                        backgroundColor: '#008B45',
+                    }, {
+                        label: 'Tổng thanh toán (VNĐ)',
+                        data: this.paymentInMonth,
+                        borderWidth: 1,
+                        backgroundColor: '#CDBE70',
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
-        myChart;
+            });
+            myChart;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 </script>

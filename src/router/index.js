@@ -361,6 +361,19 @@ const routes = [
             next();
         }
     },
+
+    //Quan ly danh sach order
+    {
+        path: '/quan-li-goi-mon',
+        name: 'order-manager-page',
+        component: () => import('@/layout/orderManagerLayout.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user || (store.state.user.quyentruycap != 5)) {
+                next('/');
+            }
+            next();
+        }
+    },
     {
         path: '/cai-dat',
         name: 'setting',

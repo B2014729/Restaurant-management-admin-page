@@ -4,7 +4,14 @@
         </detailPaymentModal>
         <div class="d-flex justify-content-between">
             <div>
-                <h4 class="text-secondary fw-bold">Quản lí phiếu chi:</h4>
+                <div class="d-flex">
+                    <h4 class="text-secondary fw-bold">Quản lí phiếu chi:</h4>
+                    <div class="d-flex justify-content-center ms-3">
+                        <div v-if="loading" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="ms-2">
                     <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
                         :to="{ name: 'payment-page' }">
@@ -103,6 +110,7 @@ export default {
     setup() {
         let modalActive = ref(false);
         let idPayment = ref(0);
+        let loading = ref(true);
 
         const toggleModal = (id) => {
             modalActive.value = !modalActive.value;
@@ -113,7 +121,7 @@ export default {
             return (new Intl.NumberFormat().format(number))
         }
 
-        return { modalActive, idPayment, toggleModal, formatNumber, };
+        return { modalActive, idPayment, toggleModal, formatNumber, loading, };
     },
 
     computed: {
@@ -151,13 +159,19 @@ export default {
 
     methods: {
         async fetchData() {
-            this.sumAmount = 0;
-            this.listPayment = await paymentService.FindAll();
-            if (this.listPayment.length > 0) {
-                this.listPayment.forEach((element) => {
-                    this.sumAmount += element.thanhtoan;
-                    element.ngaygio = moment(element.ngaygio).format("DD/MM/YYYY");
-                });
+            try {
+                this.sumAmount = 0;
+                this.listPayment = await paymentService.FindAll();
+                if (this.listPayment.length > 0) {
+                    this.listPayment.forEach((element) => {
+                        this.sumAmount += element.thanhtoan;
+                        element.ngaygio = moment(element.ngaygio).format("DD/MM/YYYY");
+                    });
+                }
+                this.loading = false;
+            }
+            catch (error) {
+                console.log(error);
             }
         },
 

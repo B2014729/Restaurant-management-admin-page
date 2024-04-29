@@ -4,7 +4,14 @@
             <DetailBillModal class="modal-detail-bill" v-if="modalActive" :idBill="idBill" @close="toggleModal(0)">
             </DetailBillModal>
             <div class="col-md-4 col-12">
-                <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận:</h4>
+                <div class="d-flex">
+                    <h4 class="text-secondary fw-bold">Tổng hợp chi tiết lợi nhuận:</h4>
+                    <div class="d-flex justify-content-center ms-3">
+                        <div v-if="loading" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden text-dark">Loading...</span>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <div class="ms-2">
                         <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
@@ -111,6 +118,7 @@ export default {
     setup() {
         let modalActive = ref(false);
         let idBill = ref(0);
+        let loading = ref(true);
 
         const toggleModal = (id) => {
             modalActive.value = !modalActive.value;
@@ -132,7 +140,7 @@ export default {
         const formatNumber = (number) => {
             return (new Intl.NumberFormat().format(number))
         }
-        return { modalActive, idBill, toggleModal, formatDateTime, formatNumber };
+        return { modalActive, idBill, toggleModal, formatDateTime, formatNumber, loading };
     },
 
     data() {
@@ -201,6 +209,7 @@ export default {
                 });
 
                 this.profit = sumbillList - sumpaymentList;
+                this.loading = false;
             } catch (error) {
                 console.log(error);
             }

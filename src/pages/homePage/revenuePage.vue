@@ -3,7 +3,14 @@
         <forcastPredictionModal v-if="modalPrediction" @close="toggleModalPrediction"></forcastPredictionModal>
         <div class="d-flex justify-content-between">
             <div>
-                <h4 class="text-secondary fw-bold">Tổng quan doanh thu:</h4>
+                <div class="d-flex">
+                    <h4 class="text-secondary fw-bold">Tổng quan doanh thu:</h4>
+                    <div class="d-flex justify-content-center ms-3">
+                        <div v-if="loading" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="ms-2">
                     <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
                         :to="{ name: 'home-page' }">
@@ -27,7 +34,7 @@
                 <h6>Doanh thu: <span class="fw-bold">{{ formatNumber(sumRevenueInMonth) }} VNĐ</span></h6>
             </div>
             <div class="d-flex">
-                <span class="me-1 p-1">Giai đoạn: tháng</span>
+                <span class="me-1 p-1"> <span class="fw-bold">Giai đoạn</span>: tháng</span>
                 <select class="form-select" style="width: 72px; height: 33px;" aria-label="Default select example"
                     v-model="month" @change="changePhase">
                     <option value="1" selected>1</option>
@@ -121,6 +128,7 @@ export default {
     },
 
     setup() {
+        let loading = ref(true);
         let modalPrediction = ref(false);
         const toggleModalPrediction = () => {
             modalPrediction.value = !modalPrediction.value;
@@ -131,12 +139,11 @@ export default {
         }
 
         return {
-            formatNumber, modalPrediction, toggleModalPrediction,
+            formatNumber, modalPrediction, toggleModalPrediction, loading
         }
     },
 
     data() {
-
         return {
             month: (new Date()).getMonth() + 1,
             year: (new Date()).getFullYear(),
@@ -177,6 +184,8 @@ export default {
                     const element = listDishSellALotAll[index];
                     this.listDishSellALot[index] = element;
                 }
+
+                this.loading = false;
             } catch (error) {
                 console.log(error);
             }
@@ -285,7 +294,7 @@ export default {
                     labels: ['2', '3', '4', '5', '6', '7', 'CN'],
                     datasets: [{
                         label: '# of Votes',
-                        data: [12, 14, 3, 5, 2, 3, 12],
+                        data: [3560000, 4560000, 6980000, 3690000, 6500000, 7000000, 7540000],
                         borderWidth: 1
                     }]
                 },

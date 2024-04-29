@@ -57,8 +57,9 @@
                                         <i class="fa-solid fa-file-pen text-warning"></i>
                                     </button>
                                 </router-link>
-                                <button class="btn"><i class="fa-solid fa-circle-xmark text-danger"
-                                        @click="toggleModal(item.idnhacungcap)"></i></button>
+                                <button class="btn" @click="toggleModal(item.idnhacungcap)">
+                                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -171,7 +172,7 @@ export default {
         },
 
         exportExcel() {
-            console.log(this.supplierList);
+            // console.log(this.supplierList);
             let data = [];
             data.push(['Mã NCC', 'Tên nhà cung cấp', 'Địa chỉ', 'Số điện thoại', 'Số tài khoản']);
             this.supplierList.forEach(element => {

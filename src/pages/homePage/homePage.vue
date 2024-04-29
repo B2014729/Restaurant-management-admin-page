@@ -1,12 +1,21 @@
 <template>
     <div class="p-3">
         <div>
-            <h4 class="text-secondary fw-bold">Tổng quan:</h4>
+            <div class="d-flex">
+                <h4 class="text-secondary fw-bold">Tổng quan:</h4>
+                <div class="d-flex justify-content-center ms-3">
+                    <div v-if="loading" class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
             <div class="ms-2">
                 <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
                     :to="{ name: 'home-page' }">
                     <span>Trang chủ</span>
                 </router-link>
+
+
             </div>
         </div>
         <div class="row">
@@ -94,6 +103,7 @@
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import ChartRevenueComponent from '@/components/chartRevenueComponent.vue';
 import billService from '@/services/bill.service';
 import customerService from '@/services/customer.service';
@@ -106,10 +116,11 @@ export default {
     },
 
     setup() {
+        let loading = ref(true);
         const formatNumber = (number) => {
             return (new Intl.NumberFormat().format(number));
         }
-        return { formatNumber };
+        return { formatNumber, loading };
     },
 
     data() {
@@ -129,6 +140,7 @@ export default {
         async fetchData() {
             try {
                 let listBill = await billService.FindAll();//Tinh tong doanh thu
+                this.loading = false;
                 listBill.forEach((element) => {
                     this.sumRevenue += element.thanhtoan;
                     this.sumRevenue -= element.giamgia;

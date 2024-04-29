@@ -7,9 +7,12 @@
             <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'bill-manager-page' }">
                 <li class="nav-item"><i class="fa-solid fa-money-bills"></i> QUẢN LÝ HÓA ĐƠN </li>
             </router-link>
+            <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'order-manager-page' }">
+                <li class="nav-item"><i class="fa-brands fa-first-order"></i> QUẢN LÝ ORDER</li>
+            </router-link>
             <a class="router-link" style="color: black;">
                 <li>
-                    <div class="mt-3">
+                    <div>
                         <button class="btn btn-sm nav-item" type="button" data-bs-toggle="collapse"
                             data-bs-target="#staffManager" aria-expanded="false" aria-controls="staffManager">
                             <i class="fa-solid fa-users-rectangle"></i> QUẢN LÝ NHÂN VIÊN
@@ -66,7 +69,7 @@
             </router-link>
             <a class="router-link" style="color: black;">
                 <li>
-                    <div class="mt-3">
+                    <div>
                         <button class="btn btn-sm nav-item" type="button" data-bs-toggle="collapse"
                             data-bs-target="#menuManager" aria-expanded="false" aria-controls="menuManager">
                             <i class="fa-solid fa-layer-group"></i> QUẢN LÝ MENU
@@ -101,12 +104,13 @@
                 </li>
             </router-link> -->
             <a class="router-link" style="text-decoration: none;" href="https://www.facebook.com/haibang.duong.963">
-                <li class="nav-item"><i class="ps-2 fa-brands fa-square-facebook"></i>
+                <li class="nav-item"><i class="fa-brands fa-square-facebook"></i>
                     FACEBOOK
                 </li>
             </a>
+
             <router-link class="router-link" style="text-decoration: none;" :to="{ name: 'personal-page' }">
-                <li class="nav-item"><i class="ps-2 fa-solid fa-gear"></i> CÀI ĐẶT</li>
+                <li class="nav-item"><i class="fa-solid fa-gear"></i> CÀI ĐẶT</li>
             </router-link>
         </ul>
     </div>

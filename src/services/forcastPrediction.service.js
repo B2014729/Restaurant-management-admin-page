@@ -6,7 +6,7 @@ class PromotionService {
     }
 
     async Forcast(dataForcast) {
-        return (await this.api.post(`/`, dataForcast)).data.data;
+        return (await this.api.post(`/forcast`, dataForcast)).data;
     }
 }
 

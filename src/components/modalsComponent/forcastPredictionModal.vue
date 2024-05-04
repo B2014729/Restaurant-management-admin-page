@@ -60,7 +60,11 @@
                     </form>
                 </div>
                 <div class="form-floating mb-2 float-end">
-                    <span class="fw-bold float-end">Doanh thu dự đoán: {{ result }} vnd</span>
+                    <span class="fw-bold float-end">Doanh thu dự đoán:
+                        <span v-if="isGrow" class="text-success"> {{ result }} </span>
+                        <span v-else class="text-danger"> {{ result }} </span>
+                        vnd
+                    </span>
                 </div>
                 <div class="d-flex justify-content-end mt-auto w-100">
                     <div>
@@ -84,11 +88,12 @@ export default {
 
     setup(props, context) {
         let result = ref(0);
+        let isGrow = ref(true);
         const closeModal = () => {
             context.emit("close");
         }
 
-        return { closeModal, result };
+        return { closeModal, result, isGrow };
     },
 
     data() {
@@ -99,14 +104,16 @@ export default {
 
     methods: {
         async onAction() {
-            // console.log(13323);
-            // console.log(this.promotion);
-            // let fd = new FormData();
-            // fd.append('month', this.promotion.month);
-            // fd.append('holidays', this.promotion.holidays);
+            let current = this.result;
             try {
+                console.log(this.promotion);
                 let resultForcast = await forcastPredictionService.Forcast(this.promotion);
                 this.result = resultForcast;
+                if (current > this.result) {
+                    this.isGrow = false;
+                } else {
+                    this.isGrow = true;
+                }
             } catch (error) {
                 console.log(error);
             }

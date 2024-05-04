@@ -169,7 +169,7 @@ export default {
 
     data() {
         return {
-            phase: '1',
+            phase: '24',
             calendrier: [],
             phaseList: [],
             idWorkCalendrier: [],
@@ -177,14 +177,11 @@ export default {
     },
 
     async created() {
-        await this.fetchData();
-        this.phaseList = await calendrierService.GetPhase();
-
-        if (this.phaseList.length != 0) {
-            this.phaseList.forEach((element) => {
-                element.ngaybatdau = moment(element.ngaybatdau).format("DD/MM/YYYY");
-                element.ngayketthuc = moment(element.ngayketthuc).format("DD/MM/YYYY");
-            });
+        try {
+            await this.fetchData();
+        }
+        catch (error) {
+            console.log(error);
         }
     },
 
@@ -195,6 +192,17 @@ export default {
 
         async fetchData() {
             try {
+                // Get phase in page
+                this.phaseList = await calendrierService.GetPhase();
+
+                if (this.phaseList.length != 0) {
+                    this.phaseList.forEach((element) => {
+                        element.ngaybatdau = moment(element.ngaybatdau).format("DD/MM/YYYY");
+                        element.ngayketthuc = moment(element.ngayketthuc).format("DD/MM/YYYY");
+                    });
+                }
+
+                // Get calendrier
                 this.calendrier = await calendrierService.FindOneArrangeByPhase(this.phase);
                 if (this.calendrier.tuan1.length > 0) {
                     this.idWorkCalendrier[0] = this.calendrier.tuan1[0].idlichlamviec;
@@ -233,25 +241,25 @@ export default {
 
         async submit(data) {
             try {
-                await calendrierService.CreatePhase(data.startdate, data.enddate).then((result) => {
-                    if (result.statusCode == 200) {
-                        this.modalActive = false;
-                        this.messageAlert = 'Đã thêm một giai đoạn mới!';
-                        this.status = 'success';
-                        this.showAlert = true;
-                        setTimeout(() => {
-                            this.showAlert = false;
-                        }, 2500);
-                    } else {
-                        this.modalActive = false;
-                        this.messageAlert = 'Thêm giai đoạn mới không thành công!';
-                        this.status = 'warning';
-                        this.showAlert = true;
-                        setTimeout(() => {
-                            this.showAlert = false;
-                        }, 2500);
-                    }
-                })
+                let result = await calendrierService.CreatePhase(data.startdate, data.enddate);
+                if (result.statusCode == 200) {
+                    await this.fetchData();
+                    this.modalActive = false;
+                    this.messageAlert = 'Đã thêm một giai đoạn mới!';
+                    this.status = 'success';
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                } else {
+                    this.modalActive = false;
+                    this.messageAlert = 'Thêm giai đoạn mới không thành công!';
+                    this.status = 'warning';
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                }
             } catch (error) {
                 this.modalActive = false;
                 this.messageAlert = 'Lỗi trong khi thêm giai đoạn mới!';

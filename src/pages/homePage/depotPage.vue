@@ -44,7 +44,7 @@
                         {{ listId[index] }}
                     </td>
                     <td class="text-center">{{ item.hanghoa.tenhanghoa }}</td>
-                    <td class="text-center">
+                    <td class="text-center" :class="{ 'warning-quantity': listQuantity[index] < 3 }">
                         {{ listQuantity[index] }}
                     </td>
                     <td class="text-center">
@@ -160,5 +160,9 @@ export default {
 <style scoped>
 table>thead>tr>th {
     background-color: var(--color-header-table);
+}
+
+.warning-quantity {
+    background-color: wheat;
 }
 </style>

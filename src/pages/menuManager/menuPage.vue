@@ -21,7 +21,7 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món nướng</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in monNuong   " :key="index" style="list-style: none;"
+                            <li v-for="(   item, index   ) in monNuong" :key="index" style="list-style: none;"
                                 class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
@@ -42,12 +42,24 @@
                     <div class="content">
                         <h5 class="text-warning fw-bold text-center">Các món lẩu</h5>
                         <ul>
-                            <li v-for="(   item, index   ) in monLau   " :key="index" style="list-style: none;"
+                            <li v-for="(   item, index   ) in monLau" :key="index" style="list-style: none;"
                                 class="text-warning fw-bold">
                                 <span style="display: inline-block; width: 260px;" class="text-white">
                                     {{ item.tenmon }}
                                 </span>
                                 {{ formatNumber(item.gia) }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content mt-4">
+                        <h5 class="text-warning fw-bold text-center">Bia</h5>
+                        <ul>
+                            <li v-for="(   item, index   ) in monBia" :key="index" style="list-style: none;"
+                                class="text-warning fw-bold">
+                                <span style="display: inline-block; width: 260px;" class="text-white">
+                                    {{ item.tenmon }}
+                                </span>
+                                {{ formatNumber(item.gia) }}/{{ item.donvitinh }}
                             </li>
                         </ul>
                     </div>
@@ -108,6 +120,7 @@ export default {
             monNuong: [],
             monThemVaNuoc: [],
             monLau: [],
+            monBia: [],
             monGoiVaKhaivi: [],
         };
     },
@@ -125,7 +138,7 @@ export default {
         async fetchData() {
             this.listDishMenu = await dishService.GetMenu();
             this.listDishMenu.forEach((element) => {
-                if (element.tenloai == 'Nước ngọt' || element.tenloai == 'Thêm' || element.tenloai == 'Bia') {
+                if (element.tenloai == 'Nước ngọt' || element.tenloai == 'Thêm') {
                     this.monThemVaNuoc.push(...element.mon);
                 }
                 if (element.tenloai == 'Nướng') {
@@ -133,6 +146,9 @@ export default {
                 }
                 if (element.tenloai == 'Lẩu') {
                     this.monLau.push(...element.mon);
+                }
+                if (element.tenloai == 'Bia') {
+                    this.monBia.push(...element.mon);
                 }
                 if (element.tenloai == 'Gỏi' || element.tenloai == 'Khai vị') {
                     this.monGoiVaKhaivi.push(...element.mon);

@@ -13,6 +13,10 @@ class EvaluateService {
         return (await this.api.get(`/list`)).data.data;
     }
 
+    async FindListOfCustomer(id) {
+        return (await this.api.get(`/list-customer/${id}`)).data.data;
+    }
+
     async Create(data) {
         return (await this.api.post(`/create`, data)).data;
     }

@@ -22,7 +22,11 @@ class DishService {
     // }
 
     async Create(data) {
-        return (await this.api.post(`/create`, data)).data;
+        return (await this.api.post(`/create`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })).data;
     }
 
     async Update(id, dataUpdate) {

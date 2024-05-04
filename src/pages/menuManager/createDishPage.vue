@@ -104,10 +104,15 @@ export default {
     data() {
         return {
             data: {},
+            fileSelect: null,
         };
     },
 
     methods: {
+        previewFiles(event) {
+            this.fileSelect = event.target.files[0];
+        },
+
         async DishAdd() {
             if (!this.data.name || !this.data.type || !this.data.unit || !this.data.price) {
                 this.errorNotifycation = true;
@@ -120,8 +125,18 @@ export default {
             } else {
                 this.errorNotifycation = false;
                 try {
-                    await dishService.Create(this.data).then((result) => {
+                    const fd = new FormData();
+                    fd.append('hinhanh', this.fileSelect);
+                    fd.append('name', this.data.name);
+                    fd.append('type', this.data.type);
+                    fd.append('price', this.data.price);
+                    fd.append('unit', this.data.unit);
+
+                    await dishService.Create(fd).then((result) => {
                         if (result.statusCode == 200) {
+                            this.data = {};
+                            this.fileSelect = null;
+
                             this.messageAlert = 'Đã thêm món ăn mới!';
                             this.status = 'success';
                             this.showAlert = true;

@@ -49,7 +49,7 @@
 
                 <div>
                     <span class="fw-bold">Danh sách sản phẩm:</span>
-                    <div style="min-height:280px; overflow: hidden;">
+                    <div style="min-height:255px; overflow: hidden;">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end mt-auto w-100">
+                <div class="d-flex justify-content-end mt-auto w-100 mb-2">
                     <div>
                         <button type="button" class="btn btn-secondary" @click="closeModal">Đóng</button>
                     </div>

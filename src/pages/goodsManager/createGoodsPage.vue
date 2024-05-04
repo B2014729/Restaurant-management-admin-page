@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <div class="form-floating mb-2">
-                                    <input type="text" class="form-control  ms-2" id="fullname"
+                                    <input type="text" class="form-control ms-2" id="fullname"
                                         v-model="goods.tenhanghoa">
                                     <label for="fullname" class="custom">
                                         *Tên hàng hóa:</label>
@@ -49,7 +49,11 @@
                                         <option value="3">Bia</option>
                                         <option value="8">Hải sản</option>
                                         <option value="9">Thịt tươi</option>
+                                        <option value="17">Trái cây tươi</option>
                                         <option value="15">Rau củ</option>
+                                        <option value="16">Nấm</option>
+                                        <option value="18">Gia vị</option>
+                                        <option value="11">Khác</option>
                                     </select>
                                     <label for="salary">*Nhóm hàng hóa:</label>
                                 </div>
@@ -66,6 +70,7 @@
                                         <option value="10">Thùng</option>
                                         <option value="5">Chai</option>
                                         <option value="2">Lon</option>
+                                        <option value="9">Gói</option>
                                     </select>
                                     <label for="salary">*Đơn vị tính:</label>
                                 </div>
@@ -131,7 +136,7 @@ export default {
                 fd.append('image', this.image);
             }
             //Check info goods is full 
-            if (!this.goods.tenhanghoa || !this.goods.hansudung || !this.goods.idloai
+            if (!this.goods.tenhanghoa || !this.goods.idloai
                 || !this.goods.iddonvitinh || !this.goods.mota) {
                 this.errorNotifycation = true;
                 setTimeout(() => {
@@ -158,6 +163,7 @@ export default {
                             setTimeout(() => {
                                 this.showAlert = false;
                             }, 2500);
+                            this.goods = {};
                         }
                     })
                 } catch (error) {

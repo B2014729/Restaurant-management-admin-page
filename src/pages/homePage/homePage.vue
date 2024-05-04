@@ -14,8 +14,6 @@
                     :to="{ name: 'home-page' }">
                     <span>Trang chủ</span>
                 </router-link>
-
-
             </div>
         </div>
         <div class="row">
@@ -97,8 +95,8 @@
             </div>
         </div>
         <div>
-            <chart-revenue-component
-                description='Biểu đồ tổng quan doanh thu, thanh toán từng theo tháng.'></chart-revenue-component>
+            <chart-revenue-component description='Biểu đồ tổng quan doanh thu, thanh toán từng theo tháng.'>
+            </chart-revenue-component>
         </div>
     </div>
 </template>
@@ -140,7 +138,7 @@ export default {
         async fetchData() {
             try {
                 let listBill = await billService.FindAll();//Tinh tong doanh thu
-                this.loading = false;
+
                 listBill.forEach((element) => {
                     this.sumRevenue += element.thanhtoan;
                     this.sumRevenue -= element.giamgia;
@@ -160,6 +158,7 @@ export default {
                 let listProductDepot = await depotService.FindAll();
                 this.countDepot = listProductDepot.length;
 
+                this.loading = false;
             } catch (error) {
                 console.log(error);
             }

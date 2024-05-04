@@ -151,7 +151,7 @@ export default {
 
     data() {
         return {
-            phase: '1',
+            phase: '24',
             calendrier: {},
             phaseList: [],
             month: 1,

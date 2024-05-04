@@ -1,6 +1,7 @@
 <template>
     <div class="p-3">
         <bookingCustomerModal v-if="modalActive" :idCustomer="id" @close="toggleModal(0)"></bookingCustomerModal>
+        <detailEvaluateModal v-if="modalActiveEval" :idCustomer="id" @close="toggleModalEval(0)"></detailEvaluateModal>
         <div>
             <h4 class="text-secondary fw-bold">Quản lí khách hàng:</h4>
             <div class="ms-2">
@@ -41,7 +42,11 @@
                                 <td class="text-center" style="padding-top: 13px;">{{ item.trangthai }}</td>
                                 <th scope="row" class="text-center">
                                     <button type="button" class="btn" @click="toggleModal(item.idkhachhang)">
-                                        <i class="fa-solid fa-circle-plus text-success"></i></button>
+                                        <i class="fa-solid fa-circle-plus text-success"></i>
+                                    </button>
+                                    <button type="button" class="btn" @click="toggleModalEval(item.idkhachhang)">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    </button>
                                 </th>
                             </tr>
                         </tbody>
@@ -66,6 +71,7 @@
 import { ref } from 'vue';
 import evaluateCardComponent from '@/components/evaluateCardComponrnt.vue';
 import bookingCustomerModal from '@/components/modalsComponent/bookingCustomerModal.vue';
+import detailEvaluateModal from '@/components/modalsComponent/detailEvaluateModal.vue';
 import searchComponent from '@/components/searchComponent.vue';
 
 import customerService from '@/services/customer.service';
@@ -75,18 +81,25 @@ export default {
     components: {
         evaluateCardComponent,
         bookingCustomerModal,
+        detailEvaluateModal,
         searchComponent
     },
 
     setup() {
         let modalActive = ref(false);
+        let modalActiveEval = ref(false);
         let id = ref(0);
 
         const toggleModal = (idToggle) => {
             modalActive.value = !modalActive.value;
             id.value = idToggle;
         }
-        return { modalActive, id, toggleModal, };
+
+        const toggleModalEval = (idToggle) => {
+            modalActiveEval.value = !modalActiveEval.value;
+            id.value = idToggle;
+        }
+        return { modalActive, id, toggleModal, modalActiveEval, toggleModalEval };
     },
 
     computed: {

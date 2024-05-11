@@ -28,7 +28,8 @@
                             <label for="fullname">*Tên nhà cung cấp:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="phone" v-model="supplier.sodienthoai">
+                            <input type="text" class="form-control" id="phone" v-model="supplier.sodienthoai"
+                                ref="phoneNumber">
                             <label for="phone">*Số điện thoại:</label>
                         </div>
                         <div class="form-floating mb-2">
@@ -56,8 +57,7 @@
                         </div>
                     </div>
                     <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhà cung
-                        cấp!
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ messageError }}
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
@@ -90,10 +90,12 @@ export default {
 
     setup() {
         let notifycationActive = ref(false);
+
         let showAlert = ref(false);
         let status = ref('');
         let messageAlert = ref('');
         let errorNotifycation = ref(false);
+        let messageError = ref('');
 
         const closeNotifycation = () => {
             notifycationActive.value = !notifycationActive.value;
@@ -108,7 +110,10 @@ export default {
             }
         }
 
-        return { notifycationActive, closeNotifycation, showAlert, status, messageAlert, errorNotifycation };
+        return {
+            notifycationActive, closeNotifycation, showAlert, status,
+            messageAlert, errorNotifycation, messageError
+        };
     },
 
     data() {
@@ -122,20 +127,27 @@ export default {
     },
 
     methods: {
+        checkPhoneNumber(phoneNumber) {
+            return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(phoneNumber);
+        },
+
         async submit() {
             this.notifycationActive = false // Cloes Modal
-
             //Check info staff is full 
             if (!this.supplier.tennhacungcap || !this.supplier.diachi || !this.supplier.sodienthoai
                 || !this.supplier.sotaikhoan || !this.supplier.nganhang) {
                 this.errorNotifycation = true;
+                this.messageError = 'Vui lòng chọn đầy đủ thông tin nhà cung cấp!';
                 setTimeout(() => {
                     this.showAlert = false;
                 }, 2500);
                 this.status = 'warning';
                 this.messageAlert = 'Cập nhật thông tin nhân viên không thành công!';
                 this.showAlert = true; // On alert message
-
+            } else if (!this.checkPhoneNumber(this.supplier.sodienthoai)) {
+                this.errorNotifycation = true;
+                this.messageError = 'Số điện thoại không đúng, vui lòng nhập lại số điện thoại!';
+                this.$refs.phoneNumber.focus();
             } else {
                 try {
                     let dataUpdate = {

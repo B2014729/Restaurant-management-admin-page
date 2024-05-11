@@ -49,7 +49,7 @@
                                 </li>
                                 <li>
                                     <div class="form-floating mb-2">
-                                        <input type="date" class="form-control ms-2" id="dateEnd"
+                                        <input type="date" class="form-control ms-2" id="dateEnd" ref="date"
                                             v-model="promotion.dateEnd">
                                         <label for="dateEnd">*Ngày kết thúc (MM/DD/YYYY):</label>
                                     </div>
@@ -65,7 +65,7 @@
                                     <span v-if="errorInforPromotion" class="text-end text-warning"
                                         style="font-size: 12px;">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
-                                        Vui lòng nhập đầu đủ thông tin khuyến mãi!
+                                        {{ errorMessage }}
                                     </span>
                                 </li>
                             </ul>
@@ -132,6 +132,7 @@ export default {
 
         let errorInforPromotion = ref(false);
         let errorListDish = ref(false);
+        let errorMessage = ref('');
 
         const closeModal = () => {
             context.emit("close");
@@ -139,7 +140,7 @@ export default {
 
         return {
             closeModal, listDishId, listDishQuantity, dishCount,
-            errorInforPromotion, errorListDish
+            errorInforPromotion, errorListDish, errorMessage
         };
     },
 
@@ -181,17 +182,29 @@ export default {
 
         async onAction() {
             const fd = new FormData();
+            let dateStart = null;
+            let dateEnd = null;
 
             if (!this.promotion.name || !this.promotion.dateStart || !this.promotion.dateEnd
-                || this.promotion.image == null || !this.promotion.value || (this.promotion.dateStart > this.promotion.dateEnd)) {
+                || this.promotion.image == null || !this.promotion.value) {
 
                 this.errorInforPromotion = true;
-            } else {
-                this.errorInforPromotion = false;
-                if (this.listDishId.includes(0)) {
-                    this.errorListDish = true;
+                this.errorMessage = 'Vui lòng chọn đầy đủ thông tin khuyến mãi!';
+            }
+            else {
+                dateStart = new Date(this.promotion.dateStart);
+                dateEnd = new Date(this.promotion.dateEnd);
+                if (dateEnd < dateStart) {
+                    this.errorInforPromotion = true;
+                    this.errorMessage = 'Ngày bắt đầu và ngày kết thúc khuyến mãi không đúng!';
+                    this.$refs.date.focus();
                 } else {
-                    this.errorListDish = false;
+                    this.errorInforPromotion = false;
+                    if (this.listDishId.includes(0)) {
+                        this.errorListDish = true;
+                    } else {
+                        this.errorListDish = false;
+                    }
                 }
             }
 
@@ -280,5 +293,9 @@ export default {
 ul>li {
     list-style: none;
     margin-top: 5px;
+}
+
+.error:focus {
+    border: red 2px solid;
 }
 </style>

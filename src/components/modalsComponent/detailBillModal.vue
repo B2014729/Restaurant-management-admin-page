@@ -121,13 +121,16 @@ export default {
             this.bill.chitietdatmon.forEach(element => {
                 if (Object.keys(element.khuyenmai).length == 0) {
                     element.mon.soluong = element.soluong;
+                    element.mon.gia = element.gia;
                     listDishBill.push(element.mon);
                 } else {
+
                     listDishBill.push(...element.mon);
                 }
             });
+
             this.bill.chitietdatmon = listDishBill;
-            console.log(listDishBill)
+            // console.log(listDishBill)
         }
     }
 }

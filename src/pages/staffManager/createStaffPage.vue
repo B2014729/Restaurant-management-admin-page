@@ -24,7 +24,8 @@
                             <label for="fullname">*Họ và tên:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="date" class="form-control" id="dateofbirth" v-model="data.dateofbirth">
+                            <input type="date" class="form-control" id="dateofbirth" v-model="data.dateofbirth"
+                                ref="brithdate">
                             <label for="dateofbirth">*Ngày sinh:</label>
                         </div>
                         <div class="form-floating mb-2">
@@ -40,7 +41,7 @@
                             <label for="cccd">*Thẻ căn cước:</label>
                         </div>
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="phone" v-model="data.phone">
+                            <input type="text" class="form-control" id="phone" v-model="data.phone" ref="phone">
                             <label for="phone">*Số điện thoại:</label>
                         </div>
                     </div>
@@ -90,7 +91,7 @@
                         <label for="address" class="ms-3">*Nơi cư trú:</label>
                     </div>
                     <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân viên!
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ errorMessage }}
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;" @click="submit">
@@ -116,11 +117,12 @@ export default {
     setup() {
         let showAlert = ref(false);
         let errorNotifycation = ref(false);
+        let errorMessage = ref('');
         let status = ref('');
         let messageAlert = ref('');
 
         return {
-            showAlert, status, messageAlert, errorNotifycation
+            showAlert, status, messageAlert, errorNotifycation, errorMessage,
         };
     },
 
@@ -136,6 +138,10 @@ export default {
             this.fileSelect = event.target.files[0];
         },
 
+        checkPhoneNumber(phoneNumber) {
+            return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(phoneNumber);
+        },
+
         async submit() {
             if (!this.data.fullname || !this.data.dateofbirth || !this.data.datestart
                 || !this.data.phone || !this.data.idnumber || !this.data.address
@@ -143,6 +149,7 @@ export default {
                 || !this.data.status) {
 
                 this.errorNotifycation = true;
+                this.errorMessage = 'Vui lòng nhập đầy đủ thông tin nhân viên!';
                 this.messageAlert = 'Thêm nhân viên mới không thành công!';
                 this.status = 'warning';
                 this.showAlert = true;
@@ -151,46 +158,59 @@ export default {
                 }, 2500);
             }
             else {
-                this.errorNotifycation = false;
-                try {
-                    const fd = new FormData();
-                    fd.append('avatar', this.fileSelect);
-                    fd.append('fullname', this.data.fullname);
-                    fd.append('dateofbirth', this.data.dateofbirth);
-                    fd.append('datestart', this.data.datestart);
-                    fd.append('phone', this.data.phone);
-                    fd.append('idnumber', this.data.idnumber);
-                    fd.append('address', this.data.address);
-                    fd.append('idsalary', this.data.idsalary);
-                    fd.append('idposition', this.data.idposition);
-                    fd.append('gender', this.data.gender);
-                    fd.append('status', this.data.status);
+                let datebirth = new Date(this.data.dateofbirth);
+                let dateNow = new Date();
+                if ((dateNow.getFullYear() - datebirth.getFullYear()) < 18) {
+                    console.log(121);
+                    this.errorNotifycation = true;
+                    this.errorMessage = 'Nhân viên chưa đủ 18 tuổi!';
+                    this.$refs.brithdate.focus();
+                } else if (!this.checkPhoneNumber(this.data.phone)) {
+                    this.errorNotifycation = true;
+                    this.errorMessage = 'Định dạng số điện thoại không đúng!';
+                    this.$refs.phone.focus();
+                } else {
+                    this.errorNotifycation = false;
+                    try {
+                        const fd = new FormData();
+                        fd.append('avatar', this.fileSelect);
+                        fd.append('fullname', this.data.fullname);
+                        fd.append('dateofbirth', this.data.dateofbirth);
+                        fd.append('datestart', this.data.datestart);
+                        fd.append('phone', this.data.phone);
+                        fd.append('idnumber', this.data.idnumber);
+                        fd.append('address', this.data.address);
+                        fd.append('idsalary', this.data.idsalary);
+                        fd.append('idposition', this.data.idposition);
+                        fd.append('gender', this.data.gender);
+                        fd.append('status', this.data.status);
 
-                    await staffService.Create(fd).then((result) => {
-                        if (result.statusCode == 200) {
-                            this.messageAlert = 'Thêm nhân viên mới thành công!';
-                            this.status = 'success';
-                            this.showAlert = true;
-                            setTimeout(() => {
-                                this.showAlert = false;
-                            }, 2500);
-                        } else {
-                            this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
-                            this.status = 'danger';
-                            this.showAlert = true;
-                            setTimeout(() => {
-                                this.showAlert = false;
-                            }, 2500);
-                        }
-                    })
-                } catch (error) {
-                    console.log(error);
-                    this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
-                    this.status = 'danger';
-                    this.showAlert = true;
-                    setTimeout(() => {
-                        this.showAlert = false;
-                    }, 2500);
+                        await staffService.Create(fd).then((result) => {
+                            if (result.statusCode == 200) {
+                                this.messageAlert = 'Thêm nhân viên mới thành công!';
+                                this.status = 'success';
+                                this.showAlert = true;
+                                setTimeout(() => {
+                                    this.showAlert = false;
+                                }, 2500);
+                            } else {
+                                this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
+                                this.status = 'danger';
+                                this.showAlert = true;
+                                setTimeout(() => {
+                                    this.showAlert = false;
+                                }, 2500);
+                            }
+                        })
+                    } catch (error) {
+                        console.log(error);
+                        this.messageAlert = 'Lỗi trong khi thêm nhân viên!';
+                        this.status = 'danger';
+                        this.showAlert = true;
+                        setTimeout(() => {
+                            this.showAlert = false;
+                        }, 2500);
+                    }
                 }
             }
         },

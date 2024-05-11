@@ -23,7 +23,8 @@
                 </div>
                 <div class="col-1">
                     <button class="btn btn-outline-success border" @click="toggleModalDetail"><i
-                            class="fa-solid fa-circle-info"></i></button>
+                            class="fa-solid fa-circle-info"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -42,7 +43,7 @@ export default {
     props: {
         idbooking: {
             type: Number,
-        }
+        },
     },
 
     emits: ['UpdateStatus'],

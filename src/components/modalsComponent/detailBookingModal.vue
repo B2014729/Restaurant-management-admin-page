@@ -31,7 +31,7 @@
                         </div>
                         <span v-if="errorEmptyTable" class="text-end text-warning" style="font-size: 12px;">
                             <i class="fa-solid fa-triangle-exclamation"></i>
-                            Vui lòng chọn bàn!
+                            {{ messageError }}
                         </span>
                     </div>
                     <div class="col-6">
@@ -78,6 +78,7 @@ export default {
 
     setup(props, context) {
         let errorEmptyTable = ref(false);
+        let messageError = ref('');
 
         const closeModal = () => {
             context.emit("close");
@@ -96,7 +97,7 @@ export default {
             return `${hours}:${minutes}:${seconds}, ${dateIn}/${month}/${year}`;
         }
 
-        return { closeModal, formatDateTime, errorEmptyTable };
+        return { closeModal, formatDateTime, errorEmptyTable, messageError };
     },
 
     data() {
@@ -123,13 +124,21 @@ export default {
         onActive() {
             if (Number(this.booking.idban) != 1) {
                 this.errorEmptyTable = false;
-                this.$emit('onActive', {
-                    idBooking: this.booking.iddatban,
-                    status: Number(this.booking.trangthai),
-                    idTable: Number(this.booking.idban),
-                });
+                let dateNow = new Date();
+                let dateBooking = new Date(this.booking.ngaygio);
+                if (dateNow > dateBooking) {
+                    this.errorEmptyTable = true;
+                    this.messageError = "Quá hạn xác nhận và cập nhật đặt bàn này";
+                } else {
+                    this.$emit('onActive', {
+                        idBooking: this.booking.iddatban,
+                        status: Number(this.booking.trangthai),
+                        idTable: Number(this.booking.idban),
+                    });
+                }
             } else {
                 this.errorEmptyTable = true;
+                this.messageError = "Vui lòng chọn bàn";
             }
         },
     }

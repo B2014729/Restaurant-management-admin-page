@@ -173,7 +173,7 @@ export default {
             data: {
                 labels: listLabels,
                 datasets: [{
-                    label: 'Tổng doanh thu (VNĐ)',
+                    label: 'Tổng số lượng bán',
                     data: listValueData,
                     borderWidth: 1,
                     backgroundColor: '#008B45',

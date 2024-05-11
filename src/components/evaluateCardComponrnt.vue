@@ -5,7 +5,7 @@
                 <i class="fa-solid fa-user-tie p-2"></i>
             </div>
             <div>
-                <!-- <span style="font-size: 12px;">{{ evaluate.tendangnhap }}</span> -->
+                <span style="font-size: 12px;">{{ evaluate.tendangnhap }}</span>
                 <p style="font-size: 13px; margin: 0;">{{ formatDate(evaluate.thoigian) }}</p>
                 <div>
                     <span v-for="n in evaluate.sosao" :key="n">

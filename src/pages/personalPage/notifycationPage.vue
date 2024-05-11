@@ -32,7 +32,7 @@
         <div class="d-flex justify-content-center">
             <div class="w-100">
                 <notifycationCard v-for="(item, index) in searchBookingUpcoming" :key="index" :idbooking=item.iddatban
-                    @UpdateStatus="showAlertMessage($event)">
+                    @UpdateStatus="showAlertMessage($event)" :history="false">
                 </notifycationCard>
             </div>
         </div>
@@ -53,7 +53,8 @@
         </div>
         <div v-if="showHistory" class="d-flex justify-content-center">
             <div class="w-100">
-                <notifycationCard v-for="(item, index) in searchBookingHistory" :key="index" :idbooking=item.iddatban>
+                <notifycationCard v-for="(item, index) in searchBookingHistory" :key="index" :idbooking=item.iddatban
+                    :history="true">
                 </notifycationCard>
             </div>
         </div>

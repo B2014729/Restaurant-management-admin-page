@@ -46,9 +46,8 @@
                             <label for="address" class="ms-3">*Ghi chú:</label>
                         </div>
                     </div>
-                    <span v-if="errorMessage" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhân
-                        viên!
+                    <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ errorMessage }}
                     </span>
                     <div class="d-flex justify-content-end mt-auto w-100">
                         <div>
@@ -64,13 +63,13 @@
 import { ref } from 'vue';
 export default {
     setup(props, context) {
-        let errorMessage = ref(false);
-
+        let errorMessage = ref('');
+        let errorNotifycation = ref(false);
         const closeModal = () => {
             context.emit("close");
         }
 
-        return { closeModal, errorMessage };
+        return { closeModal, errorMessage, errorNotifycation };
     },
 
     data() {
@@ -80,12 +79,27 @@ export default {
     },
 
     methods: {
+        checkPhoneNumber(phoneNumber) {
+            return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(phoneNumber);
+        },
+
         onActive() {
             if (!this.data.phone || !this.data.name || !this.data.date || !this.data.time || !this.data.quantity) {
-                this.errorMessage = true;
+                this.errorNotifycation = true;
+                this.errorMessage = 'Vui lòng nhập đầy đủ thông tin đặt bàn mới!';
             } else {
-                this.errorMessage = true;
-                this.$emit('onActive', this.data);
+                let dateNow = new Date();
+                let dateBooking = new Date(this.data.date);
+                if (dateBooking < dateNow) {
+                    this.errorNotifycation = true;
+                    this.errorMessage = 'Ngày đặt bàn không hợp lệ!';
+                } else if (!this.checkPhoneNumber(this.data.phone)) {
+                    this.errorNotifycation = true;
+                    this.errorMessage = 'Số điện thoại không hợp lệ!';
+                } else {
+                    this.errorNotifycation = true;
+                    this.$emit('onActive', this.data);
+                }
             }
         }
     }

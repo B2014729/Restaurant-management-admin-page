@@ -53,8 +53,7 @@
                         </div>
                     </div>
                     <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin nhà cung
-                        cấp!
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ messageError }}
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;"
@@ -87,8 +86,9 @@ export default {
         let status = ref('');
         let messageAlert = ref('');
         let errorNotifycation = ref(false);
+        let messageError = ref('');
 
-        return { showAlert, status, messageAlert, errorNotifycation };
+        return { showAlert, status, messageAlert, errorNotifycation, messageError };
     },
 
     data() {
@@ -99,17 +99,25 @@ export default {
 
 
     methods: {
+        checkPhoneNumber(phoneNumber) {
+            return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(phoneNumber);
+        },
+
         async toggleShowAlert() {
             if (!this.data.name || !this.data.address || !this.data.phone
                 || !this.data.bank || !this.data.bankName) {
-
                 this.errorNotifycation = true;
+                this.messageError = 'Vui lòng nhập đầy đủ thông tin nhà cung cấp!';
                 this.messageAlert = 'Thêm nhà cung cấp không thành công!';
                 this.status = 'warning';
                 this.showAlert = true;
                 setTimeout(() => {
                     this.showAlert = false;
                 }, 2500);
+            }
+            else if (!this.checkPhoneNumber(this.data.phone)) {
+                this.errorNotifycation = true;
+                this.messageError = 'Số điện thoại không đúng, vui lòng nhập lại số điện thoại!';
             }
             else {
                 this.errorNotifycation = false;

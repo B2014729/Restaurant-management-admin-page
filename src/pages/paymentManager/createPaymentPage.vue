@@ -68,7 +68,7 @@
                             </div>
                             <div class="form-floating mb-2 mx-2" style="width: 150px;">
                                 <input type="number" class="form-control" id="payment"
-                                    v-model="listProductQuantity[index - 1]">
+                                    v-model="listProductQuantity[index - 1]" min="1">
                                 <label for="payment">*Số lượng:</label>
                             </div>
                             <div class="form-floating mb-2">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <span v-if="errorNotifycation" class="text-end text-warning" style="font-size: 14px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đầy đủ thông tin phiếu chi!
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ messageError }}
                     </span>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success ms-3" style="width: 150px;" @click="submit">
@@ -115,6 +115,7 @@ export default {
         let productCount = ref(1);
         let showAlert = ref(false);
         let errorNotifycation = ref(false);
+        let messageError = ref('');
         let status = ref('');
         let messageAlert = ref('');
 
@@ -122,8 +123,7 @@ export default {
             productCount.value++;
         }
 
-
-        return { productCount, addProductItem, showAlert, status, messageAlert, errorNotifycation };
+        return { productCount, addProductItem, showAlert, status, messageAlert, errorNotifycation, messageError };
     },
 
     data() {
@@ -162,12 +162,12 @@ export default {
         },
 
         async submit() {
-            console.log(this.listProductId.length, this.listProductDate.length);
             if (!this.data.createdate || !this.data.status || !this.data.idSupplier ||
                 this.listProductId.length <= 0 || this.listProductId.length !== this.listProductPrice.length
                 || this.listProductId.length !== this.listProductQuantity.length
                 || this.listProductId.length !== this.listProductDate.length) {
                 this.errorNotifycation = true;
+                this.messageError = 'Vui lòng nhập đầy đủ thông tin phiếu chi!';
                 this.messageAlert = 'Lập phiếu chi không thành công!';
                 this.status = 'warning';
                 this.showAlert = true;
@@ -176,45 +176,79 @@ export default {
                 }, 2500);
             }
             else {
-                this.errorNotifycation = false;
-                let formData = {
-                    idStaff: 2,
-                    idSupplier: this.data.idSupplier,
-                    time: this.data.createdate,
-                    status: this.data.status,
-                    idGoods: this.listProductId,
-                    quantity: this.listProductQuantity,
-                    price: this.listProductPrice,
-                    dates: this.listProductDate,
-                };
-                console.log(formData);
-                try {
-                    await paymentService.Create(formData).then((result) => {
-                        if (result.statusCode == 200) {
-                            this.resetData();
-                            this.messageAlert = 'Lập phiếu chi thành công!';
-                            this.status = 'success';
-                            this.showAlert = true;
-                            setTimeout(() => {
-                                this.showAlert = false;
-                            }, 2500);
-                        } else {
-                            this.messageAlert = 'Lỗi trong khi lập phiếu chi!';
-                            this.status = 'danger';
-                            this.showAlert = true;
-                            setTimeout(() => {
-                                this.showAlert = false;
-                            }, 2500);
-                        }
-                    })
-                } catch (error) {
-                    console.log(error);
-                    this.messageAlert = 'Lỗi trong khi tạo mới phiếu chi!';
-                    this.status = 'danger';
+                let checkValidateQuantity = -1;
+                let checkValidatePrice = -1;
+
+                for (let index = 0; index < this.listProductQuantity.length; index++) {
+                    const quantity = this.listProductQuantity[index];
+                    const price = this.listProductPrice[index];
+                    if (quantity <= 0) {
+                        checkValidateQuantity = index;
+                    }
+                    if (price <= 1000) {
+                        checkValidatePrice = index;
+                    }
+                }
+
+                if (checkValidateQuantity > -1) {
+                    this.errorNotifycation = true;
+                    this.messageError = 'Số lượng thứ' + (checkValidateQuantity + 1) + ' sản phẩm phải lớn hơn 0!';
+                    this.messageAlert = 'Lập phiếu chi không thành công!';
+                    this.status = 'warning';
                     this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;
                     }, 2500);
+                } else if (checkValidatePrice > -1) {
+                    this.errorNotifycation = true;
+                    this.messageError = 'Giá nhập sản phẩm thứ ' + (checkValidatePrice + 1) + ' phải lớn hơn 1,000 vnd!';
+                    this.messageAlert = 'Lập phiếu chi không thành công!';
+                    this.status = 'warning';
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2500);
+                } else {
+                    this.errorNotifycation = false;
+                    let formData = {
+                        idStaff: 2,
+                        idSupplier: this.data.idSupplier,
+                        time: this.data.createdate,
+                        status: this.data.status,
+                        idGoods: this.listProductId,
+                        quantity: this.listProductQuantity,
+                        price: this.listProductPrice,
+                        dates: this.listProductDate,
+                    };
+                    console.log(formData);
+                    try {
+                        await paymentService.Create(formData).then((result) => {
+                            if (result.statusCode == 200) {
+                                this.resetData();
+                                this.messageAlert = 'Lập phiếu chi thành công!';
+                                this.status = 'success';
+                                this.showAlert = true;
+                                setTimeout(() => {
+                                    this.showAlert = false;
+                                }, 2500);
+                            } else {
+                                this.messageAlert = 'Lỗi trong khi lập phiếu chi!';
+                                this.status = 'danger';
+                                this.showAlert = true;
+                                setTimeout(() => {
+                                    this.showAlert = false;
+                                }, 2500);
+                            }
+                        })
+                    } catch (error) {
+                        console.log(error);
+                        this.messageAlert = 'Lỗi trong khi tạo mới phiếu chi!';
+                        this.status = 'danger';
+                        this.showAlert = true;
+                        setTimeout(() => {
+                            this.showAlert = false;
+                        }, 2500);
+                    }
                 }
             }
         },

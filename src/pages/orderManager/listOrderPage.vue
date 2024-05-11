@@ -4,7 +4,15 @@
         </detailOrderModal>
         <div class="d-flex justify-content-between">
             <div>
-                <h4 class="text-secondary fw-bold">Quản lí gọi món:</h4>
+                <div class="d-flex">
+                    <h4 class="text-secondary fw-bold">Quản lí gọi món:</h4>
+                    <div class="d-flex justify-content-center ms-3">
+                        <div v-if="loading" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="ms-2">
                     <router-link class="text-success" style="text-decoration: none; font-size: 14px;"
                         :to="{ name: 'supplier-page' }">
@@ -123,6 +131,7 @@ export default {
 
     setup() {
         let showAll = ref(false);
+        let loading = ref(true);
 
         const toggleShowAll = () => {
             showAll.value = !showAll.value;
@@ -158,7 +167,8 @@ export default {
             showAll, toggleShowAll,
             idOrder, modalActiveDetailOrder,
             toggleModalDetailOrder,
-            formatDate, formatTime
+            formatDate, formatTime,
+            loading,
         };
     },
 
@@ -207,6 +217,7 @@ export default {
                         }
                     });
                 }
+                this.loading = false;
             } catch (error) {
                 console.log(error);
             }

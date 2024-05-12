@@ -60,6 +60,26 @@
                         <button type="button" class="btn btn-success ms-2" @click="onActive">Xác nhận</button>
                     </div>
                 </div>
+                <div class="row ms-2">
+                    <h6 class="fw-bold">Danh sách bàn ăn:</h6>
+                    <div v-for="(item, index) in [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]"
+                        :key="index" class="col-md-2 col-sm-4 col-12 p-3 m-2 default"
+                        :class="{ 'current': listCurrent[item] }">
+                        <span class="text-dark ms-2">Bàn {{ item }}</span>
+                        <div class="detail-infor">
+                            <span class="fw-bold"> Thông tin bàn {{ item }}</span>
+                            <ul class="mt-3">
+                                <li><span class="fw-bold">Số ghế: </span> {{ listChairOnTable[item - 10] }}</li>
+                                <li><span class="fw-bold">Lịch đã đặt: </span></li>
+                                <ul>
+                                    <li v-for="(item, index) in listBookingTable[item]" :key="index">
+                                        {{ formatDateTime(item.ngaygio) }}
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -69,6 +89,10 @@ import { ref } from 'vue';
 import bookingService from '@/services/booking.service';
 
 export default {
+    compoment: {
+
+    },
+
     props: {
         id: {
             type: Number,
@@ -104,11 +128,15 @@ export default {
         return {
             booking: {},
             customerInfor: {},
+            listBookingTable: [],
+            listCurrent: [],
+            listChairOnTable: [4, 5, 2, 10, 5, 4, 4, 8, 4, 2, 2, 2, 4, 6, 4, 4, 6, 4, 10, 4]
         };
     },
 
     async created() {
         await this.fetchData();
+        console.log(this.listBookingTable);
     },
 
     methods: {
@@ -116,6 +144,30 @@ export default {
             try {
                 this.booking = await bookingService.FindOneById(this.id);
                 this.customerInfor = this.booking.thongtinkhachhang;
+
+                for (let idTable = 10; idTable < 30; idTable++) {
+                    this.listBookingTable[idTable] = [];
+                    this.listCurrent[idTable] = false;
+                    try {
+                        let listBooking = await bookingService.GetBookingsTable(idTable);
+                        let dateNow = new Date();
+                        if (listBooking.length > 0) {
+                            for (let index = 0; index < listBooking.length; index++) {
+                                const element = listBooking[index];
+                                let dateElement = new Date(element.ngaygio);
+
+                                if (dateElement > dateNow) {
+                                    this.listBookingTable[idTable].push(element);
+                                    this.listCurrent[idTable] = true;
+                                }
+                            }
+                        }
+                    }
+                    catch (error) {
+                        //console.log(error);
+                        this.listBookingTable[idTable] = [];
+                    }
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -160,7 +212,7 @@ export default {
 .modal-bill-content {
     background-color: white;
     width: 45%;
-    height: 50%;
+    height: 95%;
     border-radius: 10px;
     animation-name: animationShow;
     animation-duration: 300ms;
@@ -182,5 +234,31 @@ export default {
 .btn-close {
     border: none;
     margin-right: 10px;
+}
+
+.current {
+    background-color: rgba(255, 255, 0, 0.667);
+}
+
+.default {
+    border: 1px solid black;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.detail-infor {
+    position: absolute;
+    display: none;
+    top: 355px;
+    right: 180px;
+    width: 250px;
+    height: 320px;
+    border-radius: 0px 100px 10px 100px;
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+}
+
+.default:hover>.detail-infor {
+    display: block;
 }
 </style>

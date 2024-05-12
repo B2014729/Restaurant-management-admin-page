@@ -1,6 +1,9 @@
 <template>
     <div class="p-3">
         <forcastPredictionModal v-if="modalPrediction" @close="toggleModalPrediction"></forcastPredictionModal>
+        <createReportModal v-if="modalReport" @close="toggleModalCreateReport" :revenue="sumRevenueInMonth"
+            @status="onStatus($event)">
+        </createReportModal>
         <div class="d-flex justify-content-between">
             <div>
                 <div class="d-flex">
@@ -25,7 +28,7 @@
 
             <div>
                 <button class="btn btn-outline-success" @click="toggleModalPrediction">Doanh thu</button>
-                <button class="btn btn-success  ms-2">+</button>
+                <button class="btn btn-success ms-2" @click="toggleModalCreateReport">+</button>
             </div>
         </div>
 
@@ -113,18 +116,18 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <script>
 import forcastPredictionModal from '@/components/modalsComponent/forcastPredictionModal.vue';
+import createReportModal from '@/components/modalsComponent/createReportModal.vue';
 import billService from '@/services/bill.service';
 import dishSevice from '@/services/dish.service';
 import Chart from 'chart.js/auto';
 import { ref } from 'vue';
 export default {
     components: {
-        forcastPredictionModal
+        forcastPredictionModal, createReportModal
     },
 
     setup() {
@@ -132,6 +135,14 @@ export default {
         let modalPrediction = ref(false);
         const toggleModalPrediction = () => {
             modalPrediction.value = !modalPrediction.value;
+            modalReport.value = false;
+
+        }
+
+        let modalReport = ref(false);
+        const toggleModalCreateReport = () => {
+            modalReport.value = !modalReport.value;
+            modalPrediction.value = false
         }
 
         const formatNumber = (number) => {
@@ -139,7 +150,8 @@ export default {
         }
 
         return {
-            formatNumber, modalPrediction, toggleModalPrediction, loading
+            formatNumber, modalPrediction, toggleModalPrediction,
+            modalReport, toggleModalCreateReport, loading
         }
     },
 
@@ -158,6 +170,7 @@ export default {
     },
 
     methods: {
+
         async fetchData() {
             this.sumRevenue = 0;
             try {
@@ -208,6 +221,11 @@ export default {
             await this.getRevenueWithMonthAndYear(this.month, this.year);
             this.destroyChart();
             this.chartLineRevenue(this.statisticalRevenue);
+        },
+
+        onStatus(status) {
+            console.log(status);
+            this.modalReport = false;
         },
 
         onModalPrediction() {

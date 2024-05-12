@@ -24,6 +24,12 @@ class BookingService {
         })).data;
     }
 
+
+    async GetBookingsTable(idTable) {
+        return (await this.api.get(`/list-with-table/${idTable}`)).data.data;
+    }
+
+
 }
 
 export default new BookingService();

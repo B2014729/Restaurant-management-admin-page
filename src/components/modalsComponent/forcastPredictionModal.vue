@@ -46,10 +46,15 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating mb-2">
+                            <div class="form-floating mb-3">
                                 <input type="number" class="form-control" id="percentPromotionMax"
                                     v-model="promotion.percentPromotionMax">
                                 <label for="percentPromotionMax">*Phần trăm khuyến mãi cao nhất:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="percentPromotionMax"
+                                    v-model="promotion.numPromotion">
+                                <label for="percentPromotionMax">*Số ngày khuyến mãi:</label>
                             </div>
                             <div class="form-floating mb-2">
                                 <input type="number" class="form-control" id="advertisementPayment"
@@ -66,6 +71,9 @@
                         vnd
                     </span>
                 </div>
+                <span v-if="error" class="text-danger text-end" style="font-size: 14px;">
+                    {{ messageError }}
+                </span>
                 <div class="d-flex justify-content-end mt-auto w-100">
                     <div>
                         <button type="button" class="btn btn-outline-danger" @click="closeModal">Hủy</button>
@@ -89,11 +97,14 @@ export default {
     setup(props, context) {
         let result = ref(0);
         let isGrow = ref(true);
+        let error = ref(false);
+        let messageError = ref('');
+
         const closeModal = () => {
             context.emit("close");
         }
 
-        return { closeModal, result, isGrow };
+        return { closeModal, result, isGrow, error, messageError };
     },
 
     data() {
@@ -106,13 +117,31 @@ export default {
         async onAction() {
             let current = this.result;
             try {
-                console.log(this.promotion);
-                let resultForcast = await forcastPredictionService.Forcast(this.promotion);
-                this.result = resultForcast;
-                if (current > this.result) {
-                    this.isGrow = false;
+                if (!this.promotion.month || !this.promotion.advertisementPayment || !this.promotion.percentPromotionMax
+                    || !this.promotion.numPromotion || !this.promotion.holidays
+                    || !this.promotion.weather) {
+                    this.error = true;
+                    this.messageError = "Vui lòng chọn đầy đủ thông tin cần thiết!";
                 } else {
-                    this.isGrow = true;
+                    this.error = false;
+                    if (this.promotion.advertisementPayment < 1000000 || (this.promotion.percentPromotionMax) < 10
+                        || this.promotion.numPromotion < 0 || this.promotion.holidays < 0) {
+                        console.log(232);
+                        this.error = true;
+                        this.messageError = "Thông tin không hợp lệ, vui lòng kiểm tra lại!";
+                    } else {
+                        this.error = false;
+                    }
+                }
+
+                if (!this.error) {
+                    let resultForcast = await forcastPredictionService.Forcast(this.promotion);
+                    this.result = resultForcast;
+                    if (current > this.result) {
+                        this.isGrow = false;
+                    } else {
+                        this.isGrow = true;
+                    }
                 }
             } catch (error) {
                 console.log(error);

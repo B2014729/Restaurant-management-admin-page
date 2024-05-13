@@ -125,7 +125,6 @@ export default {
                 } else {
                     this.$emit('status', 'warning');
                 }
-
             } catch (error) {
                 console.log(error);
             }
